@@ -8,5 +8,7 @@ Cor: Combinações entre branco e rosa até o roxo: Rosa utilzado: #FF508A Roxo 
 Fonte: Utilizar padrão do bootstrap, a não ser que seja um texto especial.
 Tamanho: em textos normais utilizar o padrão do bootstrap, algum texto especial em <p> ou sem tags, não passar de 20*.                                      *em aberto 
 Divs das páginas: separar em header, middle e footer no mínimo, outras divs podem ser acrescidas sem problemas*.
+Tentar deixar todas as páginas responsivas para o uso em outros aparelhos: https://www.w3schools.com/html/html_responsive.asp
+
 
 Outros padrões podem ser adicionados, é só avisar todos do grupo e fazer um pull request desse arquivo de texto, se conseguirem editar esse documento na main, também pode ser feito, contanto que seja avisado.
