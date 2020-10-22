@@ -7,7 +7,7 @@ Padrões de página:
 Cor: Combinações entre branco e rosa até o roxo: Rosa utilzado: #FF508A Roxo utilizado: #8000FF, para informações gerais (para avisos, alertas, confirmações e etc, devem ser
 usadas os padrões desses elementos, exemplo: alerta: vermelho, aviso: amarelo. confirmações: verde), se aplica a todos elementos da página
 Fonte: Utilizar padrão do bootstrap, a não ser que seja um texto especial.
-Tamanho texto: a critério de queme está fazendo, contanto que não fique exagerado
+    Tamanho texto: a critério de quem está fazendo, contanto que não fique exagerado
 Divs das páginas: separar em header, middle e footer no mínimo, outras divs podem ser acrescidas sem problemas*
 Tentar deixar todas as páginas responsivas para o uso em outros aparelhos: https://www.w3schools.com/html/html_responsive.asp
 
