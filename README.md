@@ -14,4 +14,6 @@ Tentar deixar todas as páginas responsivas para o uso em outros aparelhos: http
 Outros padrões podem ser adicionados, é só avisar todos do grupo e fazer um pull request desse arquivo de texto, se conseguirem editar esse documento na main, também pode ser
 feito, contanto que seja avisado.
 
+Colocar as novas páginas ou mudanças na pasta view, e fazer o pull request.
+
 [*em aberto]
