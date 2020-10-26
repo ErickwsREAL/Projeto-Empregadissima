@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="./css/aprovarCadastros.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="../frameworks/jquery-3.5.1.min.js"></script>
+	<title>Cadastros Pendentes - Empregadíssima (Administador)</title>
+</head>
+<body>
+
+	<!--nav bar -->
+	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="#">Empregadíssimas</a>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+	        <li class="nav-item active">
+	            <a class="nav-link" href="#">Inicio </a>
+	        </li>
+	        <li class="nav-item active">
+	            <a class="nav-link" href="#">Busca </a>
+	        </li>
+          </ul>
+        </div>
+    </nav>
+    <!--fim navbar-->
+
+	<!--main-->
+    <div class="main">
+    	<div class="cadast-pend">
+    		    <h2>Cadastros Pendentes</h2>
+    	</div>
+	    <!--table-->
+		<table>
+			<tr>
+				<th>
+					<!-- bootstrap check-box + classe checkMargin-->
+					<div class="form-check checkMargin">
+						<input class="form-check-input" type="checkbox" value="" id="checkAll">
+						<label class="form-check-label" for="checkAll"> </label>
+					</div>
+				</th>
+				<th>Codigo do Cadastro</th>
+				<th>Nome</th> 
+				<th>CPF</th>
+				<th>Documentos Anexados</th>
+				<th>Data Registro</th>
+			</tr>
+			<tr>
+				<td>
+					<!-- bootstrap check-box + classe checkMargin-->
+					<div class="form-check checkMargin">
+						<input class="form-check-input" type="checkbox" value="" id="defaultCheck3">
+						<label class="form-check-label" for="defaultCheck3"> </label>
+					</div>
+				</td>
+			    <td>1</td>
+			    <td>Bruna</td>
+			    <td>123.456.456-78</td>
+			    <td>-</td>
+			    <td>11/11/2020</td>
+		 	</tr>		 	
+		  	<tr>
+		  		<td>
+		  			<!-- bootstrap check-box + classe checkMargin-->
+					<div class="form-check checkMargin">
+						<input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+						<label class="form-check-label" for="defaultCheck1"> </label>
+					</div>
+		  		</td>
+			    <td>2</td>
+			    <td>Brunr</td>
+			    <td>132.159.167-98</td>
+			    <td>-</td>
+			    <td>21/05/2020</td>
+		  	</tr>
+		  	<tr>
+		  		<td>
+		  			<!-- bootstrap check-box + classe checkMargin-->
+					<div class="form-check checkMargin">
+						<input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+						<label class="form-check-label" for="defaultCheck2"> </label>
+					</div>
+		  		</td>
+			    <td>3</td>
+			    <td>Brunw</td>
+			    <td>789.658.136.75</td>
+			    <td>-</td>
+			    <td>20/05/2020</td>
+		  	</tr>
+		</table>
+
+		<div class="buttons-classe">
+			<p>
+				<!--bootstrap buttons + id-->
+				<button type="button" class="btn btn-lg" id="bt-aprovar">Aprovar</button>
+				<button type="button" class="btn btn-lg" id="bt-reprovar">Reprovar</button>
+			</p>
+		</div>
+
+	    <!-- fim table-->
+    </div>
+    <!--fim main-->
+
+	<div class="item footer">Footer</div>
+
+    <!--jquery-->
+    <script>
+	    $(document).ready(function(){ 
+			$("#checkAll").click(function(){
+			    $('input:checkbox').not(this).prop('checked', this.checked);
+			});
+		});
+    </script>
+</body>
+</html>
