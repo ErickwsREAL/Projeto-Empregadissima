@@ -17,3 +17,10 @@ feito, contanto que seja avisado.
 Colocar as novas páginas ou mudanças na pasta view, e fazer o pull request.
 
 [*em aberto]
+***** bruna *****
+Para manter o padrão, usaremos o Bootstrap nos botões, navbar e footer (estilo do navbar e footer sendo igual em todas as páginas do site)
+	botões: https://getbootstrap.com.br/docs/4.1/components/buttons/
+	navbar: https://getbootstrap.com/docs/4.0/components/navbar/
+	footer: https://mdbootstrap.com/docs/jquery/navigation/footer/
+-Fora a pagina index podemos usar um rosa similar ao #deb4c1 e um roxo similar ao #4f2f67 (podendo ser mais claro ou mais escuro)
+-Sempre olhar as paginas já feitas no projeto para não fazer uma pagina com estilo muito discrepante das outras
