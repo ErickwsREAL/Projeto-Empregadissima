@@ -1,0 +1,108 @@
+.rosa-bg {
+    background-color: #eab0c4;
+}
+.bg-dark{
+ 	background-color: #4f2f67 !important
+}
+
+.main{
+    padding: 50px 0;
+    position: relative;
+    margin:10px; 
+    margin-top: 30px;
+}
+
+#titulo-pag{
+	text-align: left;
+	padding: 2px;
+	padding-left: 50px; 
+}
+
+h2{	
+	color:#3d3246;
+}
+
+.card-tit{
+	background-color: whitesmoke;
+	border: 1px solid #eac2d0;
+	border-radius: 8px;
+	margin-bottom: 45px;
+	padding: 4px;
+	box-shadow: 0 0 30px rgb(158 124 148 / 42%);
+}
+
+.card-container{
+  margin-top:35px;
+  padding: 25px;
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.4s;
+  margin: 40px;
+  margin-left: 10px;
+  margin-left: 10px;
+  background-color: #e8e2ea;
+}
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+#busca-solic{
+	float: right;
+}
+/*Footer*/
+.footer { grid-area: footer}
+.item {
+  width: 100%;
+    padding: 10px 0;
+    text-align: center;
+    background-color: #4f2f67;
+}
+
+.bt-aprovar{
+	background-color: #438643;
+	border: 1px solid gray;
+	color: white;
+}
+.bt-aprovar:hover{
+	background-color: #326132;
+	border: 1px solid gray;
+	color: white;
+}
+
+.bt-reprovar{
+	background-color: #de2d2d;
+	border: 1px solid gray;
+	color: white
+}
+.bt-reprovar:hover{
+	background-color: #a72222;
+	border: 1px solid gray;
+	color: white;
+}
+.bt-detalhes{
+	background-color: #FF508A;
+	border: 1px solid gray;
+	color: white;
+	float: right;
+}
+.bt-detalhes:hover{
+   background-color:#c52e60;
+   color: white;
+   float: right;
+}
+
+/*jquery mudanças*/
+.ui-tabs .ui-tabs-nav li{
+	padding:5px !important;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover{
+	border:1px solid #3d2982 !important;
+	background:#73538c !important;
+	font-weight: bold !important;
+}
+
+.ui-widget-header{
+	background-color: #e8e2ea !important;
+}
