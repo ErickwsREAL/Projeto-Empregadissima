@@ -24,3 +24,15 @@ Para manter o padrão, usaremos o Bootstrap nos botões, navbar e footer (estilo
 	footer: https://mdbootstrap.com/docs/jquery/navigation/footer/
 -Fora a pagina index podemos usar um rosa similar ao #deb4c1 e um roxo similar ao #4f2f67 (podendo ser mais claro ou mais escuro)
 -Sempre olhar as paginas já feitas no projeto para não fazer uma pagina com estilo muito discrepante das outras
+
+***** leonardo *****
+Na etapa de implementação do PHP utilizar as seguintes credenciais para conexão com o banco de dados:
+
+Acesso externo
+Servidor : db.esweb.com.br
+Database : empregadissima
+Porta    : 9301
+Usuario  : empreg_adm
+Senha    : NmFlZTJiZjFmNjI2MDEx
+Nivel de Permissao: CREATE, DROP, LOCK TABLES, REFERENCES, ALTER, DELETE, INDEX, INSERT, SELECT, UPDATE, CREATE TEMPORARY TABLES, TRIGGER, CREATE VIEW, SHOW VIEW, ALTER ROUTINE, CREATE ROUTINE, EXECUTE, USAGE
+Descricao: Use este usuario para administracao remota do banco de dados.
