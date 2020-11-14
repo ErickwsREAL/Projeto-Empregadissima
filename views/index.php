@@ -7,6 +7,7 @@
 		<link rel="stylesheet" type="text/css" href="./css/EstiloPagInicial.css">
 		<script src="./js/jquery-ui.js"></script>
 		<script src="./js/jquery-3.5.1.min.js"></script>
+		<script src="./js/popper.min.js"></script>
 		<script src="./js/bootstrap.min.js"></script>
 		<title> Empregadíssima | Home Page </title>
 		<meta charset="utf-8">
@@ -15,25 +16,24 @@
 	<body>
 		<div id="navH">
 			<nav class="navbar w-100" id="navbarH">
-  				<button type="button" class="btn btn-primary btn-sm buttonH" id="adm" >Administrador</button>
-  				<button type="button" class="btn btn-primary btn-sm ml-auto buttonH" id="sobre" data-toggle="collapse" data-target="#collapseSobre" aria-expanded="false" aria-controls="collapseSobre">Sobre</button>
-  				<button type="button" class="btn btn-primary btn-sm buttonH" id="contato" data-toggle="collapse" data-target="#collapseContato" aria-expanded="false" aria-controls="collapseContato">Contato</button>
+  				<button type="button" class="btn btn-primary btn-sm buttonH" id="adm" data-toggle="collapse" data-target="#collapseAdm" aria-expanded="false" aria-controls="collapseAdm">Administrador</button>
+  				<a tabindex="0" class="btn btn-primary btn-sm ml-auto buttonH" id="sobre" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom" title="Sobre" data-content="O sistema Empregradíssima é facilitador da disponibilização e contrato de serviço">Sobre</a>
+  				<a tabindex="0" class="btn btn-primary btn-sm ml-auto buttonH" id="contato" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom" title="Contato" data-content="Entre em contato conosco pelo E-mail: Empregadissima@projeto.com">Contato</a>
 			</nav>
 		</div>				
 
-		<div class="container" id="info">
-			<div class="collapse" id="collapseSobre">
-	  			<div class="card card-body" id="cardSobre">
-	  				<p>O Sistema Empregadíssima é um meio fácil de disponibilizar seus serviços domésticos, bem como se estiver procurando por estes serviços.</p>
-	  			</div>
-	  		</div>
-	  		<div class="collapse" id="collapseContato">
-	  			<div class="card card-body" id="cardContato">
-	  				<p>Entre em contato conosco pelo e-mail: Empregadíssima@contato.com</p>
-	  			</div>
-	  		</div>		
-		</div>	
-		
+		<div class="collapse" id="collapseAdm">
+			<div class="card card-body" id="cardAdm">
+					<form>
+						<div class="form-group">
+							<label for="admLogin">Sessão:</label>		
+							<input type="text" name="sessão" id="admLogin" required>
+						</div>
+						<button type="submit" class="btn btn-primary btn-sm" id="buttonAdm" value="Enviar"> Iniciar </button>
+					</form>
+			</div>
+		</div>
+
 		<div class="container mt-5" id="headerT">
 			<h2> Bem Vindo ao</h2>	
 			<h1> Empregadíssima </h1>
@@ -52,7 +52,17 @@
 				© 2020 Copyright: EmpregadissimaOwners
  		 	</div>
 			<img class="img-fluid rounded float-left" src="./imagens/domestica.png" alt="dosmética">
-			<h1 class="text-hide" style="background-image: url('./imagens/domestica.png');">Bootstrap</h1>
 		</div>
+		
+		<script>
+			$(document).ready(function(){
+				$('.popover-dismiss').popover({
+  					trigger: 'focus'
+				});
+				$('.buttonH').popover({
+    				container: 'body'
+  				});
+			});
+		</script>	
 	</body>
 </html>		

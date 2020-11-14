@@ -15,7 +15,7 @@ body {
 }
 
 .buttonH:hover {
-	background-color: #8000FF;
+	background-color: #8000FF;	
 	color: #BFBFBF;
 }
 
@@ -33,7 +33,11 @@ body {
 
 #contato {
 	margin-left: 15px;
-	margin-right: 5px;
+	margin-right: 10px;
+}
+
+#sobre {
+	margin: -1230px;
 }
 
 #headerT {
@@ -68,6 +72,11 @@ body {
 	border-color: #D72963;
 }
 
+.buttonE:hover {
+	background-color: #8000FF;
+	border-color: #8000FF;
+}
+
 #footerE {
   position: fixed;
   left: 0;
@@ -82,20 +91,37 @@ body {
 	width: 420px;
 }
 
-#info .card{
-	background-color: #8000FF;
-	color: white;
-	border-color: #D72963;
+#cardAdm {
+	background-color: #FF71A0;
+	width: 290px;
 	box-shadow: 1px 1px 6px grey;
-
+	border-color: #D72963;
+	margin-left: 2px;
 }
 
-#info #cardContato{
-	width: 550px;
-	margin-left: 300px;
+#buttonAdm {
+	background-color: #FF508A;
+	width: 100px;
+	margin-left: 60px;
+	border-color: #FF508A;
+	box-shadow: 1px 1px 6px grey;
+}
+	
+#buttonAdm:hover {
+	background-color: #8000FF;
+	border-color: #8000FF; 
 }
 
-#info #cardSobre{
-	width: 1040px;
-	margin-left: 70px;
+#buttonAdm:active {
+	background-color: #A042FF;
+	border-color: #4B00C3; 
+}
+
+#cardAdm label {
+	color: white;
+	font-size: 17px;
+}
+
+#admLogin {
+	border-radius: 3px;
 }
