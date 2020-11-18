@@ -1,9 +1,4 @@
 
-/*Footer*/
-
-.footer { 
-	grid-area: footer
-}
 .item {
   	width: 100%;
 	padding: 10px 0;
@@ -21,10 +16,13 @@ h2{
 
 body{
     position: relative;
-    background-color:#ffbad1;
-    background-color: #eac2d0;
+    background-color: #deb4c1;
     margin-top:10px;
     overflow-x: hidden;
+}
+
+h4{
+	font-size: 17px;
 }
 
 .bg-dark{
@@ -32,21 +30,33 @@ body{
 }
 
 .main {
-    padding: 70px 0;
     position: relative;
-    margin: 40px;
+    margin: 0px;
+    padding: 11px 10px;
 }
 .checkMargin{
 	margin-left:10px;
 }
 
+.info-adm{
+	background-color: whitesmoke;
+	border: 1px solid #d8d8d8;
+	border-radius: 2px;
+	margin-bottom: 15px;
+	padding: 10px;
+	box-shadow: 0 0 30px rgb(158 124 148 / 42%);
+	margin-top:5px;
+}
+
+
 .cadast-pend{
 	background-color: whitesmoke;
-	border: 1px solid #eac2d0;
+	border: 1px solid #d8d8d8;
 	border-radius: 8px;
 	margin-bottom: 15px;
 	padding: 4px;
 	box-shadow: 0 0 30px rgb(158 124 148 / 42%);
+	margin-top:45px;
 }
 
 .buttons-classe{
@@ -119,4 +129,44 @@ table caption {
 	    position: relative;
 	    margin: 0px;
 	}
+}
+
+/*Footer*/
+.footer { grid-area: footer}
+.item {
+  width: 100%;
+  padding: 10px 0;
+  text-align: center;
+  background-color: #4f2f67;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: white;
+  text-align: center;
+}
+
+/*jquery mudanças*/
+.ui-tabs .ui-tabs-nav li{
+	padding:5px !important;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover{
+	border:1px solid #3d2982 !important;
+	background:#73538c !important;
+	font-weight: bold !important;
+}
+
+.ui-widget-header{
+	background-color: #e8e2ea !important;
+}
+
+#tabs-1{
+	background: #f9f3fb !important;
+}
+
+footer {
+    position:absolute;
+    bottom:0;
+    width:100%;
 }

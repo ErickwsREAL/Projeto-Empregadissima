@@ -159,8 +159,9 @@
 			  	<!--menu de outras manutenções-->
 			  	<div class="col-5">
 			  		
-			  		<button type="button" class="btn btn-lg btManter" style="margin-top: 50px"><i class="fa fa-calendar"></i>&nbsp; Agenda &nbsp;</button>
-
+			  		<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-calendar"></i>&nbsp; Agenda &nbsp;</button>
+			  		<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="abreAdicionarSolicitação()"><i class="fa fa-envelope"></i>&nbsp; Solicitar Serviço &nbsp;</button>
+			  		
 			  	</div>
 
 			</div>
@@ -182,5 +183,8 @@
 			});
 		});
 
+		function abreAdicionarSolicitação() {
+			window.open("mandar-solicitacao.html","_blank");
+		}
 	</script>
 </html>
