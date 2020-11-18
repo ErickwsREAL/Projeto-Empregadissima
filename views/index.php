@@ -18,7 +18,7 @@
 			<nav class="navbar w-100" id="navbarH">
   				<button type="button" class="btn btn-primary btn-sm buttonH" id="adm" data-toggle="collapse" data-target="#collapseAdm" aria-expanded="false" aria-controls="collapseAdm">Administrador</button>
   				<a tabindex="0" class="btn btn-primary btn-sm ml-auto buttonH" id="sobre" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom" title="Sobre" data-content="O sistema Empregradíssima é facilitador da disponibilização e contrato de serviço">Sobre</a>
-  				<a tabindex="0" class="btn btn-primary btn-sm ml-auto buttonH" id="contato" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom" title="Contato" data-content="Entre em contato conosco pelo E-mail: Empregadissima@projeto.com">Contato</a>
+  				<a tabindex="0" class="btn btn-primary btn-sm buttonH" id="contato" role="button" data-toggle="popover" data-trigger="focus" data-placement="bottom" title="Contato" data-content="Entre em contato conosco pelo E-mail: Empregadissima@projeto.com">Contato</a>
 			</nav>
 		</div>				
 
@@ -42,9 +42,35 @@
 
 		<div class="container" id="middle">
 			<div id="entrar">
-			 	<button type="button" class="btn btn-outline-primary btn-lg w-25 buttonE">Entrar</button>
-			 	<button type="button" class="btn btn-outline-primary btn-lg w-25 buttonE">Cadastrar</button>
+			 	<button type="button" class="btn btn-outline-primary btn-lg w-25 buttonE" data-toggle="modal" data-target="#loginModal">Entrar</button>
+			 	<a href="./cadastro.php" type="button" class="btn btn-outline-primary btn-lg w-25 buttonE">Cadastrar</a>
 			</div>
+			
+			<div class="modal fade" id="loginModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			  	<div class="modal-dialog modal-dialog-centered">
+			    	<div class="modal-content">
+			      	<div class="modal-header">
+			        	<h5 class="modal-title" id="loginModalTitle">Login</h5>
+			        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          	<span aria-hidden="true">&times;</span>
+			        	</button>
+			      	</div>
+			      	<div class="modal-body" id="loginBody">
+			      		<form>
+			      			<div class="form-group">
+								<label for="loginCPF">CPF:</label>		
+								<input class="form-control form-control-sm" type="number" name="CPF" id="loginCPF" required>
+							</div>
+			      			<div class="form-group">
+								<label for="loginSenha">Senha:</label>		
+								<input class="form-control form-control-sm" type="password" name="senha" id="loginSenha" required>
+							</div>	
+			      			<button type="submit" class="btn btn-primary" id="buttonLogin" value="Enviar"> Entrar </button>
+			      		</form>
+			      	</div>
+			    	</div>
+			  	</div>
+			</div>	
 		</div>
 
 		<div id="footer">

@@ -36,9 +36,6 @@ body {
 	margin-right: 10px;
 }
 
-#sobre {
-	margin: -1230px;
-}
 
 #headerT {
  text-align: center;
@@ -124,4 +121,30 @@ body {
 
 #admLogin {
 	border-radius: 3px;
+}
+
+.modal-content {
+	background-color: #8000FF;
+	color: white;
+	font-size: 18px;
+}
+
+#buttonLogin {
+	background-color: #A042FF;
+	width: 100px;
+	border-color: #A042FF;	
+	box-shadow: 1px 1px 6px grey;
+}
+
+#buttonLogin:hover {
+	background-color: #FF508A;
+	border-color: #FF508A;
+}
+
+#buttonLogin:active {
+	border-color: black;
+}
+
+.modal-content span{
+	color: white;
 }
