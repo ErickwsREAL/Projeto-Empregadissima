@@ -1,33 +1,33 @@
 body {
-	background-color: #FF508A;
+	background-color: #deb4c1;
 }
 
 
 #navbarH {
-	background-color: #8000FF;
+	background-color: #4f2f67;
 	box-shadow: 2px 2px 5px grey;
 }
 
 .buttonH {
 	outline-style: none;
-	background-color: #8000FF;
+	background-color: #4f2f67;
 	border-style: none;
 }
 
 .buttonH:hover {
-	background-color: #8000FF;	
+	background-color: #4f2f67;	
 	color: #BFBFBF;
 }
 
 .buttonH:focus {
 	outline: none;
 	box-shadow: none;
-	background-color: #8000FF;
+	background-color: #4f2f67;
 
 }
 
 .buttonH:active {
-	color: #8000FF;
+	color: #4f2f67;
 	outline-style: none;
 }
 
@@ -70,8 +70,8 @@ body {
 }
 
 .buttonE:hover {
-	background-color: #8000FF;
-	border-color: #8000FF;
+	background-color: #4f2f67;
+	border-color: #4f2f67;
 }
 
 #footerE {
@@ -79,7 +79,7 @@ body {
   left: 0;
   bottom: 0;
   width: 100%;
-  background-color: #8000FF;
+  background-color: #4f2f67	;
   color: white;
   text-align: center;
 }
@@ -100,13 +100,14 @@ body {
 	background-color: #FF508A;
 	width: 100px;
 	margin-left: 60px;
-	border-color: #FF508A;
+	border-color: #D72963;
+	border-width: 3px;
 	box-shadow: 1px 1px 6px grey;
 }
 	
 #buttonAdm:hover {
-	background-color: #8000FF;
-	border-color: #8000FF; 
+	background-color: #4f2f67;
+	border-color: #4f2f67; 
 }
 
 #buttonAdm:active {
@@ -124,16 +125,16 @@ body {
 }
 
 .modal-content {
-	background-color: #8000FF;
+	background-color: #4f2f67;
 	color: white;
 	font-size: 18px;
 }
 
 #buttonLogin {
-	background-color: #A042FF;
+	background-color: #FF71A0;
 	width: 100px;
-	border-color: #A042FF;	
-	box-shadow: 1px 1px 6px grey;
+	border-color: #4f2f67;	
+	box-shadow: 1px 1px 2px black;
 }
 
 #buttonLogin:hover {

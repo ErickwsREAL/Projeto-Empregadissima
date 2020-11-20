@@ -3,9 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="./	css/cssperfil.css">
+	<link rel="stylesheet" type="text/css" href="./css/cssperfil.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<script src="js/jquery-3.5.1.min.js"></script>
+	<script src="./js/jquery-3.5.1.min.js"></script>
+	<script src="./js/bootstrap.min.js"></script>	
 	<title>Perfil Prestador</title>
 </head>
 	<body class="rosa-bg">
@@ -161,11 +162,73 @@
 			  		
 			  		<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-calendar"></i>&nbsp; Agenda &nbsp;</button>
 			  		<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="abreAdicionarSolicitação()"><i class="fa fa-envelope"></i>&nbsp; Solicitar Serviço &nbsp;</button>
-			  		<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-cog"></i>&nbsp; Editar Perfil &nbsp;</button>
+			  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#editarModal" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-cog"></i>&nbsp; Editar Perfil &nbsp;</button>
+			  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#enderecoModal" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-cog"></i>&nbsp; Editar Endereço &nbsp;</button>
 			  	</div>
 
 			</div>
 			<!--fim manutenções -->
+        	<!--modal editar perfil -->
+        	<div class="modal fade modal-lg" id="editarModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			  	<div class="modal-dialog modal-lg">
+			    	<div class="modal-content">
+			      	<div class="modal-header">
+			        	<h5 class="modal-title" id="editarModalTitle">Editar</h5>
+			        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          	<span aria-hidden="true">&times;</span>
+			        	</button>
+			      	</div>
+			      	<div class="modal-body" id="editarBody">
+			      		<form>
+			      			<div class="form-group">
+								<label for="editarDescricao">Descrição:</label>		
+								<input class="form-control form-control-sm" type="textarea" name="descricao" id="editarDescricao" required>
+							</div>
+			      			<div class="form-group">
+								<label for="editarNome">Senha:</label>		
+								<input class="form-control form-control-sm" type="text" name="nome" id="editarNome" required>
+							</div>
+							<div class="form-group">
+								<label for="editarBairro">Endereço:</label>
+								<input type="text" name="">
+							</div>	
+			      			<button type="submit" class="btn btn-primary" id="buttonLogin" value="Enviar"> Entrar </button>
+			      		</form>
+			      	</div>
+			    	</div>
+			  	</div>
+			</div>	
+			<!--fim modal crud endereço -->
+			<div class="modal fade modal-lg" id="enderecoModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			  	<div class="modal-dialog modal-lg">
+			    	<div class="modal-content">
+			      	<div class="modal-header">
+			        	<h5 class="modal-title" id="editarModalTitle">Editar</h5>
+			        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          	<span aria-hidden="true">&times;</span>
+			        	</button>
+			      	</div>
+			      	<div class="modal-body" id="editarBody">
+			      		<form>
+			      			<div class="form-group">
+								<label for="editarDescricao">Descrição:</label>		
+								<input class="form-control form-control-sm" type="textarea" name="descricao" id="editarDescricao" required>
+							</div>
+			      			<div class="form-group">
+								<label for="editarNome">Senha:</label>		
+								<input class="form-control form-control-sm" type="text" name="nome" id="editarNome" required>
+							</div>
+							<div class="form-group">
+								<label for="editarBairro">Endereço:</label>
+								<input type="text" name="">
+							</div>	
+			      			<button type="submit" class="btn btn-primary" id="buttonLogin" value="Enviar"> Entrar </button>
+			      		</form>
+			      	</div>
+			    	</div>
+			  	</div>
+			</div>	
+
         </div>
         <!--fim div seção-->
 

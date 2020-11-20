@@ -186,7 +186,7 @@ body{
     position: relative;
 }
 .rosa-bg {
-    background-color: #deb4c1;
+    background-color: #deb4c1;  
 }
 .white-bg {
     background-color: white;
@@ -204,4 +204,14 @@ img {
 
 .bg-dark{
   background-color: #4f2f67 !important
+}
+
+.modal {
+  width: 1000px;
+  height: 500px;
+  position: absolute;
+  left: 35%;
+  top: 20%; 
+  margin-left: -150px;
+  margin-top: -150px;
 }

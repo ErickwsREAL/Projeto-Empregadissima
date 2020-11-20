@@ -26,8 +26,15 @@
 
 		<div class="container" id="formCadastro">
 			<form>
+  				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="usuário" id="prestador" value="prestador">
+					<label class="form-check-label" for="prestador">Prestador</label>
+					<input class="form-check-input" type="radio" name="usuário" id="contratante" value="contratante">
+					<label class="form-check-label" for="contratante">Contratante</label>
+				</div>
+
   				<div class="form-group">
-				    <label for="nomeUsuário">Nome</label>
+				    <br><label for="nomeUsuário">Nome</label>
 				    <input type="text" class="form-control" id="NomeUsuário" name="nome" required>
   				</div>
   				<div class="form-group">
@@ -46,15 +53,27 @@
 				    <label for="senhaUsuário">Senha</label>
 				    <input type="password" class="form-control" id="senhaUsuário" name="senha" required>
  				</div>
- 				<div class="form-group">
-				    <label for="comprovanteUsuário">Comprovante pessoal (Documento):</label>
-				    <input type="file" id="comprovanteUsuário" name="comprovante" required>
- 				</div>
-				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="usuário" id="prestador" value="prestador">
-					<label class="form-check-label" for="prestador">Prestador</label>
-					<input class="form-check-input" type="radio" name="usuário" id="contratante" value="contratante">
-					<label class="form-check-label" for="contratante">Contratante</label>
+				<div class="form-row">
+				    <div class="form-group col-md-4">
+				      <label for="bairroUsuário">Bairro</label>
+				      <input type="text" class="form-control endereco" id="bairroUsuário" name="bairro" required>
+				    </div>
+				    <div class="form-group col-md-4">
+				      <label for="ruaUsuário">Rua</label>
+				      <input type="text" class="form-control endereco" id="ruaUsuário" name="rua" required>
+				    </div>
+				    <div class="form-group col-md-2">
+				      <label for="numeroUsuário">Número da Casa</label>
+				      <input type="number" class="form-control endereco" id="numeroUsuário" name="número" required>
+					</div>
+					<div class="form-group col-md-2">
+				      <label for="complementoUsuário">Complemento</label>
+				      <input type="text" class="form-control endereco" id="complementoUsuário" name="complemento" required>
+					</div>
+					<div class="form-group" id="comprovantes">
+					    <br><label for="comprovanteUsuário">Comprovante pessoal (Documento):</label>
+					    <input type="file" id="comprovanteUsuário" name="comprovante" required>
+ 					</div>
 				</div>
   					<br><button type="submit" class="btn btn-primary" id="submitCadastro" value="Enviar">Enviar</button>
 			</form>
@@ -70,6 +89,22 @@
 			$( "#buttonVoltar" ).on( "click", function() {
 		    	$( "#caixa" ).dialog( "open" );
 		    });
+
+			$('#prestador').on('click', function(){           
+       			if($(this).is(':checked')){
+           			$('.endereco').attr('disabled', true);
+       			} else {
+           			$('.endereco').attr('disabled', false);
+      	 		}
+   			});
+
+			$('#contratante').on('click', function(){           
+       			if($(this).is(':checked')){
+           			$('.endereco').attr('disabled', false);
+       			} else {
+           			$('.endereco').attr('disabled', false);
+      	 		}
+   			});
 
 			$("#caixa").dialog({
 				autoOpen: false,

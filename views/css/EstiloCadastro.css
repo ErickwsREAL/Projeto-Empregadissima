@@ -1,21 +1,21 @@
 body {
-	background-color: #FF508A;
+	background-color: #deb4c1;
 }
 
 #navCadastro {
-	background-color: #8000FF;
+	background-color: #4f2f67;
 	box-shadow: 2px 2px 5px grey;
 	position: sticky;
 }
 
 .voltar {
 	outline-style: none;
-	background-color: #8000FF;
+	background-color: #4f2f67;
 	border-style: none;
 }
 
 .voltar:hover {
-	background-color: #8000FF;	
+	background-color: #4f2f67;	
 	color: #BFBFBF;
 }
 
@@ -28,7 +28,8 @@ body {
 
 #submitCadastro {
 	width: 100px;
-	margin-top: 25px;
+	margin-top: 5px;
+	margin-bottom: 15px;
 	background-color: #FF71A0;
 	border-color: #D72963;
 	box-shadow: 1px 1px 6px grey;
@@ -36,8 +37,8 @@ body {
 }
 
 #submitCadastro:hover {
-	background-color: #8000FF;
-	border-color: #8000FF;
+	background-color: #4f2f67;
+	border-color: #4f2f67;
 }
 
 #submitCadastro:active {
@@ -54,7 +55,7 @@ body {
 }
 
 #formCadastro input{
-	border-color: #8000FF;
+	border-color: #4f2f67;
 	border-width: 3px; 
 }
 
