@@ -39,56 +39,56 @@
 								<th>
 									<!-- bootstrap check-box + classe checkMargin-->
 									<div class="form-check checkMargin">
-										<input class="form-check-input" type="checkbox" value="" id="checkAll">
-										<label class="form-check-label" for="checkAll"> </label>
+										<input class="form-check-input" type="checkbox" value="" id="aprovar-cadastros-checkAll">
+										<label class="form-check-label" for="aprovar-cadastros-checkAll"> </label>
 									</div>
 								</th>
 								<th>Codigo do Cadastro</th>
 								<th>Nome</th> 
 								<th>CPF</th>
-								<th>Documentos Anexados</th>
+								<th>Documento Anexado</th>
 								<th>Data Registro</th>
 							</tr>
 							<tr>
 								<td>
 									<!-- bootstrap check-box + classe checkMargin-->
 									<div class="form-check checkMargin">
-										<input class="form-check-input" type="checkbox" value="" id="defaultCheck3">
-										<label class="form-check-label" for="defaultCheck3"> </label>
+										<input class="form-check-input aprovar-cadastros-check" type="checkbox" value="" id="apr-cad-check1">
+										<label class="form-check-label aprovar-cadastros-check" for="apr-cad-check1"> </label>
 									</div>
 								</td>
 							    <td>1</td>
 							    <td>Bruna</td>
 							    <td>123.456.456-78</td>
-							    <td>-</td>
+							    <td><i class="fa fa-file pointer" data-toggle="modal" data-target="#exampleModalCenter"></i></td>
 							    <td>11/11/2020</td>
 						 	</tr>		 	
 						  	<tr>
 						  		<td>
 						  			<!-- bootstrap check-box + classe checkMargin-->
 									<div class="form-check checkMargin">
-										<input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-										<label class="form-check-label" for="defaultCheck1"> </label>
+										<input class="form-check-input aprovar-cadastros-check" type="checkbox" value="" id="apr-cad-check2">
+										<label class="form-check-label" for="apr-cad-check2"> </label>
 									</div>
 						  		</td>
 							    <td>2</td>
 							    <td>Brunr</td>
 							    <td>132.159.167-98</td>
-							    <td>-</td>
+							    <td> <i class="fa fa-file pointer"></i> </td>
 							    <td>21/05/2020</td>
 						  	</tr>
 						  	<tr>
 						  		<td>
 						  			<!-- bootstrap check-box + classe checkMargin-->
 									<div class="form-check checkMargin">
-										<input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-										<label class="form-check-label" for="defaultCheck2"> </label>
+										<input class="form-check-input aprovar-cadastros-check" type="checkbox" value="" id="apr-cad-check3">
+										<label class="form-check-label" for="apr-cad-check3"> </label>
 									</div>
 						  		</td>
 							    <td>3</td>
 							    <td>Brunw</td>
 							    <td>789.658.136.75</td>
-							    <td>-</td>
+							    <td><i class="fa fa-file pointer"></i></td>
 							    <td>20/05/2020</td>
 						  	</tr>
 						</table>
@@ -123,14 +123,50 @@
     </div>
     <!--fim main-->
 
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter" id="exampleModalCenter" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+ 
+     <div class="modal-content">
+ 
+		<div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLongTitle"> Detalhes da Solicitação </h5>
+	    
+	    	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	    	    <span aria-hidden="true">&times;</span>
+	        </button>
+	    </div>
 
-<div class="item footer">Footer</div>
+     	<div class="modal-body">
+        	<p><b> Data: </b>   25/12/2020   &nbsp; 
+        	   <b> Hora: </b>   8:00 às 15:00
+        	</p>
+        	<p><b> Tipo de Serviço: </b> Casa até 2 quartos 1 banheiro</p>
+        	<p><b> Valor a ser pago:</b> 260,00 </p>
+        	<p><b> Endereço que ocorrerá o serviço: </b> Rua Teste 476 </p>
+        	<p><b> Forma de Pagamento: </b> Dinheiro </p>
+        	<!--informação apenas do prestador-->
+        	<p><b> Avaliação do solicitante: </b>   <span class="fa fa-star checked"></span>
+													<span class="fa fa-star checked"></span>
+													<span class="fa fa-star checked"></span>
+													<span class="fa fa-star"></span>
+													<span class="fa fa-star"></span> </p>
+
+        	<!--informação apenas do solicitante-->
+        	<p><b> Avaliação do prestador: </b></p>
+        	<p><b> Visite o perfil aqui: </b> <a href=""> Visite o perfil do prestador/ solicitante </a> </p>
+      	</div>
+    </div>
+ 
+  </div>
+</div>
+
+	<div class="item footer">Footer</div>
 
     <!--jquery-->
     <script>
 	    $(document).ready(function(){ 
-			$("#checkAll").click(function(){
-			    $('input:checkbox').not(this).prop('checked', this.checked);
+			$("#aprovar-cadastros-checkAll").click(function(){
+			    $('.aprovar-cadastros-check').not(this).prop('checked', this.checked);
 			});
 		});
 
@@ -138,38 +174,9 @@
 			$("#tabs").tabs();
 		} );
 
-	$(window).bind("load", function() { 
-	       
-	       var footerHeight = 0,
-	           footerTop = 0,
-	           $footer = $("#footer");
-	           
-	       positionFooter();
-	       
-	       function positionFooter() {
-	       
-	                footerHeight = $footer.height();
-	                footerTop = ($(window).scrollTop()+$(window).height()-footerHeight)+"px";
-	       
-	               if ( ($(document.body).height()+footerHeight) < $(window).height()) {
-	                   $footer.css({
-	                        position: "absolute"
-	                   }).animate({
-	                        top: footerTop
-	                   })
-	               } else {
-	                   $footer.css({
-	                        position: "static"
-	                   })
-	               }
-	               
-	       }
-
-	       $(window)
-	               .scroll(positionFooter)
-	               .resize(positionFooter)
-	               
-	});
+	$('#exampleModalCenter').on('shown.bs.modal', function () {
+  		$('#myInput').trigger('focus')
+	})	
 
     </script>
 </body>
