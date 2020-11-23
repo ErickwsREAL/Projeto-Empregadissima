@@ -90,6 +90,18 @@ h4{
 	color: white;
 }
 
+#bt-excluir{
+	background-color: #de2d2d;
+	border: 1px solid gray;
+	color: white
+}
+
+#bt-excluir:hover{
+	background-color: #a72222;
+	border: 1px solid gray;
+	color: white;
+}
+
 table{
   width:100%;
   table-layout: fixed;
@@ -166,6 +178,10 @@ table caption {
 }
 
 #tabs-1{
+	background: #f9f3fb !important;
+}
+
+#tabs-2{
 	background: #f9f3fb !important;
 }
 
