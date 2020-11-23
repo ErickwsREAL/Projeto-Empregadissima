@@ -329,3 +329,60 @@ nav li {
 	background: #4f2f67;
 	color: white;
 }
+
+#check-in {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.modalcheck {
+  width: 1000px;
+  height: 500px;
+  position: absolute;
+  left: 28%;
+  top: 20%; 
+  margin-left: -150px;
+  margin-top: -150px;
+}
+
+.modalcheck .modal-content {
+  background-color: #4f2f67;
+  color: white;
+  font-size: 18px;
+  width: 400px;
+}
+
+.modalcheck .close {
+  color: white;
+}
+
+#buttonCheckin {
+  background-color: #FF71A0;
+  border-color: #4f2f67;  
+  box-shadow: 1px 1px 2px black;
+  margin-top: 20px;
+  margin-left: 10px;
+}
+
+#buttonCheckin:hover {
+  background-color: #FF508A;
+  border-color: #FF508A;
+  color: white;
+}
+
+#buttonCheckin:active {
+  border-color: black;
+}
+
+#editarBody input[type="radio"]{
+  margin-left: 10px;
+}
+
+.btn-check {
+  background-color: #6f5286;
+}
+
+.btn-check:hover{
+   background-color:#4f2f67;
+   color: white;
+}  

@@ -60,6 +60,17 @@ p{color: #737373}
   font-size: 15px;
 }
 
+@media (max-width: 991px) {
+  .profile-avatar {
+    margin-top: 30px;
+    background: white;
+    border-radius: 50%;
+    padding:5px;
+    transform: translate(100px, 100px); 
+
+  }
+}
+
 .profile-div .counter {
   padding: 22px 20px;
   background: #ffffff;
@@ -95,8 +106,7 @@ p{color: #737373}
 /*Manter*/
 .btManter{
   margin: 20px;
-  margin-right: 130px; 
-  float: right;
+  margin-right: 130px;  
   background-color: #FF508A;
   color: white;
   font-weight: 730;
@@ -135,27 +145,6 @@ p{color: #737373}
   max-width: 36.666667%;
 }
 
-#add-service{
-  margin:2px, 
-  margin-top:2px; 
-  margin-bottom: 10px;
-  margin-right: 0px;
-  float: right;
-
-}
-.btSalvar{
-  background-color: green; color: white;
-}
-.btSalvar:hover {
-  background-color: darkgreen; color: white;
-}
-.btFechar{
-  background-color: gray; color: white;
-}
-.btFechar:hover {
-  background-color: darkgray; color: white;
-}
-
 /*Footer*/
 .footer { grid-area: footer}
 .item {
@@ -163,7 +152,6 @@ p{color: #737373}
     padding: 10px 0;
     text-align: center;
     background-color: #4f2f67;
-    color: white;
 }
 /*Body*/
 body{
@@ -176,7 +164,7 @@ body{
     position: relative;
 }
 .rosa-bg {
-    background-color: #deb4c1;
+    background-color: #deb4c1;  
 }
 .white-bg {
     background-color: white;
@@ -194,31 +182,6 @@ img {
 
 .bg-dark{
   background-color: #4f2f67 !important
-}
-
-.bt-avaliar{
-  background-color: #6f5286;
-  color: white;
-  float: right;
-}
-.bt-avaliar:hover{
-   background-color:#4f2f67;
-   color: white;
-   float: right;
-}
-
-.spc{
-  margin-right:2px;
-}
-
-#desativarConta {
-  background-color: #dc3545;
-  border-color: #dc3545;
-}
-
-#desativarConta:hover {
-  background-color: #B42B38;
-  border-color: #B42B38;
 }
 
 .modal {
@@ -260,4 +223,89 @@ img {
 
 .buttonEditar:active {
   border-color: black;
+}
+
+.butf {
+  width: 200px;
+  margin-left: 16px;
+  margin-top: 10px;
+  margin-bottom: 80px;
+  box-shadow: 1px 1px 2px black;
+  color: white;
+
+}
+
+#adicionarEndereço p{
+  margin-left: 16px;
+  color: white;
+}
+
+#bairroUsuário {
+  margin-left: 15px;
+}
+
+#ruaUsuário {
+  margin-left: 15px;
+}
+
+#numeroUsuário {
+  margin-left: 15px;
+}
+
+#complementoUsuário {
+  margin-left: 15px;
+  margin-top: 10px; 
+}
+
+#cepUsuário {
+  margin-left: 15px;
+  margin-top: 10px; 
+}
+
+#buttonAdd {
+  margin-left: 15px;
+  margin-top: 10px;
+}
+
+#editarEnd3 {
+  display: none;
+}
+
+#editarEnd3 input{
+  margin-left: 15px;
+}
+
+#cepUsuárioED {
+  margin-top: 10px;
+}
+
+#complementoUsuárioED {
+  margin-top: 10px;
+}
+
+#editarEnd3 p{
+  margin-left: 16px;
+  color: white;
+}
+
+#desativarConta {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+#desativarConta:hover {
+  background-color: #B42B38;
+  border-color: #B42B38;
+}
+
+#ava2 {
+  float: right;
+}
+
+#nada {
+  margin-left: 24%;
+}
+
+#buttons {
+  min-width: 800px;
 }

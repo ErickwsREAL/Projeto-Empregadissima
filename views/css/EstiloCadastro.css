@@ -1,0 +1,72 @@
+body {
+	background-color: #deb4c1;
+}
+
+#navCadastro {
+	background-color: #4f2f67;
+	box-shadow: 2px 2px 5px grey;
+	position: sticky;
+}
+
+.voltar {
+	outline-style: none;
+	background-color: #4f2f67;
+	border-style: none;
+}
+
+.voltar:hover {
+	background-color: #4f2f67;	
+	color: #BFBFBF;
+}
+
+.voltar:focus {
+	outline: none;
+	box-shadow: none;
+	background-color: #8000FF;
+
+}
+
+#submitCadastro {
+	width: 100px;
+	margin-top: 5px;
+	margin-bottom: 15px;
+	background-color: #FF71A0;
+	border-color: #D72963;
+	box-shadow: 1px 1px 6px grey;
+	border-width: 3px;
+}
+
+#submitCadastro:hover {
+	background-color: #4f2f67;
+	border-color: #4f2f67;
+}
+
+#submitCadastro:active {
+	border-color: black;
+}
+
+#formCadastro {
+	margin-top: 30px;
+}
+
+#formCadastro label{
+	color: white;
+	font-size: 18px;
+}
+
+#formCadastro input{
+	border-color: #4f2f67;
+	border-width: 3px; 
+}
+
+#formCadastro input[type="radio"]{
+	margin-left: 10px;
+}
+
+#radios label{
+	font-size: 20px;
+}
+
+#labelado {
+	float: right
+}
