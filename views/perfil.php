@@ -2,11 +2,13 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="./css/jquery-ui.css">
 	<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="./css/cssperfil.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script src="./js/jquery-3.5.1.min.js"></script>
-	<script src="./js/bootstrap.min.js"></script>	
+	<script src="./js/bootstrap.min.js"></script>
+	<script src="./js/jquery-ui.js"></script>	
 	<title>Perfil Prestador</title>
 </head>
 	<body class="rosa-bg">
@@ -163,7 +165,8 @@
 			  		<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-calendar"></i>&nbsp; Agenda &nbsp;</button>
 			  		<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="abreAdicionarSolicitação()"><i class="fa fa-envelope"></i>&nbsp; Solicitar Serviço &nbsp;</button>
 			  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#editarModal" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-cog"></i>&nbsp; Editar Perfil &nbsp;</button>
-			  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#enderecoModal" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-cog"></i>&nbsp; Editar Endereço &nbsp;</button>
+			  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#enderecoModal" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-key fa-fw	"></i>&nbsp; Meus Endereços &nbsp;</button>
+			  		<button type="button" class="btn btn-lg btn-block btManter" id="desativarConta" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-trash-o"></i>&nbsp; Desativar Conta &nbsp;</button>
 			  	</div>
 
 			</div>
@@ -173,7 +176,7 @@
 			  	<div class="modal-dialog modal-lg">
 			    	<div class="modal-content">
 			      	<div class="modal-header">
-			        	<h5 class="modal-title" id="editarModalTitle">Editar</h5>
+			        	<h5 class="modal-title" id="editarModalTitle">Editar Perfil</h5>
 			        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			          	<span aria-hidden="true">&times;</span>
 			        	</button>
@@ -182,62 +185,115 @@
 			      		<form>
 			      			<div class="form-group">
 								<label for="editarDescricao">Descrição:</label>		
-								<input class="form-control form-control-sm" type="textarea" name="descricao" id="editarDescricao" required>
+								<textarea class="form-control" id="editarDescricao" rows="3" name="nome" id="editarDescricao"></textarea>
 							</div>
-			      			<div class="form-group">
-								<label for="editarNome">Senha:</label>		
-								<input class="form-control form-control-sm" type="text" name="nome" id="editarNome" required>
+			      			<div class="form-group labelPeq">
+								<label for="editarNome">Nome:</label>		
+								<input class="form-control form-control-sm" type="text" name="nome" id="editarNome">
 							</div>
-							<div class="form-group">
-								<label for="editarBairro">Endereço:</label>
-								<input type="text" name="">
-							</div>	
-			      			<button type="submit" class="btn btn-primary" id="buttonLogin" value="Enviar"> Entrar </button>
+			      			<div class="form-group labelPeq">
+								<label for="editarTelefone">Telefone:</label>		
+								<input class="form-control form-control-sm" type="tel" name="telefone" id="editarTelefone">
+							</div>
+			      			<button type="submit" class="btn btn-primary buttonEditar" id="buttonEditarPerfil" value="Enviar"> Salvar Edição </button>
 			      		</form>
 			      	</div>
 			    	</div>
 			  	</div>
 			</div>	
-			<!--fim modal crud endereço -->
+			<!--modal crud endereço -->
 			<div class="modal fade modal-lg" id="enderecoModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 			  	<div class="modal-dialog modal-lg">
 			    	<div class="modal-content">
 			      	<div class="modal-header">
-			        	<h5 class="modal-title" id="editarModalTitle">Editar</h5>
+			        	<h5 class="modal-title" id="editarModalTitle">Meus Endereços</h5>
 			        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			          	<span aria-hidden="true">&times;</span>
 			        	</button>
 			      	</div>
-			      	<div class="modal-body" id="editarBody">
-			      		<form>
-			      			<div class="form-group">
-								<label for="editarDescricao">Descrição:</label>		
-								<input class="form-control form-control-sm" type="textarea" name="descricao" id="editarDescricao" required>
+			      	<div class="modal-body">
+			      		<div id="editarEndereço">
+				      		<div class="col-md-10">
+						      <label for="endereçosUsuário">Endereços: </label>
+						      <select id="endereçosUsuário" class="form-control">
+						      	<option selected>Jardim Sumaré, Rua Pioneiro Genir Galli, 313, CEP: 87035-602</option>
+						      	<option>...</option>
+						      </select>
+					    	</div>	
+					      	<button type="button" class="btn btn-dprimary buttonEditar butf" id="buttonEditarEnd"> Editar Selecionado</button>
+					      	<button type="button" class="btn btn-danger butf" id="buttonExcluirEnd"> Excluir Selecionado</button>
+				      	</div>
+				      	<div id="editarEnd3">	
+				      			<p> Editar Endereço Selecionado:</p>
+				      			<form>
+									<div class="form-row">
+	    								<div class="col-md-4">
+	      									<input type="text" class="form-control" placeholder="Bairro" id="bairroUsuárioED" name="bairro">
+	    								</div>
+	    								<div class="col-md-4">
+	      									<input type="text" class="form-control" placeholder="Rua" id="ruaUsuárioED" name="rua">
+	    								</div>
+	  									<div class="col-md-2">
+	  										<input type="number" class="form-control" placeholder="Numero" id="numeroUsuárioED" name="numero">
+	  									</div>
+	  								</div>
+	  								<div class="form-row">
+	  									<div class="col-md-4">
+	  										<input type="text" class="form-control" name="complemento" id="complementoUsuárioED" placeholder="Complemento">
+	  									</div>
+	  									<div class="col-md-2">
+	  										<input type="number" class="form-control" name="CEP" placeholder="CEP" id="cepUsuárioED">
+	  									</div>
+	  								</div>
+	  								<button type="submit" class="btn btn-primary buttonEditar butf" id="buttonED" value="Enviar">Salvar</button>
+	  								<button type="button" class="btn btn-primary buttonEditar butf" id="buttonCan">Cancelar</button>
+								</form>
 							</div>
-			      			<div class="form-group">
-								<label for="editarNome">Senha:</label>		
-								<input class="form-control form-control-sm" type="text" name="nome" id="editarNome" required>
-							</div>
-							<div class="form-group">
-								<label for="editarBairro">Endereço:</label>
-								<input type="text" name="">
-							</div>	
-			      			<button type="submit" class="btn btn-primary" id="buttonLogin" value="Enviar"> Entrar </button>
-			      		</form>
-			      	</div>
-			    	</div>
-			  	</div>
-			</div>	
+						<div id="adicionarEndereço">	
+							<p>Adicionar um endereço:</p>
+					      	<form>
+								<div class="form-row">
+    								<div class="col-md-4">
+      									<input type="text" class="form-control arruma" placeholder="Bairro" id="bairroUsuário" name="bairro">
+    								</div>
+    								<div class="col-md-4">
+      									<input type="text" class="form-control arruma" placeholder="Rua" id="ruaUsuário" name="rua">
+    								</div>
+  									<div class="col-md-2">
+  										<input type="number" class="form-control arruma" placeholder="Numero" id="numeroUsuário" name="numero">
+  									</div>
+  								</div>
+  								<div class="form-row">
+  									<div class="col-md-4">
+  										<input type="text" class="form-control" name="complemento" id="complementoUsuário" placeholder="Complemento">
+  									</div>
+  									<div class="col-md-2">
+  										<input type="number" class="form-control" name="CEP" placeholder="CEP" id="cepUsuário">
+  									</div>
+  								</div>
+  								<button type="submit" class="btn btn-primary buttonEditar" id="buttonAdd" value="Enviar">Salvar</button>
+							</form>
+						</div>
+					</div>
+					</div>
+				</div>
+			</div>					
 
         </div>
         <!--fim div seção-->
 
 	   	<div class="item footer">Footer</div>
 		</div>
+		<div id="caixa" title="Alerta"> 	
+			<p>Tem certeza que deseja desativar sua conta? A reativação só é possível após contato com o Administrador</p>
+		</div>
+		<div id="caixa2" title="Alerta"> 	
+			<p>Tem certeza que deseja excluir esse endereço?</p>
+		</div>
 	</body>
 
 	<!--jquery -->
-	<script>
+	<script>	
 		$(document).ready(function(){ 
 			$("#new-service").hide();
 
@@ -249,5 +305,62 @@
 		function abreAdicionarSolicitação() {
 			window.open("enviar-solicitacao.html","_blank");
 		}
+
+		$('#buttonEditarEnd').on('click', function(){
+			$('#editarEnd3').show();
+			$('#editarEndereço').hide();	
+		});
+
+		$('#buttonCan').on('click', function(){
+			$('#editarEnd3').hide();
+			$('#editarEndereço').show();	
+		});
+
+		$( "#desativarConta" ).on( "click", function() {
+		    $( "#caixa" ).dialog( "open" );
+		});
+
+		$( "#buttonExcluirEnd" ).on( "click", function() {
+		    $( "#enderecoModal" ).modal('hide');
+		});
+
+		$( "#buttonExcluirEnd" ).on( "click", function() {
+		    $( "#caixa2" ).dialog( "open" );
+		});
+
+		$("#caixa").dialog({
+			autoOpen: false,
+			modal: true,
+			resizable: false,
+			draggable: false,
+			height: "auto",
+			width: 350,
+			buttons: {
+	        	"Sim": function() {
+	          	$( this ).dialog( "close" );
+	        	},
+	        	Cancelar: function() {
+	          	$( this ).dialog( "close" );
+	        	}
+      		}
+		});
+
+		$("#caixa2").dialog({
+			autoOpen: false,
+			modal: true,
+			resizable: false,
+			draggable: false,
+			height: "auto",
+			width: 350,
+			buttons: {
+	        	"Sim": function() {
+	          	$( this ).dialog( "close" );
+	        	},
+	        	Cancelar: function() {
+	          	 $( "#enderecoModal" ).modal('show');
+	          	 $( this ).dialog( "close" );
+	        	}
+      		}
+		});
 	</script>
 </html>

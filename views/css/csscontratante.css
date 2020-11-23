@@ -106,8 +106,7 @@ p{color: #737373}
 /*Manter*/
 .btManter{
   margin: 20px;
-  margin-right: 130px; 
-  float: right;
+  margin-right: 130px;  
   background-color: #FF508A;
   color: white;
   font-weight: 730;
@@ -144,27 +143,6 @@ p{color: #737373}
 
 .col-5{
   max-width: 36.666667%;
-}
-
-#add-service{
-  margin:2px, 
-  margin-top:2px; 
-  margin-bottom: 10px;
-  margin-right: 0px;
-  float: right;
-
-}
-.btSalvar{
-  background-color: green; color: white;
-}
-.btSalvar:hover {
-  background-color: darkgreen; color: white;
-}
-.btFechar{
-  background-color: gray; color: white;
-}
-.btFechar:hover {
-  background-color: darkgray; color: white;
 }
 
 /*Footer*/
@@ -318,4 +296,16 @@ img {
 #desativarConta:hover {
   background-color: #B42B38;
   border-color: #B42B38;
+}
+
+#ava2 {
+  float: right;
+}
+
+#nada {
+  margin-left: 24%;
+}
+
+#buttons {
+  min-width: 800px;
 }

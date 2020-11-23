@@ -26,21 +26,35 @@
 
 		<div class="container" id="formCadastro">
 			<form>
-  				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="usuário" id="prestador" value="prestador">
-					<label class="form-check-label" for="prestador">Prestador</label>
-					<input class="form-check-input" type="radio" name="usuário" id="contratante" value="contratante">
-					<label class="form-check-label" for="contratante">Contratante</label>
-				</div>
-
-  				<div class="form-group">
-				    <br><label for="nomeUsuário">Nome</label>
-				    <input type="text" class="form-control" id="NomeUsuário" name="nome" required>
-  				</div>
-  				<div class="form-group">
-				    <label for="cpfUsuário">CPF</label>
-				    <input type="number" class="form-control" id="cpfUsuário" name="cpf" required>
- 				</div>
+  				<div id="radios">
+	  				<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="usuário" id="prestador" value="prestador" required>
+						<label class="form-check-label" for="prestador">Prestador</label>
+						<input class="form-check-input" type="radio" name="usuário" id="contratante" value="contratante" required>
+						<label class="form-check-label" for="contratante">Contratante</label>
+					</div>	
+		  			<div class="form-check form-check-inline" id="labelado">
+						<input class="form-check-input" type="radio" name="sexo" id="sexoUsuárioM" value="masculino" required>
+						<label class="form-check-label" for="sexoUsuárioM">Masculino</label>
+						<input class="form-check-input" type="radio" name="sexo" id="sexoUsuárioF" value="feminino" required>
+						<label class="form-check-label" for="sexoUsuárioF">Feminino</label>
+						<input class="form-check-input" type="radio" name="sexo" id="sexoUsuárioA" value="Outro" required>
+						<label class="form-check-label" for="sexoUsuárioA">Outro</label>	
+					</div>	
+		  		</div>	
+		  		
+	  			<div class="form-group">
+					<br><label for="nomeUsuário">Nome</label>
+					<input type="text" class="form-control" id="NomeUsuário" name="nome" required>
+	  			</div>
+	  			<div class="form-group">
+					<label for="cpfUsuário">CPF</label>
+					<input type="number" class="form-control" id="cpfUsuário" name="cpf" required>
+	 			</div>
+		 		<div class="form-group">
+					<label for="emailUsuário">E-mail</label>
+					<input type="text" class="form-control" id="emailUsuário" name="email" required>
+	 			</div>
 	 			<div class="form-group">
 					<label for="telefoneUsuário">Telefone</label>
 					<input type="tel" class="form-control" id="telefoneUsuário" name="telefone" required>
@@ -70,11 +84,15 @@
 				      <label for="complementoUsuário">Complemento</label>
 				      <input type="text" class="form-control endereco" id="complementoUsuário" name="complemento" required>
 					</div>
-					<div class="form-group" id="comprovantes">
-					    <br><label for="comprovanteUsuário">Comprovante pessoal (Documento):</label>
-					    <input type="file" id="comprovanteUsuário" name="comprovante" required>
- 					</div>
+					<div class="form-group col-md-2">
+						<label for="cepUsuário"> CEP </label>
+						<input type="number" name="CEP" class="form-control endereco" required>	
+					</div>
 				</div>
+				<div class="form-group" id="comprovantes">
+					<br><label for="comprovanteUsuário">Comprovante pessoal (Documento):</label>
+					<input type="file" id="comprovanteUsuário" name="comprovante" required>
+ 				</div>	
   					<br><button type="submit" class="btn btn-primary" id="submitCadastro" value="Enviar">Enviar</button>
 			</form>
 		</div>				

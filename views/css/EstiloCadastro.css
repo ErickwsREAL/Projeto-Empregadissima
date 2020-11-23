@@ -62,3 +62,11 @@ body {
 #formCadastro input[type="radio"]{
 	margin-left: 10px;
 }
+
+#radios label{
+	font-size: 20px;
+}
+
+#labelado {
+	float: right
+}
