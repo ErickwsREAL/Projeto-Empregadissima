@@ -166,46 +166,50 @@
 	</div>
 
 
-<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter" id="exampleModalCenter" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
- 
-     <div class="modal-content">
- 
-		<div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLongTitle"> Detalhes da Solicitação </h5>
-	    
-	    	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	    	    <span aria-hidden="true">&times;</span>
-	        </button>
+	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter" id="exampleModalCenter" aria-hidden="true">
+	  <div class="modal-dialog modal-lg">
+	 
+	     <div class="modal-content modal-color">
+	 
+			<div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLongTitle"> Detalhes da Solicitação </h5>
+		    
+		    	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		    	    <span style="color: white" aria-hidden="true">&times;</span>
+		        </button>
+		    </div>
+
+	     	<div class="modal-body">
+	        	<p><b> Data: </b>   25/12/2020   &nbsp; 
+	        	   <b> Hora: </b>   8:00 às 15:00
+	        	</p>
+	        	<p><b> Tipo de Serviço: </b> Casa até 2 quartos 1 banheiro</p>
+	        	<p><b> Valor a ser pago:</b> 260,00 </p>
+	        	<p><b> Endereço que ocorrerá o serviço: </b> Rua Teste 476 </p>
+	        	<p><b> Forma de Pagamento: </b> Dinheiro </p>
+	        	<!--informação apenas do prestador-->
+	        	<p><b> Avaliação do solicitante: </b>   <span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star"></span>
+														<span class="fa fa-star"></span> </p>
+
+	        	<!--informação apenas do solicitante-->
+	        	<p><b> Avaliação do prestador: </b></p>
+	        	<p><b> Visite o perfil aqui: </b> <a href="./perfil-prestador-visao-contratante.html" target="_blank"> Visite o perfil do prestador/ solicitante </a> </p>
+	      	</div>
 	    </div>
+	 
+	  </div>
+	</div>
 
-     	<div class="modal-body">
-        	<p><b> Data: </b>   25/12/2020   &nbsp; 
-        	   <b> Hora: </b>   8:00 às 15:00
-        	</p>
-        	<p><b> Tipo de Serviço: </b> Casa até 2 quartos 1 banheiro</p>
-        	<p><b> Valor a ser pago:</b> 260,00 </p>
-        	<p><b> Endereço que ocorrerá o serviço: </b> Rua Teste 476 </p>
-        	<p><b> Forma de Pagamento: </b> Dinheiro </p>
-        	<!--informação apenas do prestador-->
-        	<p><b> Avaliação do solicitante: </b>   <span class="fa fa-star checked"></span>
-													<span class="fa fa-star checked"></span>
-													<span class="fa fa-star checked"></span>
-													<span class="fa fa-star"></span>
-													<span class="fa fa-star"></span> </p>
-
-        	<!--informação apenas do solicitante-->
-        	<p><b> Avaliação do prestador: </b></p>
-        	<p><b> Visite o perfil aqui: </b> <a href=""> Visite o perfil do prestador/ solicitante </a> </p>
-      	</div>
-    </div>
- 
-  </div>
-</div>
+	<div class="dialog-reprovar" id="dialog-reprovar" title="Alerta">
+	  <p> Deseja <b>Rejeitar</b> esta Solicitação? </p>
+	</div>	
 
 </body>
 
-<div class="item footer">Copyright @EmpregadíssimaOwners</div>
+<div class="item footer"> Copyright @EmpregadíssimaOwners </div>
 
 <script >
 	$( function() {
@@ -218,7 +222,31 @@
 
 	$('#exampleModalCenter').on('shown.bs.modal', function () {
   		$('#myInput').trigger('focus')
-})	
+	});
+
+	/*dialogo Deseja Rejeitar esta Solicitação?*/
+	$( function() {
+	    $( "#dialog-reprovar" ).dialog({
+	    	autoOpen: false,
+	     	resizable: true,
+	      	height: "auto",
+	      	width: 400,
+	      	modal: true,
+	      	buttons: {
+	        "Sim": function() {
+	          $( this ).dialog( "close" );
+	        },
+	        Sair: function() {
+	          $( this ).dialog( "close" );
+	        }
+	      }
+	    });
+	} );
+
+    $( ".bt-reprovar" ).on( "click", function() {
+	    $( "#dialog-reprovar" ).dialog( "open" );
+	});
+
 </script>
 
 </html>

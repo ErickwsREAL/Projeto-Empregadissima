@@ -324,3 +324,8 @@ nav li {
   background-color: darkgreen; color: white;
   text-align: center;
 }
+
+.modal-color{
+	background: #4f2f67;
+	color: white;
+}
