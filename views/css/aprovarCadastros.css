@@ -59,6 +59,10 @@ h4{
 	margin-top:45px;
 }
 
+.pointer{
+	cursor: pointer;
+}
+
 .buttons-classe{
 	margin-top: 20px;
 	text-align: center;
@@ -97,28 +101,6 @@ h4{
 	border: 1px solid gray;
 	color: white;
 }
-
-.buscarCadastro input[type=number] {
-  padding: 6px;
-  margin-top: 8px;
-  font-size: 17px;
-  margin-bottom: 8px;
-  border: none;
-  border-bottom: 1px solid black;
-}
-
-.buscarCadastro button {
-  	float: left;
-  	padding: 6px 10px;
-  	margin-top: 8px;	
-  	background: #ddd;
-  	font-size: 17px;
-  	border: none;
-  	cursor: pointer;
-  	border-bottom:1px solid black;
-}
-
-
 
 table{
   width:100%;
