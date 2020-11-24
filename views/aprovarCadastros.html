@@ -2,116 +2,622 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="./css/aprovarCadastros.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/jquery-ui.min.css">
+	<link rel="stylesheet" type="text/css" href="css/solicitacao-css.css">
+	<link rel="stylesheet" type="text/css" href="css/aprovarCadastros.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<script src="../frameworks/jquery-3.5.1.min.js"></script>
-	<title>Cadastros Pendentes - Empregadíssima (Administador)</title>
+	<script src="js/jquery-3.5.1.min.js"></script>
+	<script src="js/jquery-ui.js"></script>
+
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
+	<title>Cadastros Pendentes - Administador</title>
 </head>
 <body>
 
-	<!--nav bar -->
-	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">Empregadíssimas</a>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class="navbar-nav mr-auto">
-	        <li class="nav-item active">
-	            <a class="nav-link" href="#">Inicio </a>
-	        </li>
-	        <li class="nav-item active">
-	            <a class="nav-link" href="#">Busca </a>
-	        </li>
-          </ul>
-        </div>
-    </nav>
-    <!--fim navbar-->
-
 	<!--main-->
     <div class="main">
-    	<div class="cadast-pend">
-    		    <h2>Cadastros Pendentes</h2>
-    	</div>
-	    <!--table-->
-		<table>
-			<tr>
-				<th>
-					<!-- bootstrap check-box + classe checkMargin-->
-					<div class="form-check checkMargin">
-						<input class="form-check-input" type="checkbox" value="" id="checkAll">
-						<label class="form-check-label" for="checkAll"> </label>
-					</div>
-				</th>
-				<th>Codigo do Cadastro</th>
-				<th>Nome</th> 
-				<th>CPF</th>
-				<th>Documentos Anexados</th>
-				<th>Data Registro</th>
-			</tr>
-			<tr>
-				<td>
-					<!-- bootstrap check-box + classe checkMargin-->
-					<div class="form-check checkMargin">
-						<input class="form-check-input" type="checkbox" value="" id="defaultCheck3">
-						<label class="form-check-label" for="defaultCheck3"> </label>
-					</div>
-				</td>
-			    <td>1</td>
-			    <td>Bruna</td>
-			    <td>123.456.456-78</td>
-			    <td>-</td>
-			    <td>11/11/2020</td>
-		 	</tr>		 	
-		  	<tr>
-		  		<td>
-		  			<!-- bootstrap check-box + classe checkMargin-->
-					<div class="form-check checkMargin">
-						<input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-						<label class="form-check-label" for="defaultCheck1"> </label>
-					</div>
-		  		</td>
-			    <td>2</td>
-			    <td>Brunr</td>
-			    <td>132.159.167-98</td>
-			    <td>-</td>
-			    <td>21/05/2020</td>
-		  	</tr>
-		  	<tr>
-		  		<td>
-		  			<!-- bootstrap check-box + classe checkMargin-->
-					<div class="form-check checkMargin">
-						<input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-						<label class="form-check-label" for="defaultCheck2"> </label>
-					</div>
-		  		</td>
-			    <td>3</td>
-			    <td>Brunw</td>
-			    <td>789.658.136.75</td>
-			    <td>-</td>
-			    <td>20/05/2020</td>
-		  	</tr>
-		</table>
 
-		<div class="buttons-classe">
-			<p>
-				<!--bootstrap buttons + id-->
-				<button type="button" class="btn btn-lg" id="bt-aprovar">Aprovar</button>
-				<button type="button" class="btn btn-lg" id="bt-reprovar">Reprovar</button>
-			</p>
+		<div class="info-adm" style="">
+		    <h4>Administrador:&nbsp;AdmTeste&nbsp;&nbsp;&nbsp;\&nbsp;&nbsp;&nbsp;Login: &nbsp;Teste123</h4>
 		</div>
 
-	    <!-- fim table-->
+		<div class="lista-abas animacao-flip">
+			<div id="tabs">    	
+			    <!--table-->
+			    <ul>
+					<li><a href="#tabs-1"> Pendentes </a></li>
+					<li><a href="#tabs-2"> Exclusão de Contas </a></li>
+					<li><a href="#tabs-3"> Relatório </a></li>
+				</ul>
+					<!-- Aba cadastros pendentes-->
+					<div id="tabs-1">
+	    				<div class="cadast-pend">
+			    		    <h2>Cadastros Pendentes</h2>
+			    		</div>
+
+						<table>
+							<tr>
+								<th>
+									<!-- bootstrap check-box + classe checkMargin-->
+									<div class="form-check checkMargin">
+										<input class="form-check-input" type="checkbox" value="" id="aprovar-cadastros-checkAll">
+										<label class="form-check-label" for="aprovar-cadastros-checkAll"> </label>
+									</div>
+								</th>
+								<th>Codigo do Cadastro</th>
+								<th>Nome</th> 
+								<th>CPF</th>
+								<th>Documento Anexado</th>
+								<th>Data Registro</th>
+							</tr>
+							<tr>
+								<td>
+									<!-- bootstrap check-box + classe checkMargin-->
+									<div class="form-check checkMargin">
+										<input class="form-check-input aprovar-cadastros-check" type="checkbox" value="" id="apr-cad-check1">
+										<label class="form-check-label aprovar-cadastros-check" for="apr-cad-check1"> </label>
+									</div>
+								</td>
+							    <td>1</td>
+							    <td>Bruna</td>
+							    <td>123.456.456-78</td>
+							    <td><i class="fa fa-file pointer" data-toggle="modal" data-target="#exampleModalCenter"></i></td>
+							    <td>11/11/2020</td>
+						 	</tr>		 	
+						  	<tr>
+						  		<td>
+						  			<!-- bootstrap check-box + classe checkMargin-->
+									<div class="form-check checkMargin">
+										<input class="form-check-input aprovar-cadastros-check" type="checkbox" value="" id="apr-cad-check2">
+										<label class="form-check-label" for="apr-cad-check2"> </label>
+									</div>
+						  		</td>
+							    <td>2</td>
+							    <td>Brunr</td>
+							    <td>132.159.167-98</td>
+							    <td> <i class="fa fa-file pointer"></i> </td>
+							    <td>21/05/2020</td>
+						  	</tr>
+						  	<tr>
+						  		<td>
+						  			<!-- bootstrap check-box + classe checkMargin-->
+									<div class="form-check checkMargin">
+										<input class="form-check-input aprovar-cadastros-check" type="checkbox" value="" id="apr-cad-check3">
+										<label class="form-check-label" for="apr-cad-check3"> </label>
+									</div>
+						  		</td>
+							    <td>3</td>
+							    <td>Brunw</td>
+							    <td>789.658.136.75</td>
+							    <td><i class="fa fa-file pointer"></i></td>
+							    <td>20/05/2020</td>
+						  	</tr>
+						</table>
+				    	<!-- fim table-->
+				    							<!-- fim aba Cadastros Pendentes-->
+						<div class="buttons-classe">
+							<p>
+								<!--bootstrap buttons + id-->
+								<button type="button" class="btn btn-lg" id="bt-aprovar">Aprovar</button>
+								<button type="button" class="btn btn-lg" id="bt-reprovar">Reprovar</button>
+							</p>
+						</div>
+					</div>
+
+					<!-- aba 2 - Exclusao de Conta -->
+					<div id="tabs-2">
+						<p>Exclusao de Conta entra aqui :)</p>
+
+					</div>
+					<!--fim aba Exclusao de Conta -->
+
+					<!-- aba 3 - Relatorio -->
+					<div id="tabs-3">
+						<p style="display: inline-block">Tipo de relatório:</p>
+						<input type="radio" id="opt-service" name="report-opt" value="null">
+						<label for="opt-service">Relatório de serviços</label>&nbsp;
+						<input type="radio" id="opt-person" name="report-opt" value="null">
+						<label for="opt-person">Relatório de usuários</label>
+						<div id="list-tabs" class="lista-abas animacao-flip">
+							<div class="range-filter">									
+								Contratante: <input type="text" id="contrante" class="my-form-control">
+								Prestador: <input type="text" id="prestador" class="my-form-control"><br>
+								De: <input id="inicio-data" class="my-date-form" type="date"></input>&nbsp;
+								Para: <input style="margin-bottom: 0.5%;" id="fim-data" class="my-date-form" type="date"></input><br>
+								<button onclick="resetfields()" id="reset-button" class="cancel-button btn-sm btn-danger">Resetar</button>
+								<button id="apply-button" class="apply-button btn-sm btn-success">Aplicar</button>
+							</div>
+							<div id="report-tabs">
+								<ul>
+									<li><a href="#tabs-4"> Pendentes </a></li>
+									<li><a href="#tabs-5"> Em Andamento </a></li>
+									<li><a href="#tabs-6"> Finalizadas </a></li>
+									<li><a href="#tabs-7"> Gráficos </a></li>
+								</ul>
+								<div id="tabs-4">
+
+									<div class="card">
+										<div class="card-container">
+
+											<!-- -->
+											<div class="grid-container">
+												<div class="grid-item">
+													<div class="img-container">
+														<img src="./imagens/mulher.png" id="profile-img" title="Imagem de Perfil">
+													</div>
+												</div>
+
+												<div class="grid-item">
+													<h3> <b> Solicitação de Serviço de Julia Contratante para Roberta Dias</b></h3> 
+													<p><b> Dia: </b> 25/12/2020 	&nbsp;	 <b>Hora: </b> 8:00 às 15:00
+													</p> 
+												</div>
+
+												<div class="grid-item">
+													<div class="img-container">
+														<img src="./imagens/mulher.png" id="profile-img" title="Imagem de Perfil">
+													</div>
+												</div>
+											</div>
+											<!-- -->
+
+											<p class="center">
+												<!--bootstrap buttons + classe-->
+												<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend" name="detalhe-pend" data-toggle="modal" data-target="#exampleModalCenter">Detalhes</button>
+											</p>
+										</div>
+									</div>
+
+									<div class="card">
+										<div class="card-container">
+											
+											<!-- -->
+											<div class="grid-container">
+												<div class="grid-item">
+													<div class="img-container">
+														<img src="./imagens/mulher.png" id="profile-img" title="Imagem de Perfil">
+													</div>
+												</div>
+
+												<div class="grid-item">
+													<h3> <b> Solicitação de Serviço de Paolla Campos para Eduarda Oliveira </b></h3> 
+													<p><b> Dia: </b> 29/12/2020 	&nbsp;	 <b>Hora: </b> 8:00 às 15:00
+													</p> 
+												</div>
+
+												<div class="grid-item">
+													<div class="img-container">
+														<img src="./imagens/mulher.png" id="profile-img" title="Imagem de Perfil">
+													</div>
+												</div>
+											</div>
+											<!-- -->
+
+											<p class="center">
+												<!--bootstrap buttons + classe-->
+												<button type="button" class="btn btn-lg bt-detalhes" data-toggle="modal" data-target="#exampleModalCenter"> Detalhes </button>
+											</p>
+										</div>
+									</div>
+
+									<div class="card">
+										<div class="card-container">
+
+											<!-- -->
+											<div class="grid-container">
+												<div class="grid-item">
+													<div class="img-container">
+														<img src="./imagens/mulher.png" id="profile-img" title="Imagem de Perfil">
+													</div>
+												</div>
+
+												<div class="grid-item">
+													<h3> <b> Solicitação de Serviço de Julia Contratante para Roberta Dias</b></h3> 
+													<p><b> Dia: </b> 25/12/2020 	&nbsp;	 <b>Hora: </b> 8:00 às 15:00
+													</p> 
+												</div>
+
+												<div class="grid-item">
+													<div class="img-container">
+														<img src="./imagens/mulher.png" id="profile-img" title="Imagem de Perfil">
+													</div>
+												</div>
+											</div>
+											<!-- -->
+
+											<p class="center">
+												<!--bootstrap buttons + classe-->
+												<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend" name="detalhe-pend" data-toggle="modal" data-target="#exampleModalCenter">Detalhes</button>
+											</p>
+										</div>
+									</div>
+
+								</div>
+								<div id="tabs-5">
+									<div class="card">
+										<div class="card-container">
+
+												<!-- -->
+												<div class="grid-container">
+													<div class="grid-item">
+														<div class="img-container">
+															<img src="./imagens/mulher.png" id="profile-img" title="Imagem de Perfil">
+														</div>
+													</div>
+
+													<div class="grid-item">
+														<h3> <b>Rogéria Sampaio possui um serviço em andamento com Carla Santos</b></h3> 
+														<p><b> Dia: </b> 22/12/2020 	&nbsp;	 <b>Hora: </b> 8:00 às 15:00
+														</p> 
+													</div>
+
+													<div class="grid-item">
+														<div class="img-container">
+															<img src="./imagens/mulher.png" id="profile-img" title="Imagem de Perfil">
+														</div>
+													</div>
+												</div>
+												<!-- -->
+
+												<!--bootstrap buttons + classe-->
+												<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-and" name="detalhe-and" data-toggle="modal" data-target="#exampleModalCenter">Detalhes</button>
+											</p>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-container">
+
+												<!-- -->
+												<div class="grid-container">
+													<div class="grid-item">
+														<div class="img-container">
+															<img src="./imagens/mulher.png" id="profile-img" title="Imagem de Perfil">
+														</div>
+													</div>
+
+													<div class="grid-item">
+														<h3> <b>Joaquina Silva possui um serviço em andamento com Maria Claudia</b></h3> 
+														<p><b> Dia: </b> 22/12/2020 	&nbsp;	 <b>Hora: </b> 8:00 às 15:00
+														</p> 
+													</div>
+
+													<div class="grid-item">
+														<div class="img-container">
+															<img src="./imagens/mulher.png" id="profile-img" title="Imagem de Perfil">
+														</div>
+													</div>
+												</div>
+												<!-- -->
+
+												<!--bootstrap buttons + classe-->
+												<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-and" name="detalhe-and" data-toggle="modal" data-target="#exampleModalCenter">Detalhes</button>
+											</p>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-container">
+
+												<!-- -->
+												<div class="grid-container">
+													<div class="grid-item">
+														<div class="img-container">
+															<img src="./imagens/mulher.png" id="profile-img" title="Imagem de Perfil">
+														</div>
+													</div>
+
+													<div class="grid-item">
+														<h3> <b>Lucina Lucia possui um serviço em andamento com Luiza Luz</b></h3> 
+														<p><b> Dia: </b> 22/12/2020 	&nbsp;	 <b>Hora: </b> 8:00 às 15:00
+														</p> 
+													</div>
+
+													<div class="grid-item">
+														<div class="img-container">
+															<img src="./imagens/mulher.png" id="profile-img" title="Imagem de Perfil">
+														</div>
+													</div>
+												</div>
+												<!-- -->
+
+												<!--bootstrap buttons + classe-->
+												<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-and" name="detalhe-and" data-toggle="modal" data-target="#exampleModalCenter">Detalhes</button>
+											</p>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-container">
+
+												<!-- -->
+												<div class="grid-container">
+													<div class="grid-item">
+														<div class="img-container">
+															<img src="./imagens/mulher.png" id="profile-img" title="Imagem de Perfil">
+														</div>
+													</div>
+
+													<div class="grid-item">
+														<h3> <b>Rogéria Sampaio possui um serviço em andamento com Carla Santos</b></h3> 
+														<p><b> Dia: </b> 22/12/2020 	&nbsp;	 <b>Hora: </b> 8:00 às 15:00
+														</p> 
+													</div>
+
+													<div class="grid-item">
+														<div class="img-container">
+															<img src="./imagens/mulher.png" id="profile-img" title="Imagem de Perfil">
+														</div>
+													</div>
+												</div>
+												<!-- -->
+
+												<!--bootstrap buttons + classe-->
+												<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-and" name="detalhe-and" data-toggle="modal" data-target="#exampleModalCenter">Detalhes</button>
+											</p>
+										</div>
+									</div>
+								</div>
+								<div id="tabs-6">
+									<div class="card">
+										<div class="card-container">
+
+											<!-- -->
+											<div class="grid-container">
+												<div class="grid-item">
+													<div class="img-container">
+														<img src="./imagens/mulher.png" id="profile-img" title="Imagem de Perfil">
+													</div>
+												</div>
+
+												<div class="grid-item">
+													<h3> <b> Serviço Finalizado de Julia Prestadora para Carla Contratante </b></h3> 
+													<p><b> Dia: </b> 25/12/2020		&nbsp;	 <b>Hora: </b> 8:00 às 15:00
+													</p> 
+												</div>
+
+												<div class="grid-item">
+													<div class="img-container">
+														<img src="./imagens/mulher.png" id="profile-img" title="Imagem de Perfil">
+													</div>
+												</div>
+											</div>
+											<!-- -->
+
+											<p>
+												<!-- bootstrap buttons + classe -->
+												<button type="button" class="btn btn-lg bt-detalhes" id="detalhes-and" name="detalhes-fina" data-toggle="modal" data-target="#exampleModalCenter" > Detalhes </button>
+											</p>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-container">
+
+											<!-- -->
+											<div class="grid-container">
+												<div class="grid-item">
+													<div class="img-container">
+														<img src="./imagens/mulher.png" id="profile-img" title="Imagem de Perfil">
+													</div>
+												</div>
+
+												<div class="grid-item">
+													<h3> <b> Serviço Finalizado de Gabriela Esteves para Priscilla Meida </b></h3> 
+													<p><b> Dia: </b> 25/12/2020		&nbsp;	 <b>Hora: </b> 8:00 às 15:00
+													</p> 
+												</div>
+
+												<div class="grid-item">
+													<div class="img-container">
+														<img src="./imagens/mulher.png" id="profile-img" title="Imagem de Perfil">
+													</div>
+												</div>
+											</div>
+											<!-- -->
+
+											<p>
+												<!-- bootstrap buttons + classe -->
+												<button type="button" class="btn btn-lg bt-detalhes" id="detalhes-and" name="detalhes-fina" data-toggle="modal" data-target="#exampleModalCenter" > Detalhes </button>
+											</p>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-container">
+
+											<!-- -->
+											<div class="grid-container">
+												<div class="grid-item">
+													<div class="img-container">
+														<img src="./imagens/mulher.png" id="profile-img" title="Imagem de Perfil">
+													</div>
+												</div>
+
+												<div class="grid-item">
+													<h3> <b> Serviço Finalizado de Paimon para Cristiane Barbosa </b></h3> 
+													<p><b> Dia: </b> 25/12/2020		&nbsp;	 <b>Hora: </b> 8:00 às 15:00
+													</p> 
+												</div>
+
+												<div class="grid-item">
+													<div class="img-container">
+														<img src="./imagens/mulher.png" id="profile-img" title="Imagem de Perfil">
+													</div>
+												</div>
+											</div>
+											<!-- -->
+
+											<p>
+												<!-- bootstrap buttons + classe -->
+												<button type="button" class="btn btn-lg bt-detalhes" id="detalhes-and" name="detalhes-fina" data-toggle="modal" data-target="#exampleModalCenter" > Detalhes </button>
+											</p>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-container">
+
+											<!-- -->
+											<div class="grid-container">
+												<div class="grid-item">
+													<div class="img-container">
+														<img src="./imagens/mulher.png" id="profile-img" title="Imagem de Perfil">
+													</div>
+												</div>
+
+												<div class="grid-item">
+													<h3> <b> Serviço Finalizado de Julia Prestadora para Carla Contratante </b></h3> 
+													<p><b> Dia: </b> 25/12/2020		&nbsp;	 <b>Hora: </b> 8:00 às 15:00
+													</p> 
+												</div>
+
+												<div class="grid-item">
+													<div class="img-container">
+														<img src="./imagens/mulher.png" id="profile-img" title="Imagem de Perfil">
+													</div>
+												</div>
+											</div>
+											<!-- -->
+
+											<p>
+												<!-- bootstrap buttons + classe -->
+												<button type="button" class="btn btn-lg bt-detalhes" id="detalhes-and" name="detalhes-fina" data-toggle="modal" data-target="#exampleModalCenter" > Detalhes </button>
+											</p>
+										</div>
+									</div>
+								</div>
+								<div id="tabs-7">
+									<div style="display: inline-block;" id="piechart"></div>
+									<div style="display: inline-block;" id="columnchart"></div>
+								</div>
+							</div>
+						</div>
+						<div id="person-report">
+							<p>oi </p>
+						</div>
+					</div>
+					<!--fim aba Relatorio -->
+
+			 	</div>   
+ 			</div>
+		</div>
     </div>
     <!--fim main-->
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter" id="exampleModalCenter" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+ 
+     <div class="modal-content">
+ 
+		<div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLongTitle"> Detalhes da Solicitação </h5>
+	    
+	    	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	    	    <span aria-hidden="true">&times;</span>
+	        </button>
+	    </div>
+
+     	<div class="modal-body">
+        	<p><b> Data: </b>   25/12/2020   &nbsp; 
+        	   <b> Hora: </b>   8:00 às 15:00
+        	</p>
+        	<p><b> Tipo de Serviço: </b> Casa até 2 quartos 1 banheiro</p>
+        	<p><b> Valor a ser pago:</b> 260,00 </p>
+        	<p><b> Endereço que ocorrerá o serviço: </b> Rua Teste 476 </p>
+        	<p><b> Forma de Pagamento: </b> Dinheiro </p>
+        	<!--informação apenas do prestador-->
+        	<p><b> Avaliação do solicitante: </b>   <span class="fa fa-star checked"></span>
+													<span class="fa fa-star checked"></span>
+													<span class="fa fa-star checked"></span>
+													<span class="fa fa-star"></span>
+													<span class="fa fa-star"></span> </p>
+
+        	<!--informação apenas do solicitante-->
+        	<p><b> Avaliação do prestador: </b></p>
+        	<p><b> Visite o perfil aqui: </b> <a href=""> Visite o perfil do prestador/ solicitante </a> </p>
+      	</div>
+    </div>
+ 
+  </div>
+</div>
 
 	<div class="item footer">Footer</div>
 
     <!--jquery-->
     <script>
 	    $(document).ready(function(){ 
-			$("#checkAll").click(function(){
-			    $('input:checkbox').not(this).prop('checked', this.checked);
+			$("#aprovar-cadastros-checkAll").click(function(){
+			    $('.aprovar-cadastros-check').not(this).prop('checked', this.checked);
 			});
 		});
-    </script>
+
+		$( function() {
+			$("#tabs").tabs();
+			$("#report-tabs").tabs();
+		} );
+
+		$('#exampleModalCenter').on('shown.bs.modal', function () {
+			$('#myInput').trigger('focus')
+		})
+
+		function solicitacao_enviada(){
+			$('#envia-solicitacao-alert').show()
+		}
+
+		function resetfields() {
+			document.getElementById('contratante').value = "";
+		}
+
+		$("#person-report").hide();
+		$("#list-tabs").hide();
+
+        $("#opt-service").click(function(){
+            $("#person-report").hide();
+            $("#list-tabs").show();
+        });
+
+        $("#opt-person").click(function(){
+            $("#list-tabs").hide();
+            $("#person-report").show();
+        });
+
+        $("#ui-id-7").click(function(){
+			$(".range-filter").hide();
+        });
+
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawChart);
+
+		// Draw the chart and set the chart values
+		function drawChart() {
+			var grafServicos = google.visualization.arrayToDataTable([
+				['Task', 'Hours per Day'],
+				['Pendente', 8],
+				['Em andamento', 2],
+				['Finalizados', 4],
+			]);
+
+			var grafAvaliacoes = google.visualization.arrayToDataTable([
+				['Element', 'Avaliação', { role: 'style' }],
+				['1 estrela', 43, 'red'],      
+				['2 estrelas', 26, 'orange'], 
+				['3 estrelas', 32, 'yellow'],
+				['4 estrelas', 96, 'blue'],
+				['5 estrelas', 150, 'green'],
+			]);
+
+			// Optional; add a title and set the width and height of the chart
+			var options1 = {'title':'Gráfico de serviços', 'width':550, 'height':400};
+			var options2 = {'title':'Gráfico de avaliações', 'width':550, 'height':400};
+			//var options3 = {'title':'Gráfico de avaliações', 'width':550, 'height':400};
+
+			// Display the chart inside the <div> element with id="piechart"
+			var chart1 = new google.visualization.PieChart(document.getElementById('piechart'));
+			var chart2 = new google.visualization.ColumnChart(document.getElementById('columnchart'));
+			//var chart3 = new google.visualization.AreaChart(document.getElementById('areachart'));
+			chart1.draw(grafServicos, options1);
+			chart2.draw(grafAvaliacoes, options2);
+			//chart2.draw(grafAvaliacoes, options2);
+		}
+
+	</script>
 </body>
 </html>

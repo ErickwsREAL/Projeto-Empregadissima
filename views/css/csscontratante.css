@@ -1,0 +1,311 @@
+/* Perfil*/
+.profile-text h3 {
+  font-size: 45px;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+b{color: #54207b}
+p{color: #737373}
+@media (max-width: 767px) {
+  .profile-text h3 {
+    font-size: 35px;
+  }
+}
+.profile-text h6 {
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+@media (max-width: 767px) {
+  .profile-text h6 {
+    font-size: 18px;
+  }
+}
+.profile-text p {
+  font-size: 18px;
+  max-width: 450px;
+}
+
+.profile-list {
+  padding-top: 10px;
+}
+.profile-list .media {
+  padding: 5px 0;
+}
+.profile-list label {
+  color: #54207b;
+  font-weight: 600;
+  width: 88px;
+  margin: 0;
+  position: relative;
+}
+.profile-list label:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 11px;
+  width: 1px;
+  height: 12px;
+  background: #54207b;
+  -moz-transform: rotate(15deg);
+  -o-transform: rotate(15deg);
+  -ms-transform: rotate(15deg);
+  -webkit-transform: rotate(15deg);
+  transform: rotate(15deg);
+  margin: auto;
+  opacity: 0.5;
+}
+.profile-list p {
+  margin: 0;
+  font-size: 15px;
+}
+
+@media (max-width: 991px) {
+  .profile-avatar {
+    margin-top: 30px;
+    background: white;
+    border-radius: 50%;
+    padding:5px;
+    transform: translate(100px, 100px); 
+
+  }
+}
+
+.profile-div .counter {
+  padding: 22px 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  margin-top:20px;
+  box-shadow: 0 0 30px rgb(142 25 106 / 42%)
+}
+.profile-div .counter .count-data {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.profile-div .counter .count {
+  font-weight: 700;
+  color: #54207b;
+  margin: 0 0 5px;
+}
+.profile-div .counter p {
+  font-weight: 600;
+  margin: 0;
+}
+
+.theme-color {
+    color: #ffd6e4 ; /*#ffd6e4*/
+}
+.dark-color {
+    color: #4f2f67; /*#683192*/
+}
+
+.checked {
+  color: orange;
+}
+
+/*Manter*/
+.btManter{
+  margin: 20px;
+  margin-right: 130px;  
+  background-color: #FF508A;
+  color: white;
+  font-weight: 730;
+}
+
+.btManter:hover {
+  background-color:#c52e60;
+  font-weight: 730;
+  color: white;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.4s;
+  margin: 50px;
+  margin-left: 120px;
+}
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+.card-container{
+  padding: 50px;
+}
+.card-inside {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.4s;
+  margin: 5px;
+  margin-left: 20px;
+  padding: 5px;
+}
+.man-desc{
+  float: left;
+}
+
+.col-5{
+  max-width: 36.666667%;
+}
+
+/*Footer*/
+.footer { grid-area: footer}
+.item {
+  width: 100%;
+    padding: 10px 0;
+    text-align: center;
+    background-color: #4f2f67;
+}
+/*Body*/
+body{
+    color: #64788a;
+    margin-top:20px;
+    overflow-x: hidden;
+}
+.section {
+    padding: 100px 0;
+    position: relative;
+}
+.rosa-bg {
+    background-color: #deb4c1;  
+}
+.white-bg {
+    background-color: white;
+}
+img {
+    max-width: 100%;
+    vertical-align: middle;
+    border-style: none;
+    padding-bottom: 30px;
+ }
+.img-container img{
+  width: 420px;
+  padding:5px;
+}
+
+.bg-dark{
+  background-color: #4f2f67 !important
+}
+
+.modal {
+  width: 1000px;
+  height: 500px;
+  position: absolute;
+  left: 35%;
+  top: 20%; 
+  margin-left: -150px;
+  margin-top: -150px;
+}
+
+.modal-content {
+  background-color: #4f2f67;
+  color: white;
+  font-size: 18px;
+}
+
+.modal-content span{
+  color: white;
+}
+
+.labelPeq input{
+  width: 300px;
+}
+
+.buttonEditar {
+  background-color: #FF71A0;
+  width: 150px;
+  border-color: #4f2f67;  
+  box-shadow: 1px 1px 2px black;
+}
+
+.buttonEditar:hover {
+  background-color: #FF508A;
+  border-color: #FF508A;
+  color: white;
+}
+
+.buttonEditar:active {
+  border-color: black;
+}
+
+.butf {
+  width: 200px;
+  margin-left: 16px;
+  margin-top: 10px;
+  margin-bottom: 80px;
+  box-shadow: 1px 1px 2px black;
+  color: white;
+
+}
+
+#adicionarEndereço p{
+  margin-left: 16px;
+  color: white;
+}
+
+#bairroUsuário {
+  margin-left: 15px;
+}
+
+#ruaUsuário {
+  margin-left: 15px;
+}
+
+#numeroUsuário {
+  margin-left: 15px;
+}
+
+#complementoUsuário {
+  margin-left: 15px;
+  margin-top: 10px; 
+}
+
+#cepUsuário {
+  margin-left: 15px;
+  margin-top: 10px; 
+}
+
+#buttonAdd {
+  margin-left: 15px;
+  margin-top: 10px;
+}
+
+#editarEnd3 {
+  display: none;
+}
+
+#editarEnd3 input{
+  margin-left: 15px;
+}
+
+#cepUsuárioED {
+  margin-top: 10px;
+}
+
+#complementoUsuárioED {
+  margin-top: 10px;
+}
+
+#editarEnd3 p{
+  margin-left: 16px;
+  color: white;
+}
+
+#desativarConta {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+#desativarConta:hover {
+  background-color: #B42B38;
+  border-color: #B42B38;
+}
+
+#ava2 {
+  float: right;
+}
+
+#nada {
+  margin-left: 24%;
+}
+
+#buttons {
+  min-width: 800px;
+}
