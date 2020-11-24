@@ -8,6 +8,7 @@
 		<script src="./js/popper.min.js"></script>
 		<script src="./js/bootstrap.min.js"></script>
 		<script src="./js/jquery-ui.js"></script>
+		<script src="./js/jquery.mask.min.js"></script>
 		<title> Empregadíssima | Cadastro de Usuário </title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -45,48 +46,48 @@
 		  		
 	  			<div class="form-group">
 					<br><label for="nomeUsuário">Nome</label>
-					<input type="text" class="form-control" id="NomeUsuário" name="nome" required>
+					<input type="text" class="form-control" id="NomeUsuário" name="nome" maxlength="50" placeholder="Máximo 50 caractéres..." required>
 	  			</div>
 	  			<div class="form-group">
 					<label for="cpfUsuário">CPF</label>
-					<input type="number" class="form-control" id="cpfUsuário" name="cpf" required>
+					<input type="text" class="form-control" id="cpfUsuário" name="cpf" min="0" max="11" placeholder="111.222.333.44" required>
 	 			</div>
 		 		<div class="form-group">
 					<label for="emailUsuário">E-mail</label>
-					<input type="text" class="form-control" id="emailUsuário" name="email" required>
+					<input type="text" class="form-control" id="emailUsuário" name="email" placeholder="jose@email.com" minlength="10" required>
 	 			</div>
 	 			<div class="form-group">
 					<label for="telefoneUsuário">Telefone</label>
-					<input type="tel" class="form-control" id="telefoneUsuário" name="telefone" required>
+					<input type="tel" class="form-control" id="telefoneUsuário" name="telefone" placeholder="(00) 98855-7711" minlength="11" required>
 	 			</div>
  				<div class="form-group">
 				    <label for="dataNascUsuário">Data de nascimento</label>
-				    <input type="date" class="form-control" id="dataNascUsuário" name="dataNascimento" required>
+				    <input type="date" class="form-control" id="dataNascUsuário" name="dataNascimento" min="1910-01-01" required>
  				</div>
  				<div class="form-group">
 				    <label for="senhaUsuário">Senha</label>
-				    <input type="password" class="form-control" id="senhaUsuário" name="senha" required>
+				    <input type="password" class="form-control" id="senhaUsuário" name="senha" minlength="8" required>
  				</div>
 				<div class="form-row">
 				    <div class="form-group col-md-4">
 				      <label for="bairroUsuário">Bairro</label>
-				      <input type="text" class="form-control endereco" id="bairroUsuário" name="bairro" required>
+				      <input type="text" class="form-control endereco" id="bairroUsuário" name="bairro" placeholder="Jardim Sumaré" required>
 				    </div>
 				    <div class="form-group col-md-4">
 				      <label for="ruaUsuário">Rua</label>
-				      <input type="text" class="form-control endereco" id="ruaUsuário" name="rua" required>
+				      <input type="text" class="form-control endereco" id="ruaUsuário" name="rua" placeholder="Pioneiro Genir Galli" required>
 				    </div>
 				    <div class="form-group col-md-2">
 				      <label for="numeroUsuário">Número da Casa</label>
-				      <input type="number" class="form-control endereco" id="numeroUsuário" name="número" required>
+				      <input type="number" class="form-control endereco" id="numeroUsuário" name="número" placeholder="000" required>
 					</div>
 					<div class="form-group col-md-2">
 				      <label for="complementoUsuário">Complemento</label>
-				      <input type="text" class="form-control endereco" id="complementoUsuário" name="complemento" required>
+				      <input type="text" class="form-control endereco" id="complementoUsuário" name="complemento" placeholder="APTO 3 BLOCO 503">
 					</div>
 					<div class="form-group col-md-2">
 						<label for="cepUsuário"> CEP </label>
-						<input type="number" name="CEP" class="form-control endereco" required>	
+						<input type="text" name="CEP" id="cepUsuário" class="form-control endereco" placeholder="87035-600" max="9" required>
 					</div>
 				</div>
 				<div class="form-group" id="comprovantes">
@@ -139,8 +140,16 @@
 	          		$( this ).dialog( "close" );
 	        		}
       			}
-			});
+			}); 
 	
+			var $seuCampoCpf = $("#cpfUsuário");
+			$seuCampoCpf.mask('000.000.000-00', {reverse: true});
+
+			var $campoTel = $("#telefoneUsuário");
+			$campoTel.mask('(00) 00000-0000');
+
+			var $campoCep = $("#cepUsuário");
+			$campoCep.mask('00000-000');
 		});
 		</script>
 	</body>
