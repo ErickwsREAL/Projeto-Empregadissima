@@ -127,7 +127,7 @@
                                 		<p class="m-0px font-w-600">Preço</p>
                                 		<!-- botão visivel apenas para prestadores -->
 										<p>
-	                                		<button type="button" class="btn btn-danger btn-sm spc"><i class="fa fa-trash"></i> Excluir </button>
+	                                		<button type="button" class="btn btn-danger btn-sm spc bt-excluir-servico" id="bt-excluir-servico" name="bt-excluir-servico"><i class="fa fa-trash"></i> Excluir </button>
 	                            			<button type="button" class="btn btn-sm bt-avaliar bt-editar" id="bt-editar" name="bt-editar"><i class="fa fa-edit"></i> Editar </button>
 	                            		</p>
 									</div>
@@ -140,7 +140,7 @@
                                 		<p class="m-0px font-w-600">Preço</p>
                                 		<!-- botão visivel apenas para prestadores -->
                                 		<p>
-	                                		<button type="button" class="btn btn-danger btn-sm spc"><i class="fa fa-trash"></i> Excluir </button>
+	                                		<button type="button" class="btn btn-danger btn-sm spc bt-excluir-servico" id="bt-excluir-servico2" name="bt-excluir-servico2"><i class="fa fa-trash"></i> Excluir </button>
                                 			<button type="button" class="btn btn-sm bt-avaliar bt-editar" id="bt-editar2" name="bt-editar2"><i class="fa fa-edit"></i> Editar </button>
                                 		</p>
 									</div>
@@ -153,7 +153,7 @@
                                 		<p class="m-0px font-w-600">Preço</p>
                                 		<!-- botão visivel apenas para prestadores -->
 										<p>
-	                                		<button type="button" class="btn btn-danger btn-sm spc bt-excluir-servico" id="bt-excluir-servico" name="bt-excluir-servico">
+	                                		<button type="button" class="btn btn-danger btn-sm spc bt-excluir-servico" id="bt-excluir-servico3" name="bt-excluir-servico3">
 	                                		<i class="fa fa-trash"></i> Excluir </button>
 	                            			
 	                            			<button type="button" class="btn btn-sm bt-avaliar bt-editar" id="bt-editar3" name="bt-editar3"><i class="fa fa-edit"></i> Editar </button>
@@ -168,13 +168,13 @@
 						<div class="list-group-item" id="new-service">
 							<form id="form">							
 								<p>Descreva o serviço:</p>
-									<textarea class="form-control" id="desc_servico" name="desc_servico" style="margin-top:10px"></textarea>
+									<textarea class="form-control" id="desc_servico" name="desc_servico" placeholder="Ex: Casa maior 3 quartos " style="margin-top:10px" required ></textarea>
 								<p>Preço:</p>
-									<input type="number" class="form-control" id="preco_servico" name="preco_servico"> 
+									<input type="number" class="form-control" id="preco_servico" name="preco_servico" placeholder="Ex:200,00" required> 
 					  		</form>
 					  		<p style="text-align: center;margin-top: 5px">
-					  			<button type="submit" class="btn btSalvar" id="salvar-service">Salvar</button>
-					  			<button type="submit" class="btn btFechar" id="fechar-service">Cancelar</button>
+					  			<button type="submit" class="btn btSalvar" id="salvar-service" value="Enviar">Salvar</button>
+					  			<button type="submit" class="btn btFechar" id="fechar-service" value="Cancelar">Cancelar</button>
 					  		</p>
 					  	</div>
 
@@ -230,8 +230,13 @@
 	   	<div class="item footer">Copyright @EmpregadíssimaOwners</div>
 		</div>
 		<div id="caixa" title="Alerta"> 	
-			<p>Tem certeza que deseja desativar sua conta? A reativação só é possível após contato com o Administrador</p>
+			<p>Tem certeza que deseja <b>desativar</b> sua conta? A reativação só é possível após contato com o Administrador</p>
 		</div>
+
+		<div id="caixa-excluir-servico" title="Alerta"> 	
+			<p>Tem certeza que deseja <b>excluir</b> esse serviço? </p>
+		</div>
+
 	</body>
 
 	<!--jquery -->
@@ -258,6 +263,10 @@
 		    	$( "#caixa" ).dialog( "open" );
 			});
 			
+			$(".bt-excluir-servico").on( "click", function() {
+		    	$( "#caixa-excluir-servico" ).dialog( "open" );
+			});
+
 			$("#caixa").dialog({
 				autoOpen: false,
 				modal: true,
@@ -278,6 +287,24 @@
 			var $campoTel = $("#editarTelefone");
 			$campoTel.mask('(00) 00000-0000');
 		
+
+			$("#caixa-excluir-servico").dialog({
+				autoOpen: false,
+				modal: true,
+				resizable: false,
+				draggable: false,
+				height: "auto",
+				width: 350,
+				buttons: {
+	        	"Sim": function() {
+	          		$( this ).dialog( "close" );
+	        		},
+	        	Cancelar: function() {
+	          		$( this ).dialog( "close" );
+	        		}
+      			}
+			});
+
 		});
 
 		/*abre pagina enviar solicitação*/
