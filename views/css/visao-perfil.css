@@ -1,0 +1,13 @@
+.grid-prestador {
+    background: #ffd6e4;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 0.4fr;
+    grid-template-rows: 1.18fr 1fr 1fr 1fr 0.3fr;
+    gap: 0px 0px;
+    grid-template-areas:
+      "sidenav filter-section filter-section filter-section filter-section column4"
+      "sidenav contractor-grid contractor-grid contractor-grid contractor-grid column4"
+      "sidenav contractor-grid contractor-grid contractor-grid contractor-grid column4"
+      "sidenav contractor-grid contractor-grid contractor-grid contractor-grid column4"
+      "footer-page footer-page  footer-page  footer-page  footer-page footer-page";
+}

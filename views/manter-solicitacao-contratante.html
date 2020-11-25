@@ -23,18 +23,12 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
 	        <li class="nav-item active">
-	            <a class="nav-link" href="#"> Busca </a>
+				<a class="nav-link" href="#">Inicio </a>
 	        </li>
 	        <li class="nav-item active">
-	            <a class="nav-link" href="./perfilcontratante.html"> Perfil </a>
-	        </li>
-	        <li class="nav-item active">
-	            <a class="nav-link" href="./manter-solicitacao-contratante.html"> Minhas Solicitações </a>
+	            <a class="nav-link" href="#">Busca </a>
 	        </li>
           </ul>
-          	<div class="form-inline my-2 my-lg-0">
-	      		<a class="nav-link" href="./index.html" id="btn-sair" style="color:white;"> Sair </a>
-	    	</div>
         </div>
     </nav>
     <!--fim navbar-->
@@ -163,10 +157,49 @@
 								<button type="button" class="btn btn-lg bt-detalhes" id="detalhes-and" name="detalhes-fina" data-toggle="modal" data-target="#detalhes-pend-modal" > Detalhes </button>
 
 								<!-- leva para pagina de avaliações -->
-								<button type="button" class="btn btn-lg bt-avaliar" id="avaliar-and" name="avaliar-fina" style="margin-right: 15px; font-weight: bold;"> Avaliar </button>
+								<button type="button" class="btn btn-lg bt-avaliar" id="avaliar-and" name="avaliar-fina" data-toggle="modal" data-target="#modal-avaliar" style="margin-right: 15px; font-weight: bold;"> Avaliar </button>
 							</p>
 						</div>
 					</div>
+					<!-- avaliação do contratante p/ prestador -->
+					<div id="modal-avaliar" class="modal" tabindex="-1" role="dialog">
+						<div class="modal-dialog" role="document">
+						  <div class="modal-content">
+							<div class="modal-header">
+							  <h5 class="modal-title">Avaliação do prestador</h5>
+							  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							  </button>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<label for="exampleFormControlTextarea1">Deixe um comentário:</label>
+									<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+								</div>
+								<p>Dê uma nota geral para o serviço:</p>
+								<div class="filter-rating">
+									<span class="star-rating">
+										<input id="rating5" type="radio" name="rating" value="5">
+										<label for="rating5">5</label>
+										<input id="rating4" type="radio" name="rating" value="4">
+										<label for="rating4">4</label>
+										<input id="rating3" type="radio" name="rating" value="3">
+										<label for="rating3">3</label>
+										<input id="rating2" type="radio" name="rating" value="2">
+										<label for="rating2">2</label>
+										<input id="rating1" type="radio" name="rating" value="1">
+										<label for="rating1">1</label>
+									</span><br>
+								</div>
+							</div>
+							<div class="modal-footer">
+							  <button type="button" class="btn-confirmar btn btn-primary">Confirmar</button>
+							  <button type="button" class="btn-cancelar btn btn-secondary" data-dismiss="modal">Cancelar</button>
+							</div>
+						  </div>
+						</div>
+					</div>
+					<!-- fim avaliação do contratante -->
 				</div>
 
 			</div>
@@ -204,7 +237,7 @@
 
 	        	<!--informação apenas do solicitante-->
 	        	<p><b> Avaliação do prestador: </b></p>
-	        	<p><b> Visite o perfil aqui: </b> <a href="./perfil-prestador-visao-contratante.html" target="_blank"> Visite o perfil do prestador </a> </p>
+	        	<p><b> Visite o perfil aqui: </b> <a href="./perfil-prestador-visao-contratante.html" target="_blank"> Visite o perfil do prestador/ solicitante </a> </p>
 	      	</div>
 	    </div>
 	 
