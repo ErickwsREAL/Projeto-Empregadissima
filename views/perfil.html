@@ -9,7 +9,6 @@
 	<script src="./js/jquery-3.5.1.min.js"></script>
 	<script src="./js/bootstrap.min.js"></script>
 	<script src="./js/jquery-ui.js"></script>
-	<script src="./js/jquery.mask.min.js"></script>
 	<title>Perfil Prestador</title>
 </head>
 	<body class="rosa-bg">
@@ -20,10 +19,10 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
 	        <li class="nav-item active">
-	            <a class="nav-link" href="#">Inicio </a>
+	            <a class="nav-link" href="#"> Perfil </a>
 	        </li>
 	        <li class="nav-item active">
-	            <a class="nav-link" href="#">Busca </a>
+	            <a class="nav-link" href="#"> Minhas Solicitações </a>
 	        </li>
           </ul>
         </div>
@@ -193,6 +192,7 @@
 
 			</div>
 			<!--fim manutenções -->
+
         	<!--editarPerfil -->
         	<div class="modal fade modal-lg" id="editarModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 			  	<div class="modal-dialog modal-lg">
@@ -207,15 +207,15 @@
 			      		<form>
 			      			<div class="form-group">
 								<label for="editarDescricao">Descrição:</label>		
-								<textarea class="form-control" id="editarDescricao" rows="3" name="nome" id="editarDescricao" placeholder="uma breve descrição de você ou seu serviços..."></textarea>
+								<textarea class="form-control" id="editarDescricao" rows="3" name="nome" id="editarDescricao"></textarea>
 							</div>
 			      			<div class="form-group labelPeq">
 								<label for="editarNome">Nome:</label>		
-								<input class="form-control form-control-sm" type="text" name="nome" id="editarNome" placeholder="Novo nome.." maxlength="50">
+								<input class="form-control form-control-sm" type="text" name="nome" id="editarNome">
 							</div>
 			      			<div class="form-group labelPeq">
 								<label for="editarTelefone">Telefone:</label>		
-								<input class="form-control form-control-sm" type="tel" name="telefone" id="editarTelefone" placeholder="(00) 98855-7711" minlength="11">
+								<input class="form-control form-control-sm" type="tel" name="telefone" id="editarTelefone">
 							</div>
 			      			<button type="submit" class="btn btn-primary buttonEditar" id="buttonEditarPerfil" value="Enviar"> Salvar Edição </button>
 			      		</form>
