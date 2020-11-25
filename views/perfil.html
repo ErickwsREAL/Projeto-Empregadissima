@@ -9,6 +9,7 @@
 	<script src="./js/jquery-3.5.1.min.js"></script>
 	<script src="./js/bootstrap.min.js"></script>
 	<script src="./js/jquery-ui.js"></script>
+	<script src="./js/jquery.mask.min.js"></script>
 	<title>Perfil Prestador</title>
 </head>
 	<body class="rosa-bg">
@@ -207,15 +208,15 @@
 			      		<form>
 			      			<div class="form-group">
 								<label for="editarDescricao">Descrição:</label>		
-								<textarea class="form-control" id="editarDescricao" rows="3" name="nome" id="editarDescricao"></textarea>
+								<textarea class="form-control" id="editarDescricao" rows="3" name="nome" id="editarDescricao" placeholder="uma breve descrição de você ou seu serviços..."></textarea>
 							</div>
 			      			<div class="form-group labelPeq">
 								<label for="editarNome">Nome:</label>		
-								<input class="form-control form-control-sm" type="text" name="nome" id="editarNome">
+								<input class="form-control form-control-sm" type="text" name="nome" id="editarNome" placeholder="Novo nome.." maxlength="50" >
 							</div>
 			      			<div class="form-group labelPeq">
 								<label for="editarTelefone">Telefone:</label>		
-								<input class="form-control form-control-sm" type="tel" name="telefone" id="editarTelefone">
+								<input class="form-control form-control-sm" type="tel" name="telefone" id="editarTelefone"  placeholder="(00) 98855-7711" minlength="11">
 							</div>
 			      			<button type="submit" class="btn btn-primary buttonEditar" id="buttonEditarPerfil" value="Enviar"> Salvar Edição </button>
 			      		</form>
