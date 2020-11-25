@@ -16,7 +16,7 @@
 
 		<!--nav bar -->
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">Empregadíssimas</a>
+        <a class="navbar-brand">Empregadíssimas</a>
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
 	        <li class="nav-item active">
@@ -187,7 +187,8 @@
 			  	<!--menu de outras manutenções-->
 			  	<div class="col-5">
 			  		
-			  		<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-calendar"></i>&nbsp; Agenda &nbsp;</button>
+			  		 <a class="nav-link btn btn-lg btn-block btManter" href="./visao-prestador.html" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-calendar"></i>&nbsp; Agenda &nbsp;</a>
+			  		<!--<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-calendar"></i>&nbsp; Agenda &nbsp;</button>-->
 			  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#editarModal" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-cog"></i>&nbsp; Editar Perfil &nbsp;</button>
 			  		<button type="button" class="btn btn-lg btn-block btManter" id="desativarConta" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-trash-o"></i>&nbsp; Desativar Conta &nbsp;</button>
 			  		<!--<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="abreAdicionarSolicitação()"><i class="fa fa-envelope"></i>&nbsp; Solicitar Serviço &nbsp;</button>-->
@@ -232,7 +233,7 @@
         <!--fim div seção-->
 
 	   	<div class="item footer">Copyright @EmpregadíssimaOwners</div>
-		</div>
+		
 		<div id="caixa" title="Alerta"> 	
 			<p>Tem certeza que deseja <b>desativar</b> sua conta? A reativação só é possível após contato com o Administrador.</p>
 		</div>
@@ -240,11 +241,6 @@
 		<div id="caixa-excluir-servico" title="Alerta"> 	
 			<p>Tem certeza que deseja <b>excluir</b> esse serviço? </p>
 		</div>
-
-		<div id="caixaEditar" title="Alerta"> 	
-			<p>Só é possível o envio das informações, após o preechimento de pelo menos 1 campo. </p>
-		</div>
-
 	</body>
 
 	<!--jquery -->
