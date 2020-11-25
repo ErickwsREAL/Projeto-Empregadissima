@@ -339,10 +339,21 @@
 	        	}
 	        		 
 	        },
-	        Não: function() {
-	          	$( this ).dialog( "close" );
-
-	        }
+	        "Não": function() {
+	          	
+	          	if($('#cancelarServiçout').is(':checked')){
+	          		$( this ).dialog( "close" );
+	          		$('#checkoutModal').modal('show');
+	          		$( '#cancelarServiçout' ).prop("checked", false);		
+	        	}
+				
+				
+	          	if($('#cancelarServiço').is(':checked')){
+	          		$( this ).dialog( "close" );
+	          		$('#checkinModal').modal('show');
+	          		$( '#cancelarServiço' ).prop("checked", false);		
+	        	}
+			}
       	}
 	});
 

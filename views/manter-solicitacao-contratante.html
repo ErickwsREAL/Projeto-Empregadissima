@@ -23,7 +23,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
 	        <li class="nav-item active">
-	            <a class="nav-link" href="#"> Busca </a>
+	            <a class="nav-link" href="./visao-contratante.html"> Busca </a>
 	        </li>
 	        <li class="nav-item active">
 	            <a class="nav-link" href="./perfilcontratante.html"> Perfil </a>
@@ -212,7 +212,7 @@
 	</div>
 
 	<div id="dialog-cancelar" title="Alerta">
-	  <p> Deseja realmente <b>cancelar<b> o serviço?<br> O cancelamento implica no não pagamento ao prestador. </p>
+	  <p> Deseja realmente <b>cancelar</b> o serviço?<br> O cancelamento implica no não pagamento ao prestador. </p>
 	</div>	
 
 	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="alterar-pend-modal" id="alterar-pend-modal" aria-hidden="true">
@@ -422,8 +422,19 @@
 	        	}
 	        		 
 	        },
-	        Cancelar: function() {
-	          	$( this ).dialog( "close" );
+	        "Não": function() {
+	          	if($('#cancelarServiçout').is(':checked')){
+	          		$( this ).dialog( "close" );
+	          		$('#checkoutModal').modal('show');
+	          		$( '#cancelarServiçout' ).prop("checked", false);		
+	        	}
+				
+				
+	          	if($('#cancelarServiço').is(':checked')){
+	          		$( this ).dialog( "close" );
+	          		$('#checkinModal').modal('show');
+	          		$( '#cancelarServiço' ).prop("checked", false);		
+	        	}
 	        }
       	}
 	});
