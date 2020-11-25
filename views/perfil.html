@@ -20,12 +20,15 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
 	        <li class="nav-item active">
-	            <a class="nav-link" href="#"> Perfil </a>
+	            <a class="nav-link" href="./perfil.html"> Perfil </a>
 	        </li>
 	        <li class="nav-item active">
-	            <a class="nav-link" href="#"> Minhas Solicitações </a>
+	            <a class="nav-link" href="./manter-solicitacao.html"> Minhas Solicitações </a>
 	        </li>
           </ul>
+          	<div class="form-inline my-2 my-lg-0">
+	      		<a class="nav-link" href="./index.html" id="btn-sair" style="color:white;"> Sair </a>
+	    	</div>
         </div>
       </nav>
       <!--fim navbar-->
@@ -205,10 +208,10 @@
 			        	</button>
 			      	</div>
 			      	<div class="modal-body" id="editarBody">
-			      		<form>
+			      		<form id="editarForm">
 			      			<div class="form-group">
 								<label for="editarDescricao">Descrição:</label>		
-								<textarea class="form-control" id="editarDescricao" rows="3" name="nome" id="editarDescricao" placeholder="uma breve descrição de você ou seu serviços..."></textarea>
+								<textarea class="form-control" rows="3" name="nome" id="editarDescricao" placeholder="uma breve descrição de você ou seu serviços..."></textarea>
 							</div>
 			      			<div class="form-group labelPeq">
 								<label for="editarNome">Nome:</label>		
@@ -218,7 +221,7 @@
 								<label for="editarTelefone">Telefone:</label>		
 								<input class="form-control form-control-sm" type="tel" name="telefone" id="editarTelefone"  placeholder="(00) 98855-7711" minlength="11">
 							</div>
-			      			<button type="submit" class="btn btn-primary buttonEditar" id="buttonEditarPerfil" value="Enviar"> Salvar Edição </button>
+			      			<button type="submit" class="btn btn-primary buttonEditar" id="buttonEditarPerfil" value="Enviar" disabled data-toggle="tooltip" title="Esse botão é desabilitado se os campos estiverem vazios."> Salvar Edição </button>
 			      		</form>
 			      	</div>
 			    	</div>
@@ -231,11 +234,15 @@
 	   	<div class="item footer">Copyright @EmpregadíssimaOwners</div>
 		</div>
 		<div id="caixa" title="Alerta"> 	
-			<p>Tem certeza que deseja <b>desativar</b> sua conta? A reativação só é possível após contato com o Administrador</p>
+			<p>Tem certeza que deseja <b>desativar</b> sua conta? A reativação só é possível após contato com o Administrador.</p>
 		</div>
 
 		<div id="caixa-excluir-servico" title="Alerta"> 	
 			<p>Tem certeza que deseja <b>excluir</b> esse serviço? </p>
+		</div>
+
+		<div id="caixaEditar" title="Alerta"> 	
+			<p>Só é possível o envio das informações, após o preechimento de pelo menos 1 campo. </p>
 		</div>
 
 	</body>
@@ -267,6 +274,30 @@
 			$(".bt-excluir-servico").on( "click", function() {
 		    	$( "#caixa-excluir-servico" ).dialog( "open" );
 			});
+
+			$('#editarForm input').blur(function(){
+			    if(!$(this).val() && !$('#editarForm #editarDescricao').val() && !$('#editarForm #editarNome').val() && !$('#editarForm #editarTelefone').val()) {
+			        $('#buttonEditarPerfil').prop("disabled",true);
+			    }
+			});	
+
+			$('#editarForm input').blur(function(){
+			    if($(this).val() ) {
+			        $('#buttonEditarPerfil').prop("disabled",false);
+			    }
+			});
+
+			$('#editarForm #editarDescricao').blur(function(){
+			    if(!$(this).val() && !$('#editarForm input').val()) {
+			        $('#buttonEditarPerfil').prop("disabled",true);
+			    }
+			});	
+
+			$('#editarForm #editarDescricao').blur(function(){
+			    if($(this).val() ) {
+			        $('#buttonEditarPerfil').prop("disabled",false);
+			    }
+			});	
 
 			$("#caixa").dialog({
 				autoOpen: false,
