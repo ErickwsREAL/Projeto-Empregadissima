@@ -1,3 +1,6 @@
+<?php include ("../model/logar_bd_empregadissimas.php")
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -118,14 +121,24 @@
 
 					<!--manutenção da diária-->
 					<div class="card">
+
+						<?php
+							$consulta = "SELECT descricao_diaria, valor, id_diaria FROM diaria_prestador WHERE id_pessoa = 1";
+							$con = $conn -> query($consulta) or die($conn-> error);
+						?>
+
 						<div class="card-container">
 					    	<h4><b>Serviços</b></h4>
 					    	<p>Lista de Serviços Oferecidos</p>
 							<ul class="list-group">
+
+						  		<?php 
+					  				while ($dados_diaria = $con ->fetch_array() ){
+						  		?>
 							  	<li class="list-group-item">
-							  		<p class="man-desc">Casa até 2 quartos 1 banheiro</p>
+							  		<p class="man-desc"> <?php echo $dados_diaria["descricao_diaria"]; ?> </p>
 							  		<div style="float: right;">
-										<h6 class="count h2">260,00</h6>
+										<h6 class="count h2"><?php echo $dados_diaria["valor"]; ?></h6>
                                 		<p class="m-0px font-w-600">Preço</p>
                                 		<!-- botão visivel apenas para prestadores 
 										<p>
@@ -135,34 +148,10 @@
 									</div>
 							  	</li>
 
-							  	<li class="list-group-item">
-							  		<p class="man-desc">Casa maior 2 quartos </p>
-							  		<div style="float: right;">
-										<h6 class="count h2">300,00</h6>
-                                		<p class="m-0px font-w-600">Preço</p>
-                                		<!-- botão visivel apenas para prestadores 
-                                		<p>
-	                                		<button type="button" class="btn btn-danger btn-sm spc"><i class="fa fa-trash"></i> Excluir </button>
-                                			<button type="button" class="btn btn-sm bt-avaliar bt-editar" id="bt-editar2" name="bt-editar2"><i class="fa fa-edit"></i> Editar </button>
-                                		</p>-->
-									</div>
-							  	</li>
+								<?php 
+									}
 
-							  	<li class="list-group-item">
-							  		<p class="man-desc">Limpeza Interna armários/janelas</p>
-							  		<div style="float: right;">
-										<h6 class="count h2">500,00</h6>
-                                		<p class="m-0px font-w-600">Preço</p>
-                                		<!-- botão visivel apenas para prestadores -->
-										<!--
-										<p>
-	                                		<button type="button" class="btn btn-danger btn-sm spc bt-excluir-servico" id="bt-excluir-servico" name="bt-excluir-servico">
-	                                		<i class="fa fa-trash"></i> Excluir </button>
-	                            			
-	                            			<button type="button" class="btn btn-sm bt-avaliar bt-editar" id="bt-editar3" name="bt-editar3"><i class="fa fa-edit"></i> Editar </button> 
-	                            		</p> -->
-									</div>
-							  	</li>
+								?> 
 							</ul>
 							<!-- botão visivel apenas para prestadores -->
 							<!--<p><button type="button" class="btn btn-lg btManter" id="add-service"><i class="fa fa-plus"></i> Adicionar</button></p> -->
