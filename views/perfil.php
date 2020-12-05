@@ -1,6 +1,12 @@
 <?php include ("../model/logar_bd_empregadissimas.php")
 ?>
 
+<?php include "verifica_login.php"
+?>
+
+<?php echo $_SESSION['pessoa']['id_pessoa']
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,14 +30,14 @@
 	        <div class="collapse navbar-collapse" id="navbarCollapse">
 	          <ul class="navbar-nav mr-auto">
 		        <li class="nav-item active">
-		            <a class="nav-link" href="./perfil.html"> Perfil </a>
+		            <a class="nav-link" href="./perfil.php"> Perfil </a>
 		        </li>
 		        <li class="nav-item active">
-		            <a class="nav-link" href="./manter-solicitacao.html"> Minhas Solicitações </a>
+		            <a class="nav-link" href="./manter-solicitacao.php"> Minhas Solicitações </a>
 		        </li>
 	          </ul>
 	          	<div class="form-inline my-2 my-lg-0">
-		      		<a class="nav-link" href="./index.html" id="btn-sair" style="color:white;"> Sair </a>
+		      		<a class="nav-link" href="./sair.php" id="btn-sair" style="color:white;"> Sair </a>
 		    	</div>
 	        </div>
 	      </nav>
@@ -42,46 +48,89 @@
 			<div class="section profile-div" id="profile">
 				<!-- informações do perfil-->
 	            <div class="container">
+					
+					<?php
+						$var_id = $_SESSION['pessoa']['id_pessoa'];
+
+						$consulta = "SELECT * FROM pessoa WHERE id_pessoa = $var_id";
+						$con = $conn -> query($consulta) or die($conn-> error);
+					?>
+
+			  		<?php while ($dados_pessoa= $con ->fetch_array() ){
+
+			  		?>	                
+	                
 	                <div class="row align-items-center flex-row-reverse">
 	                    <div class="col-lg-6">
 	                        <div class="profile-text go-to">
-	                            <h3 class="dark-color">Rita Prestadora</h3>
-	                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tempus rutrum bibendum. Sed ornare vel arcu non varius. Sed mattis risus sit amet sagittis dignissim. Fusce turpis nisi, pharetra non consequat sed, maximus id augue. Aliquam a laoreet eros. </p>
+
+	                            <h3 class="dark-color"> <?php echo $dados_pessoa["nome"]; ?> </h3>
+	                                <p> <?php echo $dados_pessoa["descricao"]; ?> </p>
 	                            <div class="row profile-list">
 	                                <div class="col-md-6">
 	                                    <div class="media">
 	                                        <label>Idade</label>
-	                                        <p>38 Anos</p>
+
+											<?php
+												$dataNascimento = $dados_pessoa["data_nascimento"];;
+												$date = new DateTime($dataNascimento );
+												$interval = $date->diff( new DateTime( date('Y-m-d') ) );
+											?>	      
+
+	                                        <p> <?php echo $interval->format( '%Y anos' ); ?> </p>
 	                                    </div>
 	                                    <div class="media">
 	                                        <label>Cidade</label>
-	                                        <p>Maringá</p>
+	                                        <p> <?php echo $dados_pessoa["cidade"]; ?> </p>
 	                                    </div>
 
 	                                </div>
 	                                <div class="col-md-6">
 	                                    <div class="media">
 	                                        <label>E-mail</label>
-	                                        <p>example@gmail.com</p>
+	                                        <p> <?php echo $dados_pessoa["email"]; ?> </p>
 	                                    </div>
 	                                    <div class="media">
 	                                        <label>Sexo</label>
-	                                        <p>Feminino</p>
+
+										<?php
+											if ($dados_pessoa["sexo"] == 1) {
+											    $sexo = 'Masculino';
+											} elseif ($dados_pessoa["sexo"] == 2) {
+											    $sexo = 'Feminino';
+											} else {
+											    $sexo = 'Outros';
+											}
+										?>
+	                                        <p> <?php echo $sexo; ?></p>
 	                                    </div>
 	                                </div>
 	                            </div>
+
 	                        </div>
 	                    </div>
 	                    <!--foto do perfil-->
 	                    <div class="col-lg-6">
 	                        <div class="profile-avatar" >
 	                        	<div class="img-container">
-	                        		<img src="./imagens/woman21.jpg" class="rounded img-thumbnail" title="avatar">
+
+										<?php
+											if ($dados_pessoa["foto"] != NULL) {
+												$foto = $dados_pessoa["foto"]; 
+											} else {
+											    $foto = 'profile.png';
+											}
+										?>
+										<img src="./imagens/<?php echo $foto; ?>" class="rounded img-thumbnail" title="avatar">
 	                        	</div>
 	                        </div>
 	                    </div>
 	                </div>
 
+									<?php 
+										  }
+
+									?> 
 	                <!--div com cliente qte avaliações e star rating -->
 	                <div class="counter">
 	                    <div class="row">
@@ -130,7 +179,9 @@
 							<form name="form-lista-servicos" id="form-lista-servicos">
 
 								<?php
-									$consulta = "SELECT descricao_diaria, valor, id_diaria FROM diaria_prestador WHERE id_pessoa = 1";
+									$var_id = $_SESSION['pessoa']['id_pessoa'];
+
+									$consulta = "SELECT descricao_diaria, valor, id_diaria FROM diaria_prestador WHERE id_pessoa = $var_id";
 									$con = $conn -> query($consulta) or die($conn-> error);
 								?>
 
@@ -170,7 +221,7 @@
 										  }
 
 									?> 
-									<input name="id_pessoa" id="id_pessoa" size="1" style="visibility: hidden;" value="1">
+									<input name="id_pessoa" id="id_pessoa" size="1" style="visibility: hidden;" value="<?php echo $var_id; ?>">
 									</ul>
 							  		
 							  		<p><button type="button" class="btn btn-lg btManter" id="add-service"><i class="fa fa-plus"></i> Adicionar</button></p>
@@ -220,29 +271,35 @@
         	<div class="modal fade modal-lg" id="editarModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 			  	<div class="modal-dialog modal-lg">
 			    	<div class="modal-content">
-			      	<div class="modal-header">
-			        	<h5 class="modal-title" id="editarModalTitle">Editar Perfil</h5>
-			        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			          	<span aria-hidden="true">&times;</span>
-			        	</button>
-			      	</div>
-			      	<div class="modal-body" id="editarBody">
-			      		<form id="editarForm">
-			      			<div class="form-group">
-								<label for="editarDescricao">Descrição:</label>		
-								<textarea class="form-control" rows="3" name="nome" id="editarDescricao" placeholder="uma breve descrição de você ou seu serviços..."></textarea>
-							</div>
-			      			<div class="form-group labelPeq">
-								<label for="editarNome">Nome:</label>		
-								<input class="form-control form-control-sm" type="text" name="nome" id="editarNome" placeholder="Novo nome.." maxlength="50" >
-							</div>
-			      			<div class="form-group labelPeq">
-								<label for="editarTelefone">Telefone:</label>		
-								<input class="form-control form-control-sm" type="tel" name="telefone" id="editarTelefone"  placeholder="(00) 98855-7711" minlength="11">
-							</div>
-			      			<button type="submit" class="btn btn-primary buttonEditar" id="buttonEditarPerfil" value="Enviar" disabled data-toggle="tooltip" title="Esse botão é desabilitado se os campos estiverem vazios."> Salvar Edição </button>
-			      		</form>
-			      	</div>
+				      	<div class="modal-header">
+				        	
+				        	<h5 class="modal-title" id="editarModalTitle">Editar Perfil</h5>
+
+				        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          	<span aria-hidden="true">&times;</span>
+				        	</button>
+				      	</div>
+				      	<div class="modal-body" id="editarBody">
+				      		<form id="editarForm" action="../controller/Usuario_Controller.php?metodo=alterar" method="POST">
+				      			<div class="form-group">
+									<label for="editarDescricao">Descrição:</label>		
+									<textarea class="form-control" rows="3" name="nome" id="editarDescricao" placeholder="uma breve descrição de você ou seu serviços..."></textarea>
+								</div>
+				      			<div class="form-group labelPeq">
+									<label for="editarNome">Nome:</label>		
+									<input class="form-control form-control-sm" type="text" name="nome" id="editarNome" placeholder="Novo nome.." maxlength="50" >
+								</div>
+				      			<div class="form-group labelPeq">
+									<label for="editarTelefone">Telefone:</label>		
+									<input class="form-control form-control-sm" type="tel" name="telefone" id="editarTelefone"  placeholder="(00) 98855-7711" minlength="11">
+								</div>
+				      			<div class="form-group labelPeq">
+									<label for="editarFoto">Foto de Perfil:</label>		
+									<input type="file" id="editarFoto" name="foto" value="">
+								</div>							
+				      			<button type="submit" class="btn btn-primary buttonEditar" id="buttonEditarPerfil" value="Enviar" disabled data-toggle="tooltip" title="Esse botão é desabilitado se os campos estiverem vazios."> Salvar Edição </button>
+				      		</form>
+				      	</div>
 			    	</div>
 			  	</div>
 			</div>	

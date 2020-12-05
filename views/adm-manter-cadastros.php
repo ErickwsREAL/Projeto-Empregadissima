@@ -1,6 +1,12 @@
 <?php include ("../model/logar_bd_empregadissimas.php")
 ?>
 
+<?php include "verifica_login_adm.php"
+?>
+
+<?php $_SESSION['administrador']['id_adm']
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,16 +22,31 @@
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
 	<title>Cadastros Pendentes - Administador</title>
 </head>
 <body>
 	
 	<!--main-->
     <div class="main">
-    	<div id="form" name="form">
+    	<div id="div" name="div">
+
+			<?php
+				$var_id = $_SESSION['administrador']['id_adm'];
+
+				$consulta = "SELECT * FROM administrador WHERE id_adm = $var_id";
+				$con = $conn -> query($consulta) or die($conn-> error);
+			?>
+
+	  		<?php while ($dados_adm= $con ->fetch_array() ){
+
+	  		?>
 			<div class="info-adm" style="">
-			    <h4>Administrador:&nbsp;AdmTeste&nbsp;&nbsp;&nbsp;\&nbsp;&nbsp;&nbsp;Sessão: &nbsp;Teste123 <a class="nav-link" href="./index.html" id="btn-sair" style="color:black;font-size:1em;"> Sair </a></h4>
+			    <h4>Sessão:&nbsp; <?php echo $dados_adm["sessao"]; ?> &nbsp;&nbsp;&nbsp; <a class="nav-link" href="sair.php" id="btn-sair" style="color:black;font-size:1em;"> Sair </a></h4>
 			</div>
+	  		<?php 
+		  	}	
+	  		?>
 
 			<div class="lista-abas animacao-flip">
 				<div id="tabs">    	
@@ -35,80 +56,79 @@
 						<li><a href="#tabs-2"> Exclusão de Contas </a></li>
 						<li><a href="#tabs-3"> Relatório </a></li>
 					</ul>
+
+					<!-- formulário lista de serviços -->
+					<form name="form-lista-cad-apv" id="form-lista-cad-apv" method="POST" action="../controller/Usuario_Controller.php?metodo=aprovar_cadastro">
+						<!--action="../controller/Usuario_Controller.php?metodo=aprovar_cadastro"-->
 						<!-- Aba cadastros pendentes-->
 						<div id="tabs-1">
 		    				<div class="cadast-pend">
 				    		    <h2>Cadastros Pendentes</h2>
 				    		</div>
 
-							<table>
-								<tr>
-									<th>
-										<!-- bootstrap check-box + classe checkMargin-->
-										<div class="form-check checkMargin">
-											<input class="form-check-input" type="checkbox" value="" id="aprovar-cadastros-checkAll">
-											<label class="form-check-label" for="aprovar-cadastros-checkAll"> </label>
-										</div>
-									</th>
-									<th>Codigo do Cadastro</th>
-									<th>Nome</th> 
-									<th>CPF</th>
-									<th>Documento Anexado</th>
-									<th>Data Registro</th>
-								</tr>
-								<tr>
-									<td>
-										<!-- bootstrap check-box + classe checkMargin-->
-										<div class="form-check checkMargin">
-											<input class="form-check-input aprovar-cadastros-check" type="checkbox" value="" id="apr-cad-check1">
-											<label class="form-check-label aprovar-cadastros-check" for="apr-cad-check1"> </label>
-										</div>
-									</td>
-								    <td>1</td>
-								    <td>Bruna</td>
-								    <td>123.456.456-78</td>
-								    <td><i class="fa fa-file pointer" data-toggle="modal" data-target="#exampleModalCenter"></i></td>
-								    <td>11/11/2020</td>
-							 	</tr>		 	
-							  	<tr>
-							  		<td>
-							  			<!-- bootstrap check-box + classe checkMargin-->
-										<div class="form-check checkMargin">
-											<input class="form-check-input aprovar-cadastros-check" type="checkbox" value="" id="apr-cad-check2">
-											<label class="form-check-label" for="apr-cad-check2"> </label>
-										</div>
-							  		</td>
-								    <td>2</td>
-								    <td>Brunr</td>
-								    <td>132.159.167-98</td>
-								    <td> <i class="fa fa-file pointer"></i> </td>
-								    <td>21/05/2020</td>
-							  	</tr>
-							  	<tr>
-							  		<td>
-							  			<!-- bootstrap check-box + classe checkMargin-->
-										<div class="form-check checkMargin">
-											<input class="form-check-input aprovar-cadastros-check" type="checkbox" value="" id="apr-cad-check3">
-											<label class="form-check-label" for="apr-cad-check3"> </label>
-										</div>
-							  		</td>
-								    <td>3</td>
-								    <td>Brunw</td>
-								    <td>789.658.136.75</td>
-								    <td><i class="fa fa-file pointer"></i></td>
-								    <td>20/05/2020</td>
-							  	</tr>
-							</table>
-					    	<!-- fim table-->
-					    							<!-- fim aba Cadastros Pendentes-->
+								<table id="tab_aprovar">
+									<tr>
+										<th>
+											<!-- bootstrap check-box + classe checkMargin-->
+											<div class="form-check checkMargin">
+												<input class="form-check-input" type="checkbox" value="" id="aprovar-cadastros-checkAll">
+												<label class="form-check-label" for="aprovar-cadastros-checkAll"> </label>
+											</div>
+										</th>
+										<th>Codigo do Cadastro</th>
+										<th>Nome</th> 
+										<th>CPF</th>
+										<th>Documento Anexado</th>
+										<th>Data Registro</th>
+									</tr>
+
+									<?php
+										/*Seleciona todos cadatros com status 1 -> que são cadastros que ainda NÃO FORAM APROVADOS */
+										$consulta = "SELECT * FROM pessoa where status_cadastro = '1'"; 
+										$con = $conn -> query($consulta) or die($conn-> error);
+									?>
+
+							  		<?php while ($dados_pessoa = $con ->fetch_array() ){
+							  		?>
+									<tr>
+										<td>
+											<!-- bootstrap check-box + classe checkMargin-->
+											<div class="form-check checkMargin">
+												<input class="form-check-input aprovar-cadastros-check check_apv" type="checkbox" 
+													   value="<?php echo $dados_pessoa["id_pessoa"];?>" name="checkbox-apv-cdtros[]"
+									 				   id="apr-cad-check-<?php echo $dados_pessoa["id_pessoa"]; ?>">
+												<label class="form-check-label aprovar-cadastros-check" for="apr-cad-check1"> </label>
+											</div>
+										</td>
+									    <td> <?php echo $dados_pessoa["id_pessoa"]; ?> </td>
+									    <td> <?php echo $dados_pessoa["nome"]; ?> </td>
+									    <td> <?php echo $dados_pessoa["cpf"]; ?> </td>
+									    <td> <a href="./imagens/<?php echo $dados_pessoa["comprovante"]; ?>" target="_blank"><i class="fa fa-file pointer" data-toggle="modal" data-target="#exampleModalCenter"></i></td></a>
+									    <td><?php echo $dados_pessoa["data_nascimento"]; ?></td>
+								 	</tr>		 	
+
+									<?php
+								   	    }
+									?> 
+
+								</table>
+						    	<!-- fim table-->
+
+					    	<!-- fim form-lista-cad-apv -->
 							<div class="buttons-classe">
 								<p>
-									<!--bootstrap buttons + id-->
-									<button type="button" class="btn btn-lg bt-aprovar" id="bt-aprovar">Aprovar</button>
-									<button type="button" class="btn btn-lg bt-reprovar" id="bt-reprovar">Reprovar</button>
+
+									<button type="submit" class="btn btn-lg bt-aprovar" id="bt-aprovar" name="submit">Aprovar</button>									
+									<!--bootstrap buttons + id
+									<button type="button" class="btn btn-lg bt-aprovar" id="bt-aprovar" name="bt-aprovar" onclick="aprovarCadastrosF();">Aprovar</button>-->
+
+									<button type="button" class="btn btn-lg bt-reprovar" id="bt-reprovar" >Reprovar</button>
 								</p>
 							</div>
 						</div>
+
+					</form>						
+				    <!-- fim aba Cadastros Pendentes-->
 
 						<!-- aba 2 - Exclusao de Conta -->
 						<div id="tabs-2">
@@ -834,10 +854,13 @@
 		    $(".check").prop('checked', $(this).prop('checked'));
 		});
 
+
+
+
 	$( function() {
 		$("#tabs").tabs();
-		$('#report-tabs').tabs();
-	} );
+		$('#report-tabs').tabs();		
+	});
 
 	$('#exampleModalCenter').on('shown.bs.modal', function () {
   		$('#myInput').trigger('focus')
@@ -909,7 +932,7 @@
 	    });
 	} );
 
-	
+
 
 	});
 
@@ -1064,6 +1087,18 @@
 	function resetFields () {
 		$("#user-grid").hide();
 		$("#graph-user-wrapper").show();
+	}
+
+	function aprovarCadastrosF(){
+		var listaAprovados = document.getElementsByClassName("check_apv");
+
+		if (!confirm("Deseja APROVAR este(s) cadastros?")) {
+			return false;
+		}
+		else{
+			document.getElementById("form-lista-cad-apv").action= "../controller/Usuario_Controller.php?metodo=aprovar_cadastro";
+	        document.getElementById("form-lista-cad-apv").submit();// Form submission
+		}
 	}
 
 </script>
