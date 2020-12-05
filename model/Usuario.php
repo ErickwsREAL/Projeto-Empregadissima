@@ -13,13 +13,41 @@
             $senha = $dadosUsuario['senha'];
             $tipo_pessoa = $dadosUsuario['tipo_pessoa'];
 		    $sexo = $dadosUsuario['sexo'];
-
-           $sql = "INSERT INTO pessoa(nome, cpf, telefone, data_nascimento, comprovante, email, senha, sexo, tipo_pessoa, status_cadastro) VALUES ('$nome','$cpf', '$telefone', '$data_nascimento', '$comprovante', '$email', '$senha', $sexo, $tipo_pessoa, 1)";
+            $cidade = $dadosUsuario['cidade'];
+            
+            $sql = "INSERT INTO pessoa(nome, cpf, telefone, data_nascimento, comprovante, email, senha, sexo, cidade, tipo_pessoa, status_cadastro) VALUES ('$nome','$cpf', '$telefone', '$data_nascimento', '$comprovante', '$email', '$senha', '$sexo', '$cidade', '$tipo_pessoa', 1)";
            
-           $conn->query($sql);
+            $conn->query($sql);
 
-		   $conn->close();
+            $conn->close(); 
+
+           if ($tipo_pessoa == 2) {
+                $ins_endereco->insertAdress($dadosUsuario);   
+            }
     	}
+
+        function insertAdress($dadosGET){
+            include ("logar_bd_empregadissimas.php");
+
+            $bairro = $dadosUsuario['bairro'];
+            $rua = $dadosUsuario['rua'];
+            $numero = $dadosUsuario['numero'];
+            $complemento = $dadosUsuario['complemento'];
+            $cep = $dadosUsuario['cep'];
+
+            $id_pessoa_s = "SELECT id_pessoa FROM pessoa WHERE email= '$email' and senha = '$senha' and $cpf = '$cpf'";
+
+            $id_pessoa = $conn->query($id_pessoa_s);
+
+            echo $id_pessoa;
+
+            $sql2 = "INSERT INTO endereco(bairro, rua, numero, complemento, cep, id_pessoa) VALUES ('$bairro','$rua', '$numero', '$complemento', '$cep', '$id_pessoa')";
+       
+            $conn->query($sql2);
+
+            $conn->close();    
+
+        }
 
     	public static function select($dadosGET, $params){
 			include ("logar_bd_empregadissimas.php");
@@ -35,13 +63,13 @@
             $dados = array(
                 'nome' => $row["nome"],
                 'cpf' => $row["cpf"],
-                'telefone' => $row["telefone"]
-                'data_nascimento' => $row["nome"],
+                'telefone' => $row["telefone"],
+                'data_nascimento' => $row["data_nascimento"],
                 'comprovante' => $row["cpf"],
-                'email' => $row["telefone"]
+                'email' => $row["telefone"],
                 'senha' => $row["nome"],
                 'sexo' => $row["cpf"],
-                'tipo_pessoa' => $row["telefone"]
+                'tipo_pessoa' => $row["telefone"],
                 'status_cadastro '=> $row["status_cadastro"]
             );
     	}
@@ -75,6 +103,16 @@
         }
         */
 
+
+        public static function approve($dados_array, $dadosPOST){
+            include ("logar_bd_empregadissimas.php");
+            
+
+
+            $conn->query($sql);
+
+            $conn->close(); 
+        }
     }
 
 ?>

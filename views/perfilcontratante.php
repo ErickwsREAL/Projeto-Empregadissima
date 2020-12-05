@@ -1,3 +1,12 @@
+<?php include ("../model/logar_bd_empregadissimas.php")
+?>
+
+<?php include "verifica_login.php"
+?>
+
+<?php echo $_SESSION['pessoa']['id_pessoa']
+?>
+
 <!DOCTYPE html>
 <html>
 <head>

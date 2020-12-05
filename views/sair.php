@@ -4,8 +4,7 @@ if(session_status() === PHP_SESSION_NONE){
     session_start();
 }
 
-if (empty($_SESSION['pessoa'])){
-    header("location: index.php");
-}
+session_destroy();
+header("location: index.php");
 
 ?>

@@ -12,7 +12,7 @@
             Usuario::insert($_POST);
 
             echo '<script>alert("Cadastro feito com sucesso!, aguarde a liberação feita pelo administrador")</script>';
-            echo '<script>location.href="../views/index.html"</script>';
+            //echo '<script>location.href="../views/index.php"</script>';
             break;
         case 'deletar':
 
@@ -37,7 +37,38 @@
             Usuario::update($_GET, $_POST);
             echo '<script>alert("Cadastro atualizado com sucesso!")</script>';
             echo '<script>location.href="../views/perfil.php"</script>';    
+            break;    
+        case 'aprovar_cadastro':
+
+            if(isset($_POST['checkbox-apv-cdtros'])){
+                foreach($_POST['checkbox-apv-cdtros'] as $apvid){
+
+                    $deleteUser = "UPDATE pessoa SET status_cadastro = 2  WHERE id_pessoa =".$apvid;
+                    mysqli_query($conn,$deleteUser);
+                }   
+            }
+
+            //Usuario::approve($data, $_POST);
+            echo '<script>alert("Cadastro atualizado com sucesso!")</script>';
+
+            echo '<script>location.href="../views/adm-manter-cadastros.php"</script>';    
+            break;            
+        case 'reprovar_cadastro':
+
+            if(isset($_POST['checkbox-apv-cdtros'])){
+                foreach($_POST['checkbox-apv-cdtros'] as $apvid){
+
+                    $deleteUser = "UPDATE pessoa SET status_cadastro = 3  WHERE id_pessoa =".$apvid;
+                    mysqli_query($conn,$deleteUser);
+                }   
+            }
+
+            //Usuario::approve($data, $_POST);
+            echo '<script>alert("Cadastro atualizado com sucesso!")</script>';
+
+            echo '<script>location.href="../views/adm-manter-cadastros.php"</script>';    
             break;            
     }
+
 
 ?>
