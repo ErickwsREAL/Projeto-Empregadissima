@@ -39,7 +39,7 @@
 	        </li>
           </ul>
           	<div class="form-inline my-2 my-lg-0">
-	      		<a class="nav-link" href="./index.html" id="btn-sair" style="color:white;"> Sair </a>
+	      		<a class="nav-link" href="sair.php" id="btn-sair" style="color:white;"> Sair </a>
 	    	</div>
         </div>
       </nav>

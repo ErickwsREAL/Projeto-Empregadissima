@@ -28,11 +28,11 @@ if(!empty($sessao)){
     }
     else{
         echo '<script>alert("Sessão não encontrada.")</script>';
-        //echo '<script>location.href="../views/index.php"</script>';
+        echo '<script>location.href="../views/index.php"</script>';
     }
 
 } 
 else{
-    echo '<script>alert("Informe sua sessão.")</script>';
-    //echo '<script>location.href="../views/index.php"</script>';
+    echo '<script>alert("Sessão não encontrada.")</script>';
+    echo '<script>location.href="../views/index.php"</script>';
 }

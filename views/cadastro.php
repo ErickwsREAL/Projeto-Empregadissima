@@ -34,7 +34,7 @@
   				<div id="radios">
 	  				<div class="form-check form-check-inline">
 	  					<!-- prestador valor=1 -->
-						<input class="form-check-input" type="radio" name="tipo_pessoa" id="tipo_pessoa_p" value="1" checked required> 
+						<input class="form-check-input" type="radio" name="tipo_pessoa" id="tipo_pessoa_p" value="1" required> 
 						<label class="form-check-label" for="tipo_pessoa_p">Prestador</label>
 						<!-- contratante valor=2 -->
 						<input class="form-check-input" type="radio" name="tipo_pessoa" id="tipo_pessoa_c" value="2" required>
