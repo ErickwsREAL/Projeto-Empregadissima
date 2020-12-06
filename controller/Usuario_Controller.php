@@ -12,7 +12,7 @@
             Usuario::insert($_POST);
 
             echo '<script>alert("Cadastro feito com sucesso!, aguarde a liberação feita pelo administrador")</script>';
-            //echo '<script>location.href="../views/index.php"</script>';
+            echo '<script>location.href="../views/index.php"</script>';
             break;
         case 'deletar':
 
@@ -68,6 +68,22 @@
 
             echo '<script>location.href="../views/adm-manter-cadastros.php"</script>';    
             break;            
+
+
+        case  'excluir_cadastro':
+        
+            if(isset($_POST['checagem'])){
+                foreach($_POST['checagem'] as $excluircad){
+
+                    $deleteUser = "DELETE * FROM pessoa  WHERE id_pessoa =".$excluircad;
+                    mysqli_query($conn,$deleteUser);
+                }   
+            }   
+            
+            echo '<script>alert("Cadastro removido com sucesso!")</script>';
+
+            echo '<script>location.href="../views/adm-manter-cadastros.php"</script>';    
+
     }
 
 

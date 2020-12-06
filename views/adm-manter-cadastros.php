@@ -131,78 +131,59 @@
 				    <!-- fim aba Cadastros Pendentes-->
 
 						<!-- aba 2 - Exclusao de Conta -->
-						<div id="tabs-2">
-							<div class="cadast-pend">
-			    		    	<h2>Excluir Contas</h2>
-			    			</div>
-					    	
-					    	<div class="buscarCadastro">
-							    <form>
-							      <input type="number" placeholder="ID ou CPF..." name="search">
-							      <button type="submit"><i class="fa fa-search"></i></button>
-							    </form>
-							</div>
-								
-								<table>
-									<tr>
-										<th>
-											<!-- bootstrap check-box + classe checkMargin-->
-											<div class="form-check checkMargin">
-												<input class="form-check-input" type="checkbox" value="" id="checkAll2">
-												<label class="form-check-label" for="checkAll2"> </label>
-											</div>
-										</th>
-										<th>Codigo do Cadastro</th>
-										<th>Nome</th> 
-										<th>CPF</th>								
-									</tr>
-									<tr>
-										<td>
-											<!-- bootstrap check-box + classe checkMargin-->
-											<div class="form-check checkMargin">
-												<input class="form-check-input check" type="checkbox" value="" id="defaultCheck4">
-												<label class="form-check-label" for="defaultCheck4"> </label>
-											</div>
-										</td>
-									    <td>1</td>
-									    <td>Bruna</td>
-									    <td>123.456.456-78</td>							    
-								 	</tr>		 	
-								  	<tr>
-								  		<td>
-								  			<!-- bootstrap check-box + classe checkMargin-->
-											<div class="form-check checkMargin">
-												<input class="form-check-input check" type="checkbox" value="" id="defaultCheck5">
-												<label class="form-check-label" for="defaultCheck5"> </label>
-											</div>
-								  		</td>
-									    <td>2</td>
-									    <td>Brunr</td>
-									    <td>132.159.167-98</td>    
-								  	</tr>
-								  	<tr>
-								  		<td>
-								  			<!-- bootstrap check-box + classe checkMargin-->
-											<div class="form-check checkMargin">
-												<input class="form-check-input check" type="checkbox" value="" id="defaultCheck6">
-												<label class="form-check-label" for="defaultCheck7"> </label>
-											</div>
-								  		</td>
-									    <td>3</td>
-									    <td>Brunw</td>
-									    <td>789.658.136.75</td>
-								  	</tr>
-								</table>
-						    	<!-- fim table-->
-						    							
-								<div class="buttons-classe">
-									<p>
-										<!--bootstrap buttons + id-->
-										<button type="button" class="btn btn-lg" id="bt-excluir">Excluir</button>
-									</p>
-								</div>
-							</div>
+						<form method="POST" action="../controller/Usuario_Controller.php?metodo=excluir_cadastro">
+							<div id="tabs-2">
+								<div class="cadast-pend">
+				    		    	<h2>Excluir Contas</h2>
+				    			</div>
+						   	
+						    	
+									
+									<table id="tabledata">
+										<tr>
+											<th>
+												<!-- bootstrap check-box + classe checkMargin-->
+												<div class="form-check checkMargin">
+													<input class="form-check-input" type="checkbox" value="" id="checkAll2">
+													<label class="form-check-label" for="checkAll2"> </label>
+												</div>
+											</th>
+											<th>Codigo do Cadastro</th>
+											<th>Nome</th> 
+											<th>CPF</th>								
+										</tr>
+										
+										<?php
+										 	$stmt = $conn->prepare("SELECT * FROM pessoa");
+										 	$stmt->execute();
+										 	$result = $stmt->get_result();	
 
+										?>
+										<?php while($row = $result->fetch_assoc()){ ?>
+										<tr>
+											<td>
+												<!-- bootstrap check-box + classe checkMargin-->
+												<div class="form-check checkMargin">
+													<input class="form-check-input check" name="checagem[]" type="checkbox" value="<?php echo $row['id_pessoa'] ?>" id="defaultCheck4-<?php echo $dados_pessoa["id_pessoa"];?>">
+													<label class="form-check-label" for="defaultCheck4"> </label>
+												</div>	
+											</td>
+										    <td><?php echo $row['id_pessoa'] ?></td>
+										    <td><?php echo $row['id_pessoa'] ?></td>
+										    <td><?php echo $row['id_pessoa'] ?></td>							    
+									 	</tr>		 	
+										<?php } ?>
+									</table>
+							    	<!-- fim table-->
+							    			
+									<div class="buttons-classe">
+										<p>
+											<!--bootstrap buttons + id-->
+											<button type="submit" name="submit" class="btn btn-lg" id="bt-excluir">Excluir</button>
+										</p>
+									</div>
+								</div>	
+							</form>			
 							
 
 						
@@ -844,7 +825,8 @@
 
 <!--jquery-->
 <script>
-    $(document).ready(function(){ 
+    $(document).ready(function(){ 	
+
 		$("#aprovar-cadastros-checkAll").click(function(){
 		    $('.aprovar-cadastros-check').not(this).prop('checked', this.checked);
 		});
@@ -856,81 +838,80 @@
 
 
 
+		$( function() {
+			$("#tabs").tabs();
+			$('#report-tabs').tabs();		
+		});
 
-	$( function() {
-		$("#tabs").tabs();
-		$('#report-tabs').tabs();		
-	});
+		$('#exampleModalCenter').on('shown.bs.modal', function () {
+	  		$('#myInput').trigger('focus')
+		})	
 
-	$('#exampleModalCenter').on('shown.bs.modal', function () {
-  		$('#myInput').trigger('focus')
-	})	
+		$( function() {
+		    $( "#dialog-reprovar-adm" ).dialog({
+		    	autoOpen: false,
+		     	resizable: false,
+		      	height: "auto",
+		      	width: 400,
+		      	modal: true,
+		      	buttons: {
+		        "Sim": function() {
+		          $( this ).dialog( "close" );
+		        },
+		        Sair: function() {
+		          $( this ).dialog( "close" );
+		        }
+		      }
+		    });
+		} );
 
-	$( function() {
-	    $( "#dialog-reprovar-adm" ).dialog({
-	    	autoOpen: false,
-	     	resizable: false,
-	      	height: "auto",
-	      	width: 400,
-	      	modal: true,
-	      	buttons: {
-	        "Sim": function() {
-	          $( this ).dialog( "close" );
-	        },
-	        Sair: function() {
-	          $( this ).dialog( "close" );
-	        }
-	      }
-	    });
-	} );
+		$( function() {
+		    $( "#dialog-checkbox-nao-checado" ).dialog({
+		    	autoOpen: false,
+		     	resizable: false,
+		      	height: "auto",
+		      	width: 400,
+		      	modal: true,
+		      	buttons: {
+		        Ok: function() {
+		          $( this ).dialog( "close" );
+		        }
+		      }
+		    });
+		} );
 
-	$( function() {
-	    $( "#dialog-checkbox-nao-checado" ).dialog({
-	    	autoOpen: false,
-	     	resizable: false,
-	      	height: "auto",
-	      	width: 400,
-	      	modal: true,
-	      	buttons: {
-	        Ok: function() {
-	          $( this ).dialog( "close" );
-	        }
-	      }
-	    });
-	} );
+		$( function() {
+		    $( "#dialog-excluir-adm" ).dialog({
+		    	autoOpen: false,
+		     	resizable: false,
+		      	height: "auto",
+		      	width: 400,
+		      	modal: true,
+		      	buttons: {
+		        "Sim": function() {
+		          $( this ).dialog( "close" );
+		        },
+		        Sair: function() {
+		          $( this ).dialog( "close" );
+		        }
+		      }
+		    });
+		} );
 
-	$( function() {
-	    $( "#dialog-excluir-adm" ).dialog({
-	    	autoOpen: false,
-	     	resizable: false,
-	      	height: "auto",
-	      	width: 400,
-	      	modal: true,
-	      	buttons: {
-	        "Sim": function() {
-	          $( this ).dialog( "close" );
-	        },
-	        Sair: function() {
-	          $( this ).dialog( "close" );
-	        }
-	      }
-	    });
-	} );
-
-	$( function() {
-	    $( "#dialog-checkbox-nao-checado2" ).dialog({
-	    	autoOpen: false,
-	     	resizable: false,
-	      	height: "auto",
-	      	width: 400,
-	      	modal: true,
-	      	buttons: {
-	        Ok: function() {
-	          $( this ).dialog( "close" );
-	        }
-	      }
-	    });
-	} );
+		$( function() {
+		    $( "#dialog-checkbox-nao-checado2" ).dialog({
+		    	autoOpen: false,
+		     	resizable: false,
+		      	height: "auto",
+		      	width: 400,
+		      	modal: true,
+		      	buttons: {
+		        Ok: function() {
+		          $( this ).dialog( "close" );
+		        }
+		      }
+		    });
+		} );
 
 
 

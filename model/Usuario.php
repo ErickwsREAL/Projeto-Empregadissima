@@ -15,15 +15,11 @@
 		    $sexo = $dadosUsuario['sexo'];
             $cidade = $dadosUsuario['cidade'];
             
-            $sql = "INSERT INTO pessoa(nome, cpf, telefone, data_nascimento, comprovante, email, senha, sexo, cidade, tipo_pessoa, status_cadastro) VALUES ('$nome','$cpf', '$telefone', '$data_nascimento', '$comprovante', '$email', '$senha', '$sexo', '$cidade', '$tipo_pessoa', 1)";
+            $sql = "INSERT INTO pessoa(nome, cpf, telefone, data_nascimento, comprovante, email, senha, sexo, cidade, tipo_pessoa, status_cadastro) VALUES ('$nome','$cpf', '$telefone', '$data_nascimento', '$comprovante', '$email', '$senha', '$sexo', '$cidade', '$tipo_pessoa',  1)";
            
             $conn->query($sql);
 
             $conn->close(); 
-
-           if ($tipo_pessoa == 2) {
-                $ins_endereco->insertAdress($dadosUsuario);   
-            }
     	}
 
         function insertAdress($dadosGET){
