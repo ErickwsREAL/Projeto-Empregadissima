@@ -6,7 +6,7 @@
     //$id_diaria = $_POST['res'];
 
     switch($_GET['metodo']){
-        
+        #Usuário CRUD --------------------------------------------------------------------------------------------------------------------
         case 'inserir':
 
             Usuario::insert($_POST);
@@ -38,6 +38,16 @@
             echo '<script>alert("Cadastro atualizado com sucesso!")</script>';
             echo '<script>location.href="../views/perfil.php"</script>';    
             break;    
+        #ENDEREÇO CRUD ------------------------------------------------------------------------------------------------------------------------------------
+        case 'insertEndereço':
+            Usuario::insertEndereço($_POST);
+
+            echo '<script>alert("Endereço Adicionado!")</script>';
+            echo '<script>location.href="../views/perfilcontratante.php"</script>';
+            break;    
+
+
+        #ADM CRUD------------------------------------------------------------------------------------------------------------------------------------------    
         case 'aprovar_cadastro':
 
             if(isset($_POST['checkbox-apv-cdtros'])){
@@ -71,20 +81,22 @@
 
 
         case  'excluir_cadastro':
-        
-            if(isset($_POST['checagem'])){
-                foreach($_POST['checagem'] as $excluircad){
+             if(isset($_POST['checagem'])){
+                foreach ($_POST['checagem'] as $key) {
+                
+                    $sql = "DELETE FROM pessoa WHERE id_pessoa=" .$key;
 
-                    $deleteUser = "DELETE * FROM pessoa  WHERE id_pessoa =".$excluircad;
-                    mysqli_query($conn,$deleteUser);
-                }   
-            }   
-            
-            echo '<script>alert("Cadastro removido com sucesso!")</script>';
+                    if ($conn->query($sql) === TRUE) {
+                         echo '<script>alert("Cadastro removido com sucesso!")</script>';
+                         echo '<script>location.href="../views/adm-manter-cadastros.php"</script>';
+                    } 
+                    else {
+                        echo '<script>alert("Erro ao remover cadastro") .$conn->error;</script>';
+                        echo '<script>location.href="../views/adm-manter-cadastros.php"</script>';
 
-            echo '<script>location.href="../views/adm-manter-cadastros.php"</script>';    
-
-    }
-
-
+                    }
+                }
+            }
+        break;    
+    }    
 ?>

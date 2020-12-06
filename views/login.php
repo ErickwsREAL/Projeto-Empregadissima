@@ -23,9 +23,9 @@ if(!empty($email) && !empty($senha)){
 
         $_SESSION['pessoa'] = $row;
 
-        if($row['tipo_pessoa'] === 1){ //se tipo prestador 
+        if($row['tipo_pessoa'] == 1){ //se tipo prestador 
             header("location: perfil.php");
-        } else{                        //se tipo contratante
+        } elseif($row['tipo_pessoa'] == 2){                        //se tipo contratante
             header("location: perfilcontratante.php");
         }
     }
