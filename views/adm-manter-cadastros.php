@@ -159,18 +159,18 @@
 										 	$result = $stmt->get_result();	
 
 										?>
-										<?php while($row = $result->fetch_assoc()){ ?>
+										<?php while($row = $result->fetch_array()){ ?>
 										<tr>
 											<td>
 												<!-- bootstrap check-box + classe checkMargin-->
 												<div class="form-check checkMargin">
-													<input class="form-check-input check" name="checagem[]" type="checkbox" value="<?php echo $row['id_pessoa'] ?>" id="defaultCheck4-<?php echo $dados_pessoa["id_pessoa"];?>">
+													<input class="form-check-input check" name="checagem[]" type="checkbox" value="<?php echo $row['id_pessoa'] ?>" id="defaultCheck4">
 													<label class="form-check-label" for="defaultCheck4"> </label>
 												</div>	
 											</td>
 										    <td><?php echo $row['id_pessoa'] ?></td>
-										    <td><?php echo $row['id_pessoa'] ?></td>
-										    <td><?php echo $row['id_pessoa'] ?></td>							    
+										    <td><?php echo $row['nome'] ?></td>
+										    <td><?php echo $row['cpf'] ?></td>							    
 									 	</tr>		 	
 										<?php } ?>
 									</table>

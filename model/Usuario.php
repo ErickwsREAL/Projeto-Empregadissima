@@ -22,27 +22,22 @@
             $conn->close(); 
     	}
 
-        function insertAdress($dadosGET){
+        public static function insertEndereço($dadosEnd){
             include ("logar_bd_empregadissimas.php");
 
-            $bairro = $dadosUsuario['bairro'];
-            $rua = $dadosUsuario['rua'];
-            $numero = $dadosUsuario['numero'];
-            $complemento = $dadosUsuario['complemento'];
-            $cep = $dadosUsuario['cep'];
+            $bairro = $dadosEnd['bairro'];
+            $rua = $dadosEnd['rua'];
+            $numero = $dadosEnd['numero'];
+            $complemento = $dadosEnd['complemento'];
+            $cep = $dadosEnd['cep'];
+            $id_pessoa_c = $dadosEnd['id_c'];
 
-            $id_pessoa_s = "SELECT id_pessoa FROM pessoa WHERE email= '$email' and senha = '$senha' and $cpf = '$cpf'";
 
-            $id_pessoa = $conn->query($id_pessoa_s);
-
-            echo $id_pessoa;
-
-            $sql2 = "INSERT INTO endereco(bairro, rua, numero, complemento, cep, id_pessoa) VALUES ('$bairro','$rua', '$numero', '$complemento', '$cep', '$id_pessoa')";
+            $sql = "INSERT INTO endereco(bairro, rua, numero, complemento, cep, id_pessoa) VALUES ('$bairro','$rua', '$numero', '$complemento', '$cep', '$id_pessoa_c')";
        
-            $conn->query($sql2);
+            $conn->query($sql);
 
             $conn->close();    
-
         }
 
     	public static function select($dadosGET, $params){

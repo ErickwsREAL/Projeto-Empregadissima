@@ -168,18 +168,29 @@
 			        	</button>
 			      	</div>
 			      	<div class="modal-body">
+			      		<?php
+							$var_id = $_SESSION['pessoa']['id_pessoa'];
+
+							$consulta = "SELECT id_endereco, bairro, rua, numero, complemento, cep FROM endereco WHERE id_pessoa = $var_id";
+							$con = $conn -> query($consulta) or die($conn-> error);
+						?>
+
 			      		<div id="editarEndereço">
 				      		<div class="col-md-10">
 						      <label for="endereçosUsuário">Endereços: </label>
 						      <select id="endereçosUsuário" class="form-control">
-						      	<option selected>Jardim Sumaré, Rua Pioneiro Genir Galli, 313, CEP: 87035-602</option>
-						      	<option>...</option>
+						      	<?php while ($dados_end = $con ->fetch_array() ){
+							  	?>
+						      	<option id="<?php echo $dados_end['id_endereco']; ?>"> Bairro: <?php echo $dados_end['bairro']; ?> Rua: <?php echo $dados_end['rua']; ?>, Número: <?php echo $dados_end['numero']; ?>, Complemento: <?php echo $dados_end['complemento']; ?> CEP: <?php echo $dados_end['cep']; ?> </option>
+						      	<?php } ?>
 						      </select>
 					    	</div>	
 					      	<button type="button" class="btn btn-dprimary buttonEditar butf" id="buttonEditarEnd"> Editar Selecionado</button>
 					      	<button type="button" class="btn btn-danger butf" id="buttonExcluirEnd"> Excluir Selecionado</button>
 				      	</div>
-				      	<div id="editarEnd3">	
+				      	
+
+				      	<div id="editarEnd3">			
 				      			<p> Editar Endereço Selecionado:</p>
 				      			<form id="formEndereco">
 									<div class="form-row">
@@ -205,9 +216,15 @@
 	  								<button type="button" class="btn btn-primary buttonEditar butf" id="buttonCan">Cancelar</button>
 								</form>
 							</div>
+						
+						
 						<div id="adicionarEndereço">	
 							<p>Adicionar um endereço:</p>
-					      	<form>
+					      	<?php
+					      		$var_id = $_SESSION['pessoa']['id_pessoa'];
+					      	?>	
+
+					      	<form method="POST" action="../controller/Usuario_Controller.php?metodo=insertEndereço">
 								<div class="form-row">
     								<div class="col-md-4">
       									<input type="text" class="form-control arruma" placeholder="Bairro" id="bairroUsuário"  name="bairro" required>
@@ -221,15 +238,17 @@
   								</div>
   								<div class="form-row">
   									<div class="col-md-4">
-  										<input type="text" class="form-control" name="complemento" id="complementoUsuário" placeholder="Complemento" required>
+  										<input type="text" class="form-control" name="complemento" id="complementoUsuário" placeholder="Complemento">
   									</div>
   									<div class="col-md-2">
-  										<input type="text" class="form-control" name="CEP" placeholder="CEP" id="cepUsuário" max="9" required>
+  										<input type="text" class="form-control" name="cep" placeholder="CEP" id="cepUsuário" max="9" required>
   									</div>
+  										<input name="id_c" id="id_c" value="<?php echo $var_id; ?>" style="visibility: hidden;">
   								</div>
   								<button type="submit" class="btn btn-primary buttonEditar" id="buttonAdd" value="Enviar">Salvar</button>
 							</form>
 						</div>
+					
 					</div>
 					</div>
 				</div>
