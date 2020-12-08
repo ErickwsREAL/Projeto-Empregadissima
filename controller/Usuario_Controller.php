@@ -46,7 +46,31 @@
             echo '<script>location.href="../views/perfilcontratante.php"</script>';
             break;    
 
+        case 'deletarEndereço':
+            Usuario::deletarEndereço($_GET['id_end']);
+            
+            echo '<script>alert("Endereço Excluido!")</script>';
+            echo '<script>location.href="../views/perfilcontratante.php"</script>';
+            break;
 
+         case 'buscarEndereço':
+            $parametros = Usuario::buscarEndereço($_GET['id_end']);
+
+            $valores = array();
+            $valores['Bairro'] = $parametros['Bairro'];
+            $valores['Rua'] = $parametros['Rua'];
+            $valores['Numero'] = $parametros['Numero'];
+            $valores['Complemento'] = $parametros['Complemento'];
+            $valores['CEP'] = $parametros['CEP'];
+            $valores['id_end'] = $parametros['id_end'];
+
+            echo '<script>location.href="../views/perfilcontratante.php?bairro='.$valores['Bairro'].'&rua='.$valores['Rua'].'&numero='.$valores['Numero'].'&complemento='.$valores['Complemento'].'&cep='.$valores['CEP'].'&id_end='.$valores['id_end'].'"</script>';
+
+        case 'atualizarEndereço':
+            //Usuario::atualizarEndereço($_GET['id_end']);
+
+            echo '<script>alert("Endereço Excluido!")</script>';
+            echo '<script>location.href="../views/perfilcontratante.php"</script>';        
         #ADM CRUD------------------------------------------------------------------------------------------------------------------------------------------    
         case 'aprovar_cadastro':
 

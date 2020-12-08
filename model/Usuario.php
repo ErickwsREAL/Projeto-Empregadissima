@@ -32,13 +32,47 @@
             $cep = $dadosEnd['cep'];
             $id_pessoa_c = $dadosEnd['id_c'];
 
-
             $sql = "INSERT INTO endereco(bairro, rua, numero, complemento, cep, id_pessoa) VALUES ('$bairro','$rua', '$numero', '$complemento', '$cep', '$id_pessoa_c')";
        
             $conn->query($sql);
 
             $conn->close();    
         }
+        
+
+        public static function deletarEndereço($id_end){
+            include ("logar_bd_empregadissimas.php");
+
+                $sql = "DELETE FROM endereco WHERE id_endereco = '$id_end' ";
+       
+                $conn->query($sql);
+
+                $conn->close();    
+        }
+        
+        public static function buscarEndereço($id_end){
+            include ("logar_bd_empregadissimas.php");
+
+                $sql = "SELECT * FROM endereco WHERE id_endereco = '$id_end' ";
+       
+                $result = $conn->query($sql);
+
+                $row = $result->fetch_array();
+
+                $dados = array(
+                    'Bairro' => $row["bairro"],
+                    'Rua' => $row["rua"],
+                    'Numero' => $row["numero"],
+                    'Complemento' => $row["complemento"],
+                    'CEP' => $row["cep"],
+                    'id_end' => $row["id_endereco"]
+                );
+
+                $conn->close();
+                
+                return $dados;  
+        }
+        
 
     	public static function select($dadosGET, $params){
 			include ("logar_bd_empregadissimas.php");

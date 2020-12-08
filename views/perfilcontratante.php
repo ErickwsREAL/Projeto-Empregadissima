@@ -167,6 +167,7 @@
 			          	<span aria-hidden="true">&times;</span>
 			        	</button>
 			      	</div>
+			      	
 			      	<div class="modal-body">
 			      		<?php
 							$var_id = $_SESSION['pessoa']['id_pessoa'];
@@ -177,40 +178,46 @@
 
 			      		<div id="editarEndereço">
 				      		<div class="col-md-10">
-						      <label for="endereçosUsuário">Endereços: </label>
-						      <select id="endereçosUsuário" class="form-control">
-						      	<?php while ($dados_end = $con ->fetch_array() ){
-							  	?>
-						      	<option id="<?php echo $dados_end['id_endereco']; ?>"> Bairro: <?php echo $dados_end['bairro']; ?> Rua: <?php echo $dados_end['rua']; ?>, Número: <?php echo $dados_end['numero']; ?>, Complemento: <?php echo $dados_end['complemento']; ?> CEP: <?php echo $dados_end['cep']; ?> </option>
-						      	<?php } ?>
-						      </select>
-					    	</div>	
-					      	<button type="button" class="btn btn-dprimary buttonEditar butf" id="buttonEditarEnd"> Editar Selecionado</button>
-					      	<button type="button" class="btn btn-danger butf" id="buttonExcluirEnd"> Excluir Selecionado</button>
+								<form id="formedit">		      
+								    <label for="endereçosUsuário">Endereços: </label>
+								    <select id="endereçosUsuário" class="form-control">
+										<?php while ($dados_end = $con ->fetch_array() ){
+									  	?>    	
+								      	<option selected value="<?php echo $dados_end['id_endereco']; ?>"> Bairro: <?php echo $dados_end['bairro']; ?> Rua: <?php echo $dados_end['rua']; ?>, Número: <?php echo $dados_end['numero']; ?>, Complemento: <?php echo $dados_end['complemento']; ?> CEP: <?php echo $dados_end['cep']; ?> </option>
+								      	<?php } ?>
+								    </select>
+						    	</form>
+						    </div>	
+						
+						      	<button type="button" class="btn btn-dprimary buttonEditar butf" id="buttonEditarEnd" onclick="atualizar_end();"> Editar Selecionado</button>
+						      	<button type="button" class="btn btn-danger butf" onclick="excluir_end();"> Excluir Selecionado</button>
+				      			
 				      	</div>
-				      	
+				      
+
 
 				      	<div id="editarEnd3">			
 				      			<p> Editar Endereço Selecionado:</p>
 				      			<form id="formEndereco">
 									<div class="form-row">
 	    								<div class="col-md-4">
-	      									<input type="text" class="form-control" placeholder="Bairro" id="bairroUsuárioED" name="bairro">
+	      									<input type="text" class="form-control" placeholder="Bairro" id="bairroUsuárioED" name="bairro" value="<?php echo $_GET['bairro']; ?>">
 	    								</div>
 	    								<div class="col-md-4">
-	      									<input type="text" class="form-control" placeholder="Rua" id="ruaUsuárioED" name="rua">
+	      									<input type="text" class="form-control" placeholder="Rua" id="ruaUsuárioED" name="rua" value="<?php echo $_GET['rua']; ?>">
 	    								</div>
 	  									<div class="col-md-2">
-	  										<input type="number" class="form-control" placeholder="Numero" id="numeroUsuárioED" name="numero">
+	  										<input type="number" class="form-control" placeholder="Numero" id="numeroUsuárioED" name="numero" value="<?php echo $_GET['numero']; ?>">
 	  									</div>
 	  								</div>
 	  								<div class="form-row">
 	  									<div class="col-md-4">
-	  										<input type="text" class="form-control" name="complemento" id="complementoUsuárioED" placeholder="Complemento">
+	  										<input type="text" class="form-control" name="complemento" id="complementoUsuárioED" placeholder="Complemento" value="<?php echo $_GET['complemento']; ?>">
 	  									</div>
 	  									<div class="col-md-2">
-	  										<input type="text" class="form-control" name="CEP" placeholder="CEP" id="cepUsuárioED" max="9">
+	  										<input type="text" class="form-control" name="CEP" placeholder="CEP" id="cepUsuárioED" max="9" value="<?php echo $_GET['cep']; ?>">
 	  									</div>
+	  										<input name="id_c" id="id_c" value="<?php echo $_GET['id_end']; ?>" style="visibility: hidden;">
 	  								</div>
 	  								<button type="submit" class="btn btn-primary buttonEditar butf" id="buttonED" value="Enviar" disabled data-toggle="tooltip" title="Esse botão é desabilitado se os campos estiverem vazios." >Salvar</button>
 	  								<button type="button" class="btn btn-primary buttonEditar butf" id="buttonCan">Cancelar</button>
@@ -250,6 +257,7 @@
 						</div>
 					
 					</div>
+					
 					</div>
 				</div>
 			</div>					
@@ -257,13 +265,11 @@
         </div>
         <!--fim div seção-->
 
+
 	   	<div class="item footer" style="color:white;">Copyright @EmpregadíssimaOwners</div>
 		</div>
 		<div id="caixa" title="Alerta"> 	
 			<p>Tem certeza que deseja <b>desativar<b> sua conta? A reativação só é possível após contato com o Administrador</p>
-		</div>
-		<div id="caixa2" title="Alerta"> 	
-			<p>Tem certeza que deseja <b>excluir</b> esse endereço?</p>
 		</div>
 	</body>
 
@@ -275,142 +281,153 @@
 			$("#add-service").click(function(){
 			$("#new-service").toggle("slow");
 			});
-		});
-
-		function abreAdicionarSolicitação() {
-			window.open("enviar-solicitacao.html","_blank");
-		}
-
-		$('#buttonEditarEnd').on('click', function(){
-			$('#editarEnd3').show();
-			$('#editarEndereço').hide();	
-		});
-
-		$('#buttonCan').on('click', function(){
-			$('#editarEnd3').hide();
-			$('#editarEndereço').show();	
-		});
-
-		$( "#desativarConta" ).on( "click", function() {
-		    $( "#caixa" ).dialog( "open" );
-		});
-
-		$( "#buttonExcluirEnd" ).on( "click", function() {
-		    $( "#enderecoModal" ).modal('hide');
-		});
-
-		$( "#buttonExcluirEnd" ).on( "click", function() {
-		    $( "#caixa2" ).dialog( "open" );
-		});
-
-		$("#caixa").dialog({
-			autoOpen: false,
-			modal: true,
-			resizable: false,
-			draggable: false,
-			height: "auto",
-			width: 350,
-			buttons: {
-	        	"Sim": function() {
-	          	$( this ).dialog( "close" );
-	        	},
-	        	Cancelar: function() {
-	          	$( this ).dialog( "close" );
-	        	}
-      		}
-		});
-
-		$("#caixa2").dialog({
-			autoOpen: false,
-			modal: true,
-			resizable: false,
-			draggable: false,
-			height: "auto",
-			width: 350,
-			buttons: {
-	        	"Sim": function() {
-	          	$( this ).dialog( "close" );
-	        	},
-	        	Cancelar: function() {
-	          	 $( "#enderecoModal" ).modal('show');
-	          	 $( this ).dialog( "close" );
-	        	}
-      		}
-		});
-
-		var $campoTel = $("#editarTelefone");
-			$campoTel.mask('(00) 00000-0000');
-
-		var $campoCep = $("#cepUsuário");
-			$campoCep.mask('00000-000');
-		var $campoCep2 = $("#cepUsuárioED");
-			$campoCep2.mask('00000-000');
-		
-		//restrição de botão submit editar perfil provisório
-		$('#editarForm input').blur(function(){
-		    if(!$(this).val() && !$('#editarForm #editarDescricao').val() && !$('#editarForm #editarNome').val() && !$('#editarForm #editarTelefone').val()) {
-			        $('#buttonEditarPerfil').prop("disabled",true);
-		    }
 		});	
-
-		$('#editarForm input').blur(function(){
-		    if($(this).val() ) {
-		        $('#buttonEditarPerfil').prop("disabled",false);
-		    }
-		});
-
-		$('#editarForm #editarDescricao').blur(function(){
-		    if(!$(this).val() && !$('#editarForm input').val()) {
-		        $('#buttonEditarPerfil').prop("disabled",true);
-		    }
-		});	
-
-		$('#editarForm #editarDescricao').blur(function(){
-		    if($(this).val() ) {
-		        $('#buttonEditarPerfil').prop("disabled",false);
-		    }
-		});
-		//restrição de botão submit editar endereço provisório	
-		$('#formEndereco #bairroUsuárioED').blur(function(){
-		    if(!$(this).val() && !$('#formEndereco #ruaUsuárioED').val() && !$('#formEndereco #numeroUsuárioED').val() && !$('#formEndereco #cepUsuárioED').val() && !$('#formEndereco #complementoUsuárioED').val()) {
-		        $('#buttonED').prop("disabled",true);
-		    } else {
-		    	$('#buttonED').prop("disabled",false);
-		    }
-		});	
-
-		$('#formEndereco #ruaUsuárioED').blur(function(){
-		    if(!$(this).val() && !$('#formEndereco #bairroUsuárioED').val() && !$('#formEndereco #numeroUsuárioED').val() && !$('#formEndereco #cepUsuárioED').val() && !$('#formEndereco #complementoUsuárioED').val()) {
-		        $('#buttonED').prop("disabled",true);
-		    } else {
-		    	$('#buttonED').prop("disabled",false);
-		    }
-		});
-
-
-		$('#formEndereco #numeroUsuárioED').blur(function(){
-		    if(!$(this).val() && !$('#formEndereco #bairroUsuárioED').val() && !$('#formEndereco #ruaUsuárioED').val() && !$('#formEndereco #cepUsuárioED').val() && !$('#formEndereco #complementoUsuárioED').val()) {
-		        $('#buttonED').prop("disabled",true);
-		    } else {
-		    	$('#buttonED').prop("disabled",false);
-		    }
-		});
-
-		$('#formEndereco #cepUsuárioED').blur(function(){
-		    if(!$(this).val() && !$('#formEndereco #bairroUsuárioED').val() && !$('#formEndereco #ruaUsuárioED').val() && !$('#formEndereco #numeroUsuárioED').val() && !$('#formEndereco #complementoUsuárioED').val()) {
-		        $('#buttonED').prop("disabled",true);
-		    } else {
-		    	$('#buttonED').prop("disabled",false);
-		    }
-		});
-
-		$('#formEndereco #complementoUsuárioED').blur(function(){
-		    if(!$(this).val() && !$('#formEndereco #bairroUsuárioED').val() && !$('#formEndereco #ruaUsuárioED').val() && !$('#formEndereco #numeroUsuárioED').val() && !$('#formEndereco #cepUsuárioED').val()) {
-		        $('#buttonED').prop("disabled",true);
-		    } else {
-		    	$('#buttonED').prop("disabled",false);
-		    }
-		});
 			
+
+			function abreAdicionarSolicitação() {
+				window.open("enviar-solicitacao.html","_blank");
+			}
+
+			$('#buttonEditarEnd').on('click', function(){
+				$('#editarEnd3').show();
+				$('#editarEndereço').hide();	
+			});
+
+			$('#buttonCan').on('click', function(){
+				$('#editarEnd3').hide();
+				$('#editarEndereço').show();	
+			});
+
+			$( "#desativarConta" ).on( "click", function() {
+			    $( "#caixa" ).dialog( "open" );
+			});
+
+			$( "#buttonExcluirEnd" ).on( "click", function() {
+			    $( "#enderecoModal" ).modal('hide');
+			});
+
+			$( "#buttonExcluirEnd" ).on( "click", function() {
+			    $( "#caixa2" ).dialog( "open" );
+			});
+
+			$("#caixa").dialog({
+				autoOpen: false,
+				modal: true,
+				resizable: false,
+				draggable: false,
+				height: "auto",
+				width: 350,
+				buttons: {
+		        	"Sim": function() {
+		          	$( this ).dialog( "close" );
+		        	},
+		        	Cancelar: function() {
+		          	$( this ).dialog( "close" );
+		        	}
+	      		}
+			});
+
+			var $campoTel = $("#editarTelefone");
+				$campoTel.mask('(00) 00000-0000');
+
+			var $campoCep = $("#cepUsuário");
+				$campoCep.mask('00000-000');
+			var $campoCep2 = $("#cepUsuárioED");
+				$campoCep2.mask('00000-000');
+			
+			//restrição de botão submit editar perfil provisório
+			$('#editarForm input').blur(function(){
+			    if(!$(this).val() && !$('#editarForm #editarDescricao').val() && !$('#editarForm #editarNome').val() && !$('#editarForm #editarTelefone').val()) {
+				        $('#buttonEditarPerfil').prop("disabled",true);
+			    }
+			});	
+
+			$('#editarForm input').blur(function(){
+			    if($(this).val() ) {
+			        $('#buttonEditarPerfil').prop("disabled",false);
+			    }
+			});
+
+			$('#editarForm #editarDescricao').blur(function(){
+			    if(!$(this).val() && !$('#editarForm input').val()) {
+			        $('#buttonEditarPerfil').prop("disabled",true);
+			    }
+			});	
+
+			$('#editarForm #editarDescricao').blur(function(){
+			    if($(this).val() ) {
+			        $('#buttonEditarPerfil').prop("disabled",false);
+			    }
+			});
+			//restrição de botão submit editar endereço provisório	
+			$('#formEndereco #bairroUsuárioED').blur(function(){
+			    if(!$(this).val() && !$('#formEndereco #ruaUsuárioED').val() && !$('#formEndereco #numeroUsuárioED').val() && !$('#formEndereco #cepUsuárioED').val() && !$('#formEndereco #complementoUsuárioED').val()) {
+			        $('#buttonED').prop("disabled",true);
+			    } else {
+			    	$('#buttonED').prop("disabled",false);
+			    }
+			});	
+
+			$('#formEndereco #ruaUsuárioED').blur(function(){
+			    if(!$(this).val() && !$('#formEndereco #bairroUsuárioED').val() && !$('#formEndereco #numeroUsuárioED').val() && !$('#formEndereco #cepUsuárioED').val() && !$('#formEndereco #complementoUsuárioED').val()) {
+			        $('#buttonED').prop("disabled",true);
+			    } else {
+			    	$('#buttonED').prop("disabled",false);
+			    }
+			});
+
+
+			$('#formEndereco #numeroUsuárioED').blur(function(){
+			    if(!$(this).val() && !$('#formEndereco #bairroUsuárioED').val() && !$('#formEndereco #ruaUsuárioED').val() && !$('#formEndereco #cepUsuárioED').val() && !$('#formEndereco #complementoUsuárioED').val()) {
+			        $('#buttonED').prop("disabled",true);
+			    } else {
+			    	$('#buttonED').prop("disabled",false);
+			    }
+			});
+
+			$('#formEndereco #cepUsuárioED').blur(function(){
+			    if(!$(this).val() && !$('#formEndereco #bairroUsuárioED').val() && !$('#formEndereco #ruaUsuárioED').val() && !$('#formEndereco #numeroUsuárioED').val() && !$('#formEndereco #complementoUsuárioED').val()) {
+			        $('#buttonED').prop("disabled",true);
+			    } else {
+			    	$('#buttonED').prop("disabled",false);
+			    }
+			});
+
+			$('#formEndereco #complementoUsuárioED').blur(function(){
+			    if(!$(this).val() && !$('#formEndereco #bairroUsuárioED').val() && !$('#formEndereco #ruaUsuárioED').val() && !$('#formEndereco #numeroUsuárioED').val() && !$('#formEndereco #cepUsuárioED').val()) {
+			        $('#buttonED').prop("disabled",true);
+			    } else {
+			    	$('#buttonED').prop("disabled",false);
+			    }
+			});
+			
+			function excluir_end(){
+				var e = document.getElementById("endereçosUsuário");
+				var id_end = e.value;
+
+				if (!confirm("Deseja EXCLUIR este endereço?")) {
+					return false;
+					id_end = null; 
+				}	
+				else{
+	 				  
+	 			 document.getElementById("formedit").action= "../controller/Usuario_Controller.php?metodo=deletarEndereço&id_end="+id_end;
+			 	 document.getElementById("formedit").method= "POST";
+				 document.getElementById("formedit").submit();
+
+				  return true;
+				}
+    		}
+
+    		function atualizar_end(){
+				var e = document.getElementById("endereçosUsuário");
+				var id_end = e.value;
+				
+				document.getElementById("formedit").action= "../controller/Usuario_Controller.php?metodo=buscarEndereço&id_end="+id_end;
+		 	  	document.getElementById("formedit").method= "POST";
+			  	document.getElementById("formedit").submit();
+			
+			}
+
 	</script>
 </html>
