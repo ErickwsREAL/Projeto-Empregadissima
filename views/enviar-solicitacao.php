@@ -1,8 +1,16 @@
 <?php include ("../model/logar_bd_empregadissimas.php")
 ?>
 
-<?php include "verifica_login.php"
+<?php include "verifica_login.php"?>
+
+<?php $_SESSION['pessoa']['id_pessoa'];
+
+/*parametro get*/
+$id_prestador=$_GET["id_prestador"];
+
 ?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -65,28 +73,54 @@
 					
 					<!-- informações gerais do prestador -->
 	                <div class="info-geral">
+
+					<?php
+						$var_id = $_SESSION['pessoa']['id_pessoa'];
+
+						$consulta = "SELECT * FROM pessoa WHERE id_pessoa = $id_prestador";
+						$con = $conn -> query($consulta) or die($conn-> error);
+					?>
+
+			  		<?php while ($dados_prestador= $con ->fetch_array() ){
+			  		?>	 
+
 						<div class="row align-items-center flex-row-reverse">
 		                	<div class="col-lg-4">
 
+
 		                        <div class="profile-text go-to">
-		                            <h3 class="dark-color">Rita Prestadora</h3>
+		                            <h3 class="dark-color"><?php echo $dados_prestador["nome"]; ?></h3>
 		                            <div class="row profile-list">
 		                                <div class="col-lg-10">
 		                                    <div class="media">
 		                                        <b>Idade: &nbsp;</b>
-		                                        <p>38 Anos</p>
+											<?php
+												$dataNascimento = $dados_prestador["data_nascimento"];;
+												$date = new DateTime($dataNascimento);
+												$interval = $date->diff( new DateTime( date('Y-m-d') ) );
+											?>	                                        
+	                                        <p><?php echo $interval->format( '%Y anos' ); ?></p>
 		                                    </div>
 		                                    <div class="media">
 		                                        <b>Cidade: &nbsp;</b>
-		                                        <p>Maringá</p>
+		                                        <p><?php echo $dados_prestador["cidade"]; ?></p>
 		                                    </div>
 		                                    <div class="media">
 		                                        <b>E-mail: &nbsp;</b>
-		                                        <p>example@gmail.com</p>
+		                                        <p><?php echo $dados_prestador["email"]; ?></p>
 		                                    </div>
 		                                    <div class="media">
-		                                        <b>Sexo: &nbsp;</b>
-		                                        <p>Feminino</p>
+		                                    	<b>Sexo: &nbsp;</b>
+												<?php
+													if ($dados_prestador["sexo"] == 1) {
+													    $sexo = 'Masculino';
+													} elseif ($dados_prestador["sexo"] == 2) {
+													    $sexo = 'Feminino';
+													} else {
+													    $sexo = 'Outros';
+													}
+												?>                                    	
+		                                        <label><?php echo $sexo; ?></label>
 		                                    </div>
 		                                </div>
 		                            </div>
@@ -97,17 +131,27 @@
 			                <div class="col-md-7" >
 		                        <div class="profile-avatar" >
 		                        	<div class="img-container">
-		                        		<img src="./imagens/woman21.jpg" id="profile-img" title="Imagem de Perfil">
+										<?php
+											if ($dados_prestador["foto"] != NULL) {
+												$foto = $dados_prestador["foto"]; 
+											} else {
+											    $foto = 'profile.png';
+											}
+										?>
+		                        		<img src="./imagens/<?php echo $foto; ?>" class="rounded img-thumbnail" title="avatar">
 		                        	</div>
 		                        </div>
 		                    </div>
 		                    <p>&nbsp;</p>
 		                </div>	
 					  	</br>
+					<?php 
+						  }
+
+					?>  
 
 
-
-					  	<h5> Selecione no calendário abaixo o dia que deseja solicitar a diária, preencha os dados do cartão ao lado e envie sua solicitação</h5>
+					  	<h5> &nbsp; - Selecione no calendário abaixo o dia que deseja solicitar a diária, preencha os dados do cartão ao lado e envie sua solicitação</h5>
 						<div class="agenda-prestador" id="calendar_u">
 							<div id="v-cal" style="width: 46%;height: 50%; float: left; ">
 								<div class="vcal-header" >
@@ -134,16 +178,24 @@
 								</div>
 								<div class="vcal-body" data-calendar-area="month"></div>
 							</div>
+
+							<form id="form-ins-servico" name="form-ins-servico">
 								<div class="row">
 						    		<div class="col card" style="background:white">
-						    		
-										<p style="visibility: hidden;">	<b>Dia Selecionado:</b> <span data-calendar-label="picked"></span></p>
+						    			
+
+										<p style="visibility: ;">	<b> 0 .Dia Selecionado:</b> 
+										<input type="hidden" name="id_prestador" value="<?php echo $id_prestador; ?>">
+										<input type="hidden" name="id_contratante" value="<?php echo $var_id; ?>"> 
+
+											<span id="data_servico" data-calendar-label="picked"></span>
+										</p>
 										<div class="input-group mb-3">
 										  	<div class="input-group-prepend">
 										    	<label for="inputGroupSelect01">1. Selecione um <b>horário</b> disponível: &nbsp; </label>
 										  	</div>
 										  	<select class="custom-select" id="inputGroupSelect01">
-										    	<option selected>Escolha...</option>
+										    	<option value="" selected>Escolha...</option>
 										    	<option value="1">8:00 às 15:00</option>
 										    	<option value="2">15:00 às 19:00</option>
 										    	<option value="3">Dia Inteiro</option>
@@ -152,23 +204,41 @@
 
 										<div class="input-group mb-3">
 										  	<div class="input-group-prepend">
-										    	<label for="inputGroupSelect02">2. Selecione o <b>tipo de Serviço</b>/Diária: &nbsp; </label>
+										    	<label for="id_diaria">2. Selecione o <b>tipo de Serviço</b>/Diária: &nbsp; </label>
 										  	</div>
-										  	<select class="custom-select" id="inputGroupSelect02">
-										    	<option selected>Escolha...</option>
-										    	<option value="1">Casa até 2 quartos 1 banheiro R$260,00</option>
-										    	<option value="2">Casa maior 2 quartos R$300,00</option>
-										    	<option value="3">Casa + Limpeza Interna armários/janelas R$500,00</option>
+										  	<select class="custom-select" name="id_diaria">
+										    	<option name="id_diaria" value="0" selected>Escolha...</option>
+													<?php
+
+														$consulta = "SELECT * FROM diaria_prestador WHERE id_pessoa = $id_prestador ORDER BY descricao_diaria";
+														$con = $conn -> query($consulta) or die($conn-> error);
+													?>
+
+											  		<?php while ($diaria_prestador= $con ->fetch_array() ){
+											  		?>	
+					                                        <option name="id_diaria" value="<?php echo $diaria_prestador["id_diaria"]; ?>"><?php echo $diaria_prestador["descricao_diaria"]; ?> R$<?php echo $diaria_prestador["valor"]; ?></option>
+						                            <?php
+						                                  }
+						                            ?>
 										  	</select>
 										</div>
 										<div class="input-group mb-3">
 										  	<div class="input-group-prepend">
-										    	<label  for="inputGroupSelect03">3. Selecione o <b>Endereço</b> que ocorrerá o serviço: &nbsp; </label>
+										    	<label  for="id_endereco">3. Selecione o <b>Endereço</b> que ocorrerá o serviço: &nbsp; </label>
 										  	</div>
-										  	<select class="custom-select" id="inputGroupSelect03">
+										  	<select class="custom-select" id="id_endereco" name="id_endereco">
 										    	<option selected>Escolha...</option>
-										    	<option value="1">Rua Teste 476</option>
-										    	<option value="2">Jardim das Flores 154</option>
+													<?php
+														$consulta = "SELECT * FROM endereco WHERE id_pessoa = $var_id ORDER BY bairro";
+														$con = $conn -> query($consulta) or die($conn-> error);
+													?>
+
+											  		<?php while ($endereco_contr= $con ->fetch_array() ){
+											  		?>	
+														<option  name="id_endereco" value="<?php echo $endereco_contr["id_endereco"]; ?>"><?php echo $endereco_contr["bairro"];?> <?php echo $endereco_contr["rua"];?> - <?php echo $endereco_contr["numero"];  ?> </option>
+						                            <?php
+						                                  }
+						                            ?>
 										  	</select>
 										</div>
 
@@ -176,31 +246,27 @@
 									    <div class="row">
 										    <div class="col card">
 												<div class="custom-control custom-radio">
-												  <input type="radio" class="custom-control-input" id="defaultGroupExample3" name="groupOfDefaultRadios">
-												  <label class="custom-control-label" for="defaultGroupExample3"><h4>Dinheiro</h4></label>
+												  <input type="radio" class="custom-control-input" id="forma_pagamento_dinheiro" name="forma_pagamento" value="1">
+												  <label class="custom-control-label" for="forma_pagamento_dinheiro"><h4>Dinheiro</h4></label>
 												</div>
-
 										    	<p><img src="imagens/pay-day.png"></p>
 									    	</div>
 									    	 <div class="col card">
 												<div class="custom-control custom-radio">
-												  <input type="radio" class="custom-control-input" id="defaultGroupExample2" name="groupOfDefaultRadios" checked>
-												  <label class="custom-control-label" for="defaultGroupExample2"><h4>Cartão de Crédito</h4></label>
+												  <input type="radio" class="custom-control-input" id="forma_pagamento_cartao" name="forma_pagamento" value="2"checked>
+												  <label class="custom-control-label" for="forma_pagamento_cartao"><h4>Cartão de Crédito</h4></label>
 												</div>	
-										      	
 										      	<p><img src="imagens/credit-card.png"></p>
 										    </div>
 									    	<div class="col card">
 												<div class="custom-control custom-radio">
-												  <input type="radio" class="custom-control-input" id="defaultGroupExample1" name="groupOfDefaultRadios">
-												  <label class="custom-control-label" for="defaultGroupExample1"><h4>Boleto</h4></label>
+												  <input type="radio" class="custom-control-input" id="forma_pagamento_boleto" name="forma_pagamento" value="3">
+												  <label class="custom-control-label" for="forma_pagamento_boleto"><h4>Boleto</h4></label>
 												</div>
-
 												<p><img src="imagens/clipart3157546.png"></p>
 									    	</div>
 										</div>
-
-						    		</div>
+									</div>
 						    	</div>
 									
 								<!-- enviar solicitação ou voltar para o perfil -->
@@ -208,7 +274,7 @@
 									<button type="button" class="btn btn-lg bt-aprovar" name="envia-solicitacao" id="envia-solicitacao" onclick="solicitacao_enviada()"><i class="fa fa-check"></i> Enviar Solicitação </button>
 									<a href="javascript:history.back()" <button type="button" class="btn btn-lg bt-gray"><i class="fa fa-arrow-left" ></i> Voltar ao Perfil </button></a>
 								</p>
-							</div>
+							</form>
 						</div>
 
 	                </div>
@@ -217,10 +283,6 @@
 
 	    </div>
 	    <!-- --> 
-	</div>
-
-	<div id="caixa-enviar-solicitacao" title="Alerta"> 	
-		<p>Tem certeza que deseja <b>enviar</b> esta solicitação a este prestador? </p>
 	</div>
 
 <script src="vanilla-calendar-master/src/vanillaCalendar.js"></script>
@@ -242,7 +304,7 @@
 	$(document).ready(function(){
 		 $('#envia-solicitacao-alert').hide();
 
-	    $('[data-toggle="popover"]').popover({html: true
+	    $('[data-toggle="popover"]').popover({html: false
 	    });
 
 	});
@@ -252,27 +314,32 @@
     	$( "#caixa-enviar-solicitacao" ).dialog( "open" );
 	});
 
-
-	function solicitacao_enviada(){
-		$('#envia-solicitacao-alert').show()
+	function getMonthFromString(mon){
+	   return new Date(Date.parse(mon +" 01, 2012")).getMonth()+1
 	}
 
-	$("#caixa-enviar-solicitacao").dialog({
-		autoOpen: false,
-		modal: true,
-		resizable: false,
-		draggable: false,
-		height: "auto",
-		width: 350,
-		buttons: {
-    	"Sim": function() {
-      		$( this ).dialog( "close" );
-    		},
-    	Cancelar: function() {
-      		$( this ).dialog( "close" );
-    		}
+	function solicitacao_enviada(){
+		var data_inteira_van = document.getElementById("data_servico").innerHTML;
+
+		var mes = getMonthFromString(data_inteira_van.substring(4, 7));
+		var dia = data_inteira_van.substring(8, 10);
+		var ano = data_inteira_van.substring(11, 15);
+
+		var data_servico= ano+"/"+mes+"/"+dia;
+		//alert(data_servico);
+
+		if (!confirm("Deseja Enviar esta solicitação de serviço?")) {
+			return false;
+		}	
+		else{
+				  
+		 document.getElementById("form-ins-servico").action= "../controller/Servico_Controller.php?metodo=inserir&data_servico="+data_servico;
+	 	 document.getElementById("form-ins-servico").method= "POST";
+		 document.getElementById("form-ins-servico").submit();// Form submission
+
+		  return true;
 		}
-	});
+	}
 
 	$('#exampleModalCenter').on('shown.bs.modal', function () {
   		$('#myInput').trigger('focus')

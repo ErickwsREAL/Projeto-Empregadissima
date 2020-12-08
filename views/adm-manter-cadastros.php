@@ -41,9 +41,9 @@
 	  		<?php while ($dados_adm= $con ->fetch_array() ){
 
 	  		?>
-			<div class="info-adm" style="">
-			    <h4>Sessão:&nbsp; <?php echo $dados_adm["sessao"]; ?> &nbsp;&nbsp;&nbsp; <a class="nav-link" href="sair.php" id="btn-sair" style="color:black;font-size:1em;"> Sair </a></h4>
-			</div>
+				<div class="info-adm" style="">
+				    <h4>Sessão:&nbsp; <?php echo $dados_adm["sessao"]; ?> &nbsp;&nbsp;&nbsp; <a class="nav-link" href="sair.php" id="btn-sair" style="color:black;font-size:1em;"> Sair </a></h4>
+				</div>
 	  		<?php 
 		  	}	
 	  		?>
@@ -58,7 +58,7 @@
 					</ul>
 
 					<!-- formulário lista de serviços -->
-					<form name="form-lista-cad-apv" id="form-lista-cad-apv" method="POST" action="../controller/Usuario_Controller.php?metodo=aprovar_cadastro">
+					<form name="form-lista-cad-apv" id="form-lista-cad-apv">
 						<!--action="../controller/Usuario_Controller.php?metodo=aprovar_cadastro"-->
 						<!-- Aba cadastros pendentes-->
 						<div id="tabs-1">
@@ -117,12 +117,10 @@
 					    	<!-- fim form-lista-cad-apv -->
 							<div class="buttons-classe">
 								<p>
-
-									<button type="submit" class="btn btn-lg bt-aprovar" id="bt-aprovar" name="submit">Aprovar</button>									
-									<!--bootstrap buttons + id
-									<button type="button" class="btn btn-lg bt-aprovar" id="bt-aprovar" name="bt-aprovar" onclick="aprovarCadastrosF();">Aprovar</button>-->
-
-									<button type="button" class="btn btn-lg bt-reprovar" id="bt-reprovar" >Reprovar</button>
+								
+									<!--bootstrap buttons + id-->
+									<button type="button" class="btn btn-lg bt-aprovar" id="bt-aprovar" name="bt-aprovar" onclick="aprovarCadastrosF();">Aprovar</button>
+									<button type="button" class="btn btn-lg bt-reprovar" id="bt-reprovar" onclick="reprovarCadastrosF();">Reprovar</button>
 								</p>
 							</div>
 						</div>
@@ -1092,15 +1090,28 @@
 	function aprovarCadastrosF(){
 		var listaAprovados = document.getElementsByClassName("check_apv");
 
-		if (!confirm("Deseja APROVAR este(s) cadastros?")) {
+		if (!confirm("Deseja APROVAR este(s) cadastro(s)?")) {
 			return false;
 		}
 		else{
+			document.getElementById("form-lista-cad-apv").method= "POST";
 			document.getElementById("form-lista-cad-apv").action= "../controller/Usuario_Controller.php?metodo=aprovar_cadastro";
 	        document.getElementById("form-lista-cad-apv").submit();// Form submission
 		}
 	}
 
+	function reprovarCadastrosF(){
+		var listaAprovados = document.getElementsByClassName("check_apv");
+
+		if (!confirm("Deseja REPROVAR este(s) cadastro(s)?")) {
+			return false;
+		}
+		else{
+			document.getElementById("form-lista-cad-apv").method= "POST";
+			document.getElementById("form-lista-cad-apv").action= "../controller/Usuario_Controller.php?metodo=reprovar_cadastro";
+	        document.getElementById("form-lista-cad-apv").submit();// Form submission
+		}
+	}
 </script>
 
 </html>

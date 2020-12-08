@@ -68,17 +68,17 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                <a class="nav-link" href="./visao-contratante.html"> Busca </a>
+                <a class="nav-link" href="./visao-contratante.php"> Busca </a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="./perfilcontratante.html">Perfil </a>
+                    <a class="nav-link" href="./perfilcontratante.php">Perfil </a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="./manter-solicitacao-contratante.html">Minhas Solicitações </a>
+                    <a class="nav-link" href="./manter-solicitacao-contratante.php">Minhas Solicitações </a>
                 </li>
             </ul>
             <div class="form-inline my-2 my-lg-0">
-                <a class="nav-link" href="./index.html" id="btn-sair" style="color:white;   "> Sair </a>
+                <a class="nav-link" href="./sair.php" id="btn-sair" style="color:white;   "> Sair </a>
             </div>
             </div>
         </nav>
@@ -141,141 +141,38 @@
 
         <!-- inicio grid -->
         <div class="contractor-grid">
+
+            <?php
+                $var_id = $_SESSION['pessoa']['id_pessoa'];
+
+                $consulta = "SELECT * FROM pessoa WHERE tipo_pessoa = 1";
+                $con = $conn -> query($consulta) or die($conn-> error);
+            ?>
+
+            <?php while ($dados_pessoa= $con ->fetch_array() ){
+            ?>   
             <div class="contractor-item">
                 <div class="thumbnail">
-                    <img src="./imagens/woman21.jpg">
+
+                    <?php
+                        if ($dados_pessoa["foto"] != NULL) {
+                            $foto = $dados_pessoa["foto"]; 
+                        } else {
+                            $foto = 'profile.png';
+                        }
+                    ?>
+                    <input type="hidden" name="id_prestador" id="id_prestador" value="<?php echo $dados_pessoa["id_pessoa"]; ?>">                                                 
+                    <img src="./imagens/<?php echo $foto; ?>">
                     <div class="caption">
-                        <h3 style="font-size:20px; color:white">Rita Prestadora</h3>
-                        <p><a href="./perfil-prestador-visao-contratante.html" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
+                        <h3 style="font-size:20px; color:white"><?php echo $dados_pessoa["nome"]; ?></h3>
+                        <p><a href="./perfil-prestador-visao-contratante.php?id_prestador=<?php echo $dados_pessoa["id_pessoa"]; ?>" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
                     </div>
                 </div>
-            </div>              
-            <div class="contractor-item">
-                <div class="thumbnail">
-                    <img src="./imagens/avatar2.png">
-                    <div class="caption">
-                        <h3 style="font-size:20px; color: white">Joaquina Oliveira</h3>
-                        <p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-                    </div>
-                </div>
-            </div>              
-            <div class="contractor-item">
-                <div class="thumbnail">
-                    <img src="./imagens/avatar3.png">
-                    <div class="caption">
-                        <h3 style="font-size:20px; color: white">Amelia Clarisse</h3>
-                        <p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-                    </div>
-                </div>
-            </div>              
-            <div class="contractor-item">
-                <div class="thumbnail">
-                    <img src="./imagens/avatar5.png">
-                    <div class="caption">
-                        <h3 style="font-size:20px; color: white">Dandara Eva</h3>
-                        <p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-                    </div>
-                </div>
-            </div>              
-            <div class="contractor-item">
-                <div class="thumbnail">
-                    <img src="./imagens/avatar9.png">
-                    <div class="caption">
-                        <h3 style="font-size:20px; color: white">Gabriela Duz</h3>
-                        <p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-                    </div>
-                </div>
-            </div>              
-            <div class="contractor-item">
-                <div class="thumbnail">
-                    <img src="./imagens/avatar5.png">
-                    <div class="caption">
-                        <h3 style="font-size:20px; color: white">Alice Sayuri</h3>
-                        <p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-                    </div>
-                </div>
-            </div>              
-            <div class="contractor-item">
-                <div class="thumbnail">
-                    <img src="./imagens/avatar7.jpeg">
-                    <div class="caption">
-                        <h3 style="font-size:20px; color: white">Barbara Paz</h3>
-                        <p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-                    </div>
-                </div>
-            </div>              
-            <div class="contractor-item">
-                <div class="thumbnail">
-                    <img src="./imagens/avatar1.png">
-                    <div class="caption">
-                        <h3 style="font-size:20px; color: white">Rogéria Dias</h3>
-                        <p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-                    </div>
-                </div>
-            </div>              
-            <div class="contractor-item">
-                <div class="thumbnail">
-                    <img src="./imagens/avatar8.png">
-                    <div class="caption">
-                        <h3 style="font-size:20px; color: white">Leopoldina Matos</h3>
-                        <p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-                    </div>
-                </div>
-            </div>              
-            <div class="contractor-item">
-                <div class="thumbnail">
-                    <img src="./imagens/avatar5.png">
-                    <div class="caption">
-                        <h3 style="font-size:20px; color: white">Deide Costa</h3>
-                        <p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-                    </div>
-                </div>
-            </div>              
-            <div class="contractor-item">
-                <div class="thumbnail">
-                    <img src="./imagens/avatar1.png">
-                    <div class="caption">
-                        <h3 style="font-size:20px; color: white">Cristiane Julia</h3>
-                        <p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-                    </div>
-                </div>
-            </div>              
-            <div class="contractor-item">
-                <div class="thumbnail">
-                    <img src="./imagens/avatar8.png">
-                    <div class="caption">
-                        <h3 style="font-size:20px; color: white">Aurora Oliveira</h3>
-                        <p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-                    </div>
-                </div>
-            </div>              
-            <div class="contractor-item">
-                <div class="thumbnail">
-                    <img src="./imagens/avatar2.png">
-                    <div class="caption">
-                        <h3 style="font-size:20px; color: white">Josefina Silva</h3>
-                        <p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-                    </div>
-                </div>
-            </div>              
-            <div class="contractor-item">
-                <div class="thumbnail">
-                    <img src="./imagens/avatar9.png">
-                    <div class="caption">
-                        <h3 style="font-size:20px; color: white">Jubiliana Carry</h3>
-                        <p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-                    </div>
-                </div>
-            </div>              
-            <div class="contractor-item">
-                <div class="thumbnail">
-                    <img src="./imagens/avatar1.png">
-                    <div class="caption">
-                        <h3 style="font-size:20px; color: white">Maria Fátima</h3>
-                        <p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-                    </div>
-                </div>
-            </div>              
+            </div>   
+
+            <?php 
+            }
+            ?>             
         </div>
         <!-- fim grid -->
 

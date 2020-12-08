@@ -29,17 +29,17 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
 	        <li class="nav-item active">
-	            <a class="nav-link" href="./visao-contratante.html"> Busca </a>
+	            <a class="nav-link" href="./visao-contratante.php"> Busca </a>
 	        </li>
 	        <li class="nav-item active">
-	            <a class="nav-link" href="./perfilcontratante.html"> Perfil </a>
+	            <a class="nav-link" href="./perfilcontratante.php"> Perfil </a>
 	        </li>
 	        <li class="nav-item active">
-	            <a class="nav-link" href="./manter-solicitacao-contratante.html"> Minhas Solicitações </a>
+	            <a class="nav-link" href="./manter-solicitacao-contratante.php"> Minhas Solicitações </a>
 	        </li>
           </ul>
           	<div class="form-inline my-2 my-lg-0">
-	      		<a class="nav-link" href="./index.html" id="btn-sair" style="color:white;"> Sair </a>
+	      		<a class="nav-link" href="./sair.php" id="btn-sair" style="color:white;"> Sair </a>
 	    	</div>
         </div>
       </nav>
@@ -48,29 +48,60 @@
 		<div class="section profile-div" id="profile">
 			<!-- informações do perfil-->
             <div class="container">
+
+				<?php
+					$var_id = $_SESSION['pessoa']['id_pessoa'];
+
+					$consulta = "SELECT * FROM pessoa WHERE id_pessoa = $var_id";
+					$con = $conn -> query($consulta) or die($conn-> error);
+				?>
+
+		  		<?php while ($dados_pessoa= $con ->fetch_array() ){
+		  			$tipo_pessoa = $dados_pessoa["tipo_pessoa"];
+		  		?>	   
+
                 <div class="row align-items-center flex-row-reverse">
                     <div class="col-lg-6">
                         <div class="profile-text go-to">
-                            <h3 class="dark-color">Julia Contratante</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tempus rutrum bibendum. Sed ornare vel arcu non varius. Sed mattis risus sit amet sagittis dignissim. Fusce turpis nisi, pharetra non consequat sed, maximus id augue. Aliquam a laoreet eros. </p>
+                            <h3 class="dark-color"><?php echo $dados_pessoa["nome"]; ?></h3>
+                                <p><?php echo $dados_pessoa["descricao"]; ?></p>
                             <div class="row profile-list">
                                 <div class="col-md-6">
                                     <div class="media">
                                         <label>Idade</label>
-                                        <p>49 Anos</p>
+									
+										<?php
+											$dataNascimento = $dados_pessoa["data_nascimento"];;
+											$date = new DateTime($dataNascimento );
+											$interval = $date->diff( new DateTime( date('Y-m-d') ) );
+										?>
+
+                                        <p><?php echo $interval->format( '%Y anos' ); ?></p>
                                     </div>
                                     <div class="media">
                                         <label>Cidade</label>
-                                        <p>Maringá</p>
+                                        <p><?php echo $dados_pessoa["cidade"]; ?></p>
                                     </div>
 
                                 </div>
                                 <div class="col-md-6">
                                     <div class="media">
                                         <label>E-mail</label>
-                                        <p>example@gmail.com</p>
+                                        <p><?php echo $dados_pessoa["email"]; ?></p>
                                     </div>
-
+                                    <div class="media">
+                                        <label>Sexo</label>
+										<?php
+											if ($dados_pessoa["sexo"] == 1) {
+											    $sexo = 'Masculino';
+											} elseif ($dados_pessoa["sexo"] == 2) {
+											    $sexo = 'Feminino';
+											} else {
+											    $sexo = 'Outros';
+											}
+										?>
+	                                        <p> <?php echo $sexo; ?></p>
+                                    </div>                                
                                 </div>
                             </div>
                         </div>
@@ -79,11 +110,24 @@
                     <div class="col-lg-6">
                         <div class="profile-avatar" >
                         	<div class="img-container">
-                        		<img src="./imagens/mulher.png	" class="rounded img-thumbnail" title="avatar">
+
+								<?php
+									if ($dados_pessoa["foto"] != NULL) {
+										$foto = $dados_pessoa["foto"]; 
+									} else {
+									    $foto = 'profile.png';
+									}
+								?>
+
+                        		<img src="./imagens/<?php echo $foto; ?>" class="rounded img-thumbnail" title="avatar">
                         	</div>
                         </div>
                     </div>
                 </div>
+
+				<?php 
+					}
+				?> 
 
                 <!--div com cliente, qte avaliações e star rating -->
                 <div class="counter">
@@ -119,10 +163,11 @@
 			<div class="row" id="nada">
 			  	<!--menu de outras manutenções-->
 			  	<div class="col-6" id="buttons">
-
-			  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#editarModal" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-cog"></i>&nbsp; Editar Perfil &nbsp;</button>
-			  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#enderecoModal" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-key fa-fw	"></i>&nbsp; Meus Endereços &nbsp;</button>
-			  		<button type="button" class="btn btn-lg btn-block btManter" id="desativarConta" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-trash-o"></i>&nbsp; Desativar Conta &nbsp;</button>
+			  		<form name="form-altera-pessoa" id="form-altera-pessoa">
+				  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#editarModal" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="buscaInfoPessoa(<?php echo $var_id; ?>)"><i class="fa fa-cog"></i>&nbsp; Editar Perfil &nbsp;</button>
+				  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#enderecoModal" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-key fa-fw	"></i>&nbsp; Meus Endereços &nbsp;</button>
+				  		<button type="button" class="btn btn-lg btn-block btManter" id="desativarConta" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-trash-o"></i>&nbsp; Desativar Conta &nbsp;</button>
+			  		</form>
 			  	</div>
 
 			</div>
@@ -130,31 +175,37 @@
         	<!--modal editar perfil -->
         	<div class="modal fade modal-lg" id="editarModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 			  	<div class="modal-dialog modal-lg">
-			    	<div class="modal-content">
-			      	<div class="modal-header">
-			        	<h5 class="modal-title" id="editarModalTitle">Editar Perfil</h5>
-			        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			          	<span aria-hidden="true">&times;</span>
-			        	</button>
-			      	</div>
-			      	<div class="modal-body" id="editarBody">
-			      		<form id="editarForm">
-			      			<div class="form-group">
-								<label for="editarDescricao">Descrição:</label>		
-								<textarea class="form-control" id="editarDescricao" rows="3" name="nome" id="editarDescricao" placeholder="uma breve descrição de você ou seu serviços..."s></textarea>
-							</div>
-			      			<div class="form-group labelPeq">
-								<label for="editarNome">Nome:</label>		
-								<input class="form-control form-control-sm" type="text" name="nome" id="editarNome" placeholder="Novo nome.." maxlength="50">
-							</div>
-			      			<div class="form-group labelPeq">
-								<label for="editarTelefone">Telefone:</label>		
-								<input class="form-control form-control-sm" type="tel" name="telefone" id="editarTelefone" placeholder="(00) 98855-7711" minlength="11">
-							</div>
-			      			<button type="submit" class="btn btn-primary buttonEditar" id="buttonEditarPerfil" value="Enviar" disabled data-toggle="tooltip" title="Esse botão é desabilitado se os campos estiverem vazios."> Salvar Edição </button>
-			      		</form>
-			      	</div>
-			    	</div>
+			  		<form id="form-altera-pessoa-modal" name="form-altera-pessoa-modal">
+				    	<div class="modal-content">
+					      	<div class="modal-header">
+					        	<h5 class="modal-title" id="editarModalTitle">Editar Perfil</h5>
+					        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          	<span aria-hidden="true">&times;</span>
+					        	</button>
+					      	</div>
+					      	<div class="modal-body" id="editarBody">
+					      		<form id="editarForm">
+					      			<div class="form-group">
+										<label for="editarDescricao">Descrição:</label>		
+										<textarea class="form-control" id="editarDescricao" rows="3" name="descricao" id="editarDescricao" placeholder="uma breve descrição de você ou seu serviços..."s><?php if(isset($_GET['descricao']))echo $_GET['descricao']; ?></textarea>
+									</div>
+					      			<div class="form-group labelPeq">
+										<label for="editarNome">Nome:</label>		
+										<input class="form-control form-control-sm" type="text" name="nome" id="editarNome" placeholder="Novo nome.." maxlength="50" value="<?php echo $_GET['nome']; ?>">
+									</div>
+					      			<div class="form-group labelPeq">
+										<label for="editarTelefone">Telefone:</label>		
+										<input class="form-control form-control-sm" type="tel" name="telefone" id="editarTelefone" placeholder="(00) 98855-7711" minlength="11" value="<?php echo $_GET['telefone']; ?>">
+									</div>
+					      			<div class="form-group labelPeq">
+										<label for="foto">Foto de Perfil:</label>		
+										<input type="file" id="foto" name="foto" value="<?php echo $_GET['foto']; ?>">
+									</div>								
+					      			<button type="submit" class="btn btn-primary buttonEditar" id="buttonEditarPerfil" value="Enviar" data-toggle="tooltip" title="Esse botão é desabilitado se os campos estiverem vazios." onclick="salvar_alteracoes(<?php echo $var_id; ?>,<?php echo $tipo_pessoa; ?>)">> Salvar Edição </button>
+					      		</form>
+					      	</div>
+				    	</div>
+				    </form>
 			  	</div>
 			</div>	
 			<!--modal crud endereço -->
@@ -241,7 +292,7 @@
 	   	<div class="item footer" style="color:white;">Copyright @EmpregadíssimaOwners</div>
 		</div>
 		<div id="caixa" title="Alerta"> 	
-			<p>Tem certeza que deseja <b>desativar<b> sua conta? A reativação só é possível após contato com o Administrador</p>
+			<p>Tem certeza que deseja <b>desativar</b> sua conta? A reativação só é possível após contato com o Administrador</p>
 		</div>
 		<div id="caixa2" title="Alerta"> 	
 			<p>Tem certeza que deseja <b>excluir</b> esse endereço?</p>
@@ -257,6 +308,10 @@
 			$("#new-service").toggle("slow");
 			});
 		});
+
+		if (window.location.search.substring(0,11) == "?descricao=") {
+			$('#editarModal').modal('show');
+		}
 
 		function abreAdicionarSolicitação() {
 			window.open("enviar-solicitacao.html","_blank");
@@ -392,6 +447,20 @@
 		    	$('#buttonED').prop("disabled",false);
 		    }
 		});
-			
+
+
+		/*Busca Informações para modal Editar Perfil*/
+		function buscaInfoPessoa(id_pessoa){
+ 			  document.getElementById("form-altera-pessoa").action= "../controller/Usuario_Controller.php?metodo=buscar&id_pessoa="+id_pessoa;
+		 	  document.getElementById("form-altera-pessoa").method= "POST";
+			  document.getElementById("form-altera-pessoa").submit(); // Form submission
+    	}
+
+    	/*salva alterações do usuário -> foto, detalhes, telefone etc*/
+    	function salvar_alteracoes(id_pessoa, tipo_pessoa){
+ 			document.getElementById("form-altera-pessoa-modal").action= "../controller/Usuario_Controller.php?metodo=atualizar&id_pessoa="+id_pessoa+"&tipo_pessoa="+tipo_pessoa;
+		 	document.getElementById("form-altera-pessoa-modal").method= "POST";
+			document.getElementById("form-altera-pessoa-modal").submit(); // Form submission
+    	}					
 	</script>
 </html>
