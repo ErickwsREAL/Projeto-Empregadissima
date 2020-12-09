@@ -22,21 +22,32 @@
             echo '<script>location.href="../views/perfil.php"</script>';
             break;
         case 'buscar':
-
-            $parametros = Usuario::select($_GET['id_diaria'], $_POST);
-
+            $parametros = Usuario::select($_GET['id_pessoa'], $_POST);
             $valores = array();
-            $valores['desc_servico'] = $parametros['desc_servico'];
-            $valores['preco_servico'] = $parametros['preco_servico'];
-            $valores['id_diaria'] = $parametros['id_diaria'];
+            $valores['descricao'] = $parametros['descricao'];
+            $valores['nome'] = $parametros['nome'];
+            $valores['telefone'] = $parametros['telefone'];
+            $valores['foto'] = $parametros['foto'];
+            $valores['tipo_pessoa'] = $parametros['tipo_pessoa'];
 
-            echo '<script>location.href="../views/perfil.php?desc_servico='.$valores['desc_servico'].'&preco_servico='.$valores['preco_servico'].'&id_diaria='.$valores['id_diaria'].'"</script>';
+            if ($valores['tipo_pessoa'] == 2) {
+                echo '<script>location.href="../views/perfilcontratante.php?descricao='.$valores['descricao'].'&nome='.$valores['nome'].'&telefone='.$valores['telefone'].'&foto='.$valores['foto'].'"</script>';                
+            }
+            else{
+                echo '<script>location.href="../views/perfil.php?descricao='.$valores['descricao'].'&nome='.$valores['nome'].'&telefone='.$valores['telefone'].'&foto='.$valores['foto'].'"</script>';
+            }
+
             break;
         case 'atualizar':
 
             Usuario::update($_GET, $_POST);
             echo '<script>alert("Cadastro atualizado com sucesso!")</script>';
-            echo '<script>location.href="../views/perfil.php"</script>';    
+            if ($_GET['tipo_pessoa'] == 2) {
+                echo '<script>location.href="../views/perfilcontratante.php"</script>';           
+            }
+            else{
+                echo '<script>location.href="../views/perfil.php"</script>';  
+            }    
             break;    
         #ENDEREÇO CRUD ------------------------------------------------------------------------------------------------------------------------------------
         case 'insertEndereço':
@@ -77,8 +88,8 @@
             if(isset($_POST['checkbox-apv-cdtros'])){
                 foreach($_POST['checkbox-apv-cdtros'] as $apvid){
 
-                    $deleteUser = "UPDATE pessoa SET status_cadastro = 2  WHERE id_pessoa =".$apvid;
-                    mysqli_query($conn,$deleteUser);
+                    $altUser = "UPDATE pessoa SET status_cadastro = 2  WHERE id_pessoa =".$apvid; // 2 - cadastro aprovado
+                     mysqli_query($conn,$altUser);
                 }   
             }
 
@@ -92,8 +103,8 @@
             if(isset($_POST['checkbox-apv-cdtros'])){
                 foreach($_POST['checkbox-apv-cdtros'] as $apvid){
 
-                    $deleteUser = "UPDATE pessoa SET status_cadastro = 3  WHERE id_pessoa =".$apvid;
-                    mysqli_query($conn,$deleteUser);
+                    $altUser = "UPDATE pessoa SET status_cadastro = 3  WHERE id_pessoa =".$apvid; // 3 - cadastro reprovado
+                    mysqli_query($conn,$altUser);
                 }   
             }
 
@@ -109,15 +120,14 @@
             if(isset($_POST['checagem'])){
                 foreach($_POST['checagem'] as $apvid){   
                     $adm = ("DELETE FROM pessoa WHERE id_pessoa =".$apvid);
-                    
+
                     mysqli_query($conn,$adm); 
                 }   
-            
+
             }
             echo '<script>alert("Cadastro removido!")</script>';
-            
-            echo '<script>location.href="../views/adm-manter-cadastros.php"</script>';    
-            break;            
-             
+
+            echo '<script>location.href="../views/adm-manter-cadastros.php"</script>';        
+            break;    
     }    
 ?>
