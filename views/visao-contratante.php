@@ -89,10 +89,20 @@
 
         <!-- inicio area do filtro/busca -->
         <div class="filter-section">
-            <div class="search-bar" action="action_page.php" >
+            <form action="visao-contratante.php" method="post" class="search-bar">
                 <input type="text" placeholder="Procure por um(a) prestador(a)..." name="search">
                 <button type="submit"><i class="fa fa-search"></i></button>
-            </div>
+            </form>
+            <?php
+                $var_id = $_SESSION['pessoa']['id_pessoa'];
+                if (isset($_POST["search"])) {
+                    $str = $_POST["search"];
+                    $query = "SELECT id_pessoa, nome, foto FROM pessoa WHERE tipo_pessoa = 1 AND nome LIKE '%$str%'";
+                } else {
+                    $query = "SELECT id_pessoa, nome, foto FROM pessoa WHERE tipo_pessoa = 1";
+                }
+                $result = $conn->query($query) or die($conn->error);
+            ?>
             <!-- inicio botão do filtro -->
             <button onclick="change()" id="filter-button" class="filter-button btn-sm btn-primary" value="false">
                 Mostrar filtros
@@ -141,7 +151,6 @@
 
         <!-- inicio grid -->
         <div class="contractor-grid">
-
             <?php
                 $var_id = $_SESSION['pessoa']['id_pessoa'];
 
@@ -153,7 +162,6 @@
             ?>   
             <div class="contractor-item">
                 <div class="thumbnail">
-
                     <?php
                         if ($dados_pessoa["foto"] != NULL) {
                             $foto = $dados_pessoa["foto"]; 
@@ -169,10 +177,10 @@
                     </div>
                 </div>
             </div>   
-
             <?php 
             }
             ?>             
+
         </div>
         <!-- fim grid -->
 

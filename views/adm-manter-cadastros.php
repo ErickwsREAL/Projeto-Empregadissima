@@ -569,7 +569,7 @@
 								</div>
 							</div>
 							<div style="margin-left: 0.5%; display: inline-block; width: 9%;" class="form-group">
-								<select onchange="changeFunction()" class="form-control form-control-sm" id="select-user">
+								<select name="select-user-type" onchange="changeFunction()" class="form-control form-control-sm" id="select-user">
 									<option>Tipo de usuário</option>
 									<option>Prestador</option>
 									<option>Contratante</option>
@@ -593,158 +593,40 @@
 									</div>
 									<button onclick="resetFields()" id="user-reset-button" class="cancel-button btn-sm btn-danger">Resetar</button>
 									<button onclick="showUserGrid()" id="user-apply-button" class="apply-button btn-sm btn-success">Aplicar</button>
-								</div>	
+								</div>
+								<?php
+									$query = "SELECT id_pessoa, nome, foto, tipo_pessoa FROM pessoa";
+									$result = $conn->query($query) or die($conn->error);
+								?>
 								<div id="user-grid">
+									<?php while ($dados_pessoa_relatorio = $result->fetch_array() ){
+									?>
 									<div id="user-item">
 										<div class="thumbnail">
-											<img src="./imagens/avatar3.png">
+											<?php
+												if ($dados_pessoa_relatorio["foto"] != NULL) {
+													$foto = $dados_pessoa_relatorio["foto"]; 
+												} else {
+													$foto = 'profile.png';
+												}
+
+												if ($dados_pessoa_relatorio['tipo_pessoa'] == 1) {
+													$tipo_pessoa = "Prestador";
+												} else {
+													$tipo_pessoa = "Contratante";
+												}
+											?>
+											<img id="report-img" src="./imagens/<?php echo $foto; ?>">
 											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Prestadora</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
+												<h3 style="font-size:20px; color: white"><?php echo $dados_pessoa_relatorio["nome"]; ?></h3>
+												<h3 style="font-size:20px; color: white"><?php echo $tipo_pessoa; ?></h3>
+												<p><a href="./perfil-prestador-visao-contratante.php?id_prestador=<?php echo $dados_pessoa_relatorio["id_pessoa"]; ?>" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
 											</div>
 										</div>
 									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar2.png">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Contratante</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar1.png">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Prestadora</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar7.jpeg">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Contratante</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar7.jpeg">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Prestadora</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar3.png">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Prestadora</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar2.png">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Contratante</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar1.png">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Prestadora</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar7.jpeg">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Contratante</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar7.jpeg">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Prestadora</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar3.png">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Prestadora</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar2.png">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Contratante</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar1.png">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Prestadora</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar7.jpeg">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Contratante</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar7.jpeg">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Prestadora</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
+									<?php 
+									}
+									?>
 								</div>
 								<div id="graph-user-wrapper">
 									<div style="display: inline-block;" id="user_piechart"></div>
