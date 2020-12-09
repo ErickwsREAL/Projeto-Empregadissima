@@ -67,9 +67,9 @@
             echo '<script>location.href="../views/perfilcontratante.php?bairro='.$valores['Bairro'].'&rua='.$valores['Rua'].'&numero='.$valores['Numero'].'&complemento='.$valores['Complemento'].'&cep='.$valores['CEP'].'&id_end='.$valores['id_end'].'"</script>';
 
         case 'atualizarEndereço':
-            //Usuario::atualizarEndereço($_GET['id_end']);
+            Usuario::atualizarEndereço($_POST);
 
-            echo '<script>alert("Endereço Excluido!")</script>';
+            echo '<script>alert("Endereço Atualizado!")</script>';
             echo '<script>location.href="../views/perfilcontratante.php"</script>';        
         #ADM CRUD------------------------------------------------------------------------------------------------------------------------------------------    
         case 'aprovar_cadastro':
