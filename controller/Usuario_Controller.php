@@ -48,7 +48,18 @@
             else{
                 echo '<script>location.href="../views/perfil.php"</script>';  
             }    
-            break;    
+            break;
+
+        case 'desativarCadastro':
+
+            Usuario::desativarCadastro($_POST);
+            
+            echo '<script>alert("Cadastro Desativado!")</script>';
+            echo '<script>location.href="../views/index.php"</script>';           
+                
+            break;
+
+
         #ENDEREÇO CRUD ------------------------------------------------------------------------------------------------------------------------------------
         case 'insertEndereço':
             Usuario::insertEndereço($_POST);

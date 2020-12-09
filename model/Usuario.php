@@ -1,8 +1,20 @@
 <?php
     class Usuario{    
 
-    	public static function insert($dadosUsuario){
-           include ("logar_bd_empregadissimas.php");
+    	public static function desativarCadastro($id_pessoa){
+            include ("logar_bd_empregadissimas.php");
+           
+            $id_p = $id_pessoa['id_p'];
+
+            $sql = "UPDATE pessoa SET status_cadastro = 3 WHERE id_pessoa = '$id_p'";
+
+            $conn->query($sql);
+
+            $conn->close();
+        }
+
+        public static function insert($dadosUsuario){
+            include ("logar_bd_empregadissimas.php");
 
             $nome = $dadosUsuario['nome'];
             $cpf = $dadosUsuario['cpf'];

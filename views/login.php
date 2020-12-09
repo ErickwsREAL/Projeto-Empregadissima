@@ -29,8 +29,12 @@ if(!empty($email) && !empty($senha)){
             header("location: perfilcontratante.php");
         }
     }
-    elseif ($row['status_cadastro'] != '2') {
+    elseif ($row['status_cadastro'] == '2') {
         echo '<script>alert("Seu login ainda não foi liberado, aguarde um email do Empregadíssimas liberando-o :(")</script>';
+        echo '<script>location.href="../views/index.php"</script>';
+    }
+    elseif ($row['status_cadastro'] == '3') {
+        echo '<script>alert("Seu Cadastro foi desativado, entre em contato com os Administradores se deseja ativar novamente.")</script>';
         echo '<script>location.href="../views/index.php"</script>';
     }
     else{

@@ -166,8 +166,11 @@
 			  		<form name="form-altera-pessoa" id="form-altera-pessoa">
 				  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#editarModal" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="buscaInfoPessoa(<?php echo $var_id; ?>)"><i class="fa fa-cog"></i>&nbsp; Editar Perfil &nbsp;</button>
 				  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#enderecoModal" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-key fa-fw	"></i>&nbsp; Meus Endereços &nbsp;</button>
-				  		<button type="button" class="btn btn-lg btn-block btManter" id="desativarConta" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-trash-o"></i>&nbsp; Desativar Conta &nbsp;</button>
 			  		</form>
+			  		<form method="POST" action="../controller/Usuario_Controller.php?metodo=desativarCadastro">
+				  		<input name="id_p" value="<?php echo $var_id ?>" style="display: none;">
+				  		<button type="submit" class="btn btn-lg btn-block btManter" id="desativarConta" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-trash-o"></i>&nbsp; Desativar Conta &nbsp;</button>
+				  	</form>
 			  	</div>
 
 			</div>
@@ -319,9 +322,7 @@
 
 	   	<div class="item footer" style="color:white;">Copyright @EmpregadíssimaOwners</div>
 		</div>
-		<div id="caixa" title="Alerta"> 	
-			<p>Tem certeza que deseja <b>desativar</b> sua conta? A reativação só é possível após contato com o Administrador</p>
-		</div>
+		
 	</body>
 
 	<!--jquery -->
@@ -363,23 +364,6 @@
 
 			$( "#buttonExcluirEnd" ).on( "click", function() {
 			    $( "#caixa2" ).dialog( "open" );
-			});
-
-			$("#caixa").dialog({
-				autoOpen: false,
-				modal: true,
-				resizable: false,
-				draggable: false,
-				height: "auto",
-				width: 350,
-				buttons: {
-		        	"Sim": function() {
-		          	$( this ).dialog( "close" );
-		        	},
-		        	Cancelar: function() {
-		          	$( this ).dialog( "close" );
-		        	}
-	      		}
 			});
 
 			var $campoTel = $("#editarTelefone");
