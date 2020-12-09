@@ -198,28 +198,28 @@
 
 				      	<div id="editarEnd3">			
 				      			<p> Editar Endereço Selecionado:</p>
-				      			<form id="formEndereco">
+				      			<form id="formEndereco" method="POST" action="../controller/Usuario_Controller.php?metodo=atualizarEndereço">
 									<div class="form-row">
 	    								<div class="col-md-4">
-	      									<input type="text" class="form-control" placeholder="Bairro" id="bairroUsuárioED" name="bairro" value="<?php echo $_GET['bairro']; ?>">
+	      									<input type="text" class="form-control" placeholder="Bairro" id="bairroUsuárioED" name="bairro" value="<?php  if(isset($_GET['bairro'])) echo $_GET['bairro']; ?>">
 	    								</div>
 	    								<div class="col-md-4">
-	      									<input type="text" class="form-control" placeholder="Rua" id="ruaUsuárioED" name="rua" value="<?php echo $_GET['rua']; ?>">
+	      									<input type="text" class="form-control" placeholder="Rua" id="ruaUsuárioED" name="rua" value="<?php if(isset($_GET['rua'])) echo $_GET['rua']; ?>">
 	    								</div>
 	  									<div class="col-md-2">
-	  										<input type="number" class="form-control" placeholder="Numero" id="numeroUsuárioED" name="numero" value="<?php echo $_GET['numero']; ?>">
+	  										<input type="number" class="form-control" placeholder="Numero" id="numeroUsuárioED" name="numero" value="<?php if(isset($_GET['numero'])) echo $_GET['numero']; ?>">
 	  									</div>
 	  								</div>
 	  								<div class="form-row">
 	  									<div class="col-md-4">
-	  										<input type="text" class="form-control" name="complemento" id="complementoUsuárioED" placeholder="Complemento" value="<?php echo $_GET['complemento']; ?>">
+	  										<input type="text" class="form-control" name="complemento" id="complementoUsuárioED" placeholder="Complemento" value="<?php if(isset($_GET['complemento'])) echo $_GET['complemento']; ?>">
 	  									</div>
 	  									<div class="col-md-2">
-	  										<input type="text" class="form-control" name="CEP" placeholder="CEP" id="cepUsuárioED" max="9" value="<?php echo $_GET['cep']; ?>">
+	  										<input type="text" class="form-control" name="cep" placeholder="CEP" id="cepUsuárioED" max="9" value="<?php if(isset($_GET['cep'])) echo $_GET['cep']; ?>">
 	  									</div>
-	  										<input name="id_c" id="id_c" value="<?php echo $_GET['id_end']; ?>" style="visibility: hidden;">
+	  										<input name="id_end" id="id_c" value="<?php echo $_GET['id_end']; ?>" style="visibility: hidden;">
 	  								</div>
-	  								<button type="submit" class="btn btn-primary buttonEditar butf" id="buttonED" value="Enviar" disabled data-toggle="tooltip" title="Esse botão é desabilitado se os campos estiverem vazios." >Salvar</button>
+	  								<button type="submit" class="btn btn-primary buttonEditar butf" id="buttonED" value="Enviar" disabled data-toggle="tooltip" title="Esse botão é desabilitado se os campos estiverem vazios.">Salvar</button>
 	  								<button type="button" class="btn btn-primary buttonEditar butf" id="buttonCan">Cancelar</button>
 								</form>
 							</div>
@@ -288,9 +288,9 @@
 				window.open("enviar-solicitacao.html","_blank");
 			}
 
+			
 			$('#buttonEditarEnd').on('click', function(){
 				$('#editarEnd3').show();
-				$('#editarEndereço').hide();	
 			});
 
 			$('#buttonCan').on('click', function(){

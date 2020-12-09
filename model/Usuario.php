@@ -73,6 +73,22 @@
                 return $dados;  
         }
         
+        public static function atualizarEndereço($dadosEnd){
+            include ("logar_bd_empregadissimas.php");
+
+                $bairro = $dadosEnd['bairro'];
+                $rua = $dadosEnd['rua'];
+                $numero = $dadosEnd['numero'];
+                $complemento = $dadosEnd['complemento'];
+                $cep = $dadosEnd['cep'];
+                $id_end = $dadosEnd['id_end'];
+
+                $sql = "UPDATE endereco SET bairro = '$bairro', rua = '$rua', numero = '$numero', complemento = '$complemento', cep = '$cep' WHERE id_endereco = '$id_end'";
+                
+                $conn->query($sql);
+
+                $conn->close();
+        }
 
     	public static function select($dadosGET, $params){
 			include ("logar_bd_empregadissimas.php");
