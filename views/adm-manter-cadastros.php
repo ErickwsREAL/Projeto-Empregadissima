@@ -154,7 +154,7 @@
 										</tr>
 										
 										<?php
-										 	$stmt = $conn->prepare("SELECT * FROM pessoa WHERE status_cadastro = '2'");
+										 	$stmt = $conn->prepare("SELECT * FROM pessoa WHERE status_cadastro != '1'");
 										 	$stmt->execute();
 										 	$result = $stmt->get_result();	
 
