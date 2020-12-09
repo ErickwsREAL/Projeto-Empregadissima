@@ -154,7 +154,7 @@
 										</tr>
 										
 										<?php
-										 	$stmt = $conn->prepare("SELECT * FROM pessoa");
+										 	$stmt = $conn->prepare("SELECT * FROM pessoa WHERE status_cadastro = '2'");
 										 	$stmt->execute();
 										 	$result = $stmt->get_result();	
 
@@ -809,15 +809,6 @@
 		  <p> Para Reprovar Cadastros é necessário selecionar pelo menos 1 checkbox </p>
 		</div>
 
-		<div class="dialog-excluir-adm" id="dialog-excluir-adm" title="Alerta">
-		  <p> Deseja <b>excluir</b> esta/estas contas? </p>
-		</div>
-
-		<!--Verifica se o usuário checou algum checkbox -->
-		<div class="dialog-checkbox-nao-checado2" id="dialog-checkbox-nao-checado2" title=" Erro! ">
-		  <p> Para excluir Cadastros é necessário selecionar pelo menos 1 checkbox </p>
-		</div>
-
 		<!--fim do formulario-->
 	</form>
 
@@ -879,41 +870,6 @@
 		      }
 		    });
 		} );
-
-		$( function() {
-		    $( "#dialog-excluir-adm" ).dialog({
-		    	autoOpen: false,
-		     	resizable: false,
-		      	height: "auto",
-		      	width: 400,
-		      	modal: true,
-		      	buttons: {
-		        "Sim": function() {
-		          $( this ).dialog( "close" );
-		        },
-		        Sair: function() {
-		          $( this ).dialog( "close" );
-		        }
-		      }
-		    });
-		} );
-
-		$( function() {
-		    $( "#dialog-checkbox-nao-checado2" ).dialog({
-		    	autoOpen: false,
-		     	resizable: false,
-		      	height: "auto",
-		      	width: 400,
-		      	modal: true,
-		      	buttons: {
-		        Ok: function() {
-		          $( this ).dialog( "close" );
-		        }
-		      }
-		    });
-		} );
-
-
 
 	});
 
