@@ -30,14 +30,14 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
 	        <li class="nav-item active">
-				<a class="nav-link" href="./perfil.html"> Perfil </a>
+				<a class="nav-link" href="./perfil.php"> Perfil </a>
 	        </li>
 	        <li class="nav-item active">
-	            <a class="nav-link" href="./manter-solicitacao"> Minhas Solicitações </a>
+	            <a class="nav-link" href="./manter-solicitacao.php"> Minhas Solicitações </a>
 	        </li>
           </ul>
           	<div class="form-inline my-2 my-lg-0">
-	      		<a class="nav-link" href="./index.html" id="btn-sair" style="color:white;"> Sair </a>
+	      		<a class="nav-link" href="./index.php" id="btn-sair" style="color:white;"> Sair </a>
 	    	</div>
         </div>
     </nav>

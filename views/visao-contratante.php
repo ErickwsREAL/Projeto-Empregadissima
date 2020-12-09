@@ -68,17 +68,17 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                <a class="nav-link" href="./visao-contratante.html"> Busca </a>
+                <a class="nav-link" href="./visao-contratante.php"> Busca </a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="./perfilcontratante.html">Perfil </a>
+                    <a class="nav-link" href="./perfilcontratante.php">Perfil </a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="./manter-solicitacao-contratante.html">Minhas Solicitações </a>
+                    <a class="nav-link" href="./manter-solicitacao-contratante.php">Minhas Solicitações </a>
                 </li>
             </ul>
             <div class="form-inline my-2 my-lg-0">
-                <a class="nav-link" href="./index.html" id="btn-sair" style="color:white;   "> Sair </a>
+                <a class="nav-link" href="./index.php" id="btn-sair" style="color:white;   "> Sair </a>
             </div>
             </div>
         </nav>
