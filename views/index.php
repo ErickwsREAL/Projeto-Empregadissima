@@ -39,7 +39,7 @@
 		<div class="container mt-5" id="headerT">
 			<h2> Bem Vindo ao</h2>	
 			<h1> Empregadíssima </h1>
-			<p> Contrate e disponibilize serviços dométicos de forma fácil.</p>
+			<p> Contrate e disponibilize serviços domésticos de forma fácil.</p>
 		</div>
 
 		<div class="container" id="middle">

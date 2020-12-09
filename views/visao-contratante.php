@@ -151,14 +151,9 @@
 
         <!-- inicio grid -->
         <div class="contractor-grid">
-            <?php
-                $var_id = $_SESSION['pessoa']['id_pessoa'];
+         
 
-                $consulta = "SELECT * FROM pessoa WHERE tipo_pessoa = 1";
-                $con = $conn -> query($consulta) or die($conn-> error);
-            ?>
-
-            <?php while ($dados_pessoa= $con ->fetch_array() ){
+            <?php while ($dados_pessoa= $result ->fetch_array() ){
             ?>   
             <div class="contractor-item">
                 <div class="thumbnail">

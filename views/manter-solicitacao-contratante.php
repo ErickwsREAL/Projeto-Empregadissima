@@ -632,7 +632,7 @@ function getDadosPrestador($id_prestador) {
 
 	function buscarDetalhes(id_serv, tipo_pessoa){
 		var id_servico = id_serv.substring(13);
-			alert(tipo_pessoa);
+	
 
 			document.getElementById("form-pend").action= "../controller/Servico_Controller.php?metodo=buscar&id_servico="+id_servico+"&tipo_pessoa="+tipo_pessoa;
 	 	 	document.getElementById("form-pend").method= "POST";
