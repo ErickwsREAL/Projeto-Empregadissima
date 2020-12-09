@@ -3,7 +3,11 @@
 
 <?php include "verifica_login.php"?>
 
-<?php echo $_SESSION['pessoa']['id_pessoa']?>
+<?php echo $_SESSION['pessoa']['id_pessoa'];
+
+$id_prestador=$_GET["id_prestador"];
+
+?>
 
 <!DOCTYPE html>
 <html>
@@ -33,7 +37,7 @@
 	        </li>
    	      	</ul>
 	    	<div class="form-inline my-2 my-lg-0">
-	      		<a class="nav-link" href="./index.php" id="btn-sair" style="color:white;"> Sair </a>
+	      		<a class="nav-link" href="./sair.php" id="btn-sair" style="color:white;"> Sair </a>
 	    	</div>
 	        </div>
 	    </nav>
@@ -42,31 +46,55 @@
 		<div class="section profile-div" id="profile">
 			<!-- informações do perfil-->
             <div class="container">
+
+				<?php
+					$var_id = $_SESSION['pessoa']['id_pessoa']; //id do contratante 
+
+					$consulta = "SELECT * FROM pessoa WHERE id_pessoa = $id_prestador"; // busca informações do id do prestador
+					$con = $conn -> query($consulta) or die($conn-> error);
+				?>
+
+		  		<?php while ($dados_prestador= $con ->fetch_array() ){
+		  		?>	
+
                 <div class="row align-items-center flex-row-reverse">
                     <div class="col-lg-6">
                         <div class="profile-text go-to">
-                            <h3 class="dark-color">Rita Prestadora</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tempus rutrum bibendum. Sed ornare vel arcu non varius. Sed mattis risus sit amet sagittis dignissim. Fusce turpis nisi, pharetra non consequat sed, maximus id augue. Aliquam a laoreet eros. </p>
+                            <h3 class="dark-color"><?php echo $dados_prestador["nome"]; ?></h3>
+                                <p><?php echo $dados_prestador["descricao"]; ?></p>
                             <div class="row profile-list">
                                 <div class="col-md-6">
                                     <div class="media">
                                         <label>Idade</label>
-                                        <p>38 Anos</p>
+											<?php
+												$dataNascimento = $dados_prestador["data_nascimento"];;
+												$date = new DateTime($dataNascimento);
+												$interval = $date->diff( new DateTime( date('Y-m-d') ) );
+											?>	                                        
+                                        <p><?php echo $interval->format( '%Y anos' ); ?></p>
                                     </div>
                                     <div class="media">
                                         <label>Cidade</label>
-                                        <p>Maringá</p>
+                                        <p><?php echo $dados_prestador["cidade"]; ?></p>
                                     </div>
 
                                 </div>
                                 <div class="col-md-6">
                                     <div class="media">
                                         <label>E-mail</label>
-                                        <p>example@gmail.com</p>
+                                        <p><?php echo $dados_prestador["email"]; ?></p>
                                     </div>
                                     <div class="media">
-                                        <label>Sexo</label>
-                                        <p>Feminino</p>
+										<?php
+											if ($dados_prestador["sexo"] == 1) {
+											    $sexo = 'Masculino';
+											} elseif ($dados_prestador["sexo"] == 2) {
+											    $sexo = 'Feminino';
+											} else {
+											    $sexo = 'Outros';
+											}
+										?>                                    	
+                                        <label><?php echo $sexo; ?></label>
                                     </div>
                                 </div>
                             </div>
@@ -76,11 +104,23 @@
                     <div class="col-lg-6">
                         <div class="profile-avatar" >
                         	<div class="img-container">
-                        		<img src="./imagens/woman21.jpg" class="rounded img-thumbnail" title="avatar">
+								<?php
+									if ($dados_prestador["foto"] != NULL) {
+										$foto = $dados_prestador["foto"]; 
+									} else {
+									    $foto = 'profile.png';
+									}
+								?>
+                        		<img src="./imagens/<?php echo $foto; ?>" class="rounded img-thumbnail" title="avatar">
                         	</div>
                         </div>
                     </div>
                 </div>
+					<?php 
+						  }
+
+					?> 
+
 
                 <!--div com cliente, qte avaliações e star rating -->
                 <div class="counter">
@@ -127,7 +167,7 @@
 					<div class="card">
 
 						<?php
-							$consulta = "SELECT descricao_diaria, valor, id_diaria FROM diaria_prestador WHERE id_pessoa = 1";
+							$consulta = "SELECT descricao_diaria, valor, id_diaria FROM diaria_prestador WHERE id_pessoa = $id_prestador";
 							$con = $conn -> query($consulta) or die($conn-> error);
 						?>
 
@@ -181,7 +221,7 @@
 			  	<div class="col-5">
 			  		
 			  		<!--<button type="button" class="btn btn-lg btn-block btManter" style=" margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-calendar"></i>&nbsp; Agenda &nbsp;</button>-->
-			  		<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="abreAdicionarSolicitação()"><i class="fa fa-envelope"></i>&nbsp; Solicitar Serviço &nbsp;</button>
+			  		<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="abreAdicionarSolicitação(<?php echo $id_prestador;?>)"><i class="fa fa-envelope"></i>&nbsp; Solicitar Serviço &nbsp;</button>
 			  		
 			  	</div>
 
@@ -217,8 +257,8 @@
 		});
 
 		/*abre pagina enviar solicitação*/
-		function abreAdicionarSolicitação() {
-			window.open("enviar-solicitacao.html","_self");
+		function abreAdicionarSolicitação(id_prestador) {
+			window.open("enviar-solicitacao.php?id_prestador="+id_prestador,"_self");
 		}
 
 	</script>

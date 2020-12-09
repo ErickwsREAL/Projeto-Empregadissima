@@ -57,7 +57,7 @@
 					?>
 
 			  		<?php while ($dados_pessoa= $con ->fetch_array() ){
-
+						$tipo_pessoa = $dados_pessoa["tipo_pessoa"];
 			  		?>	                
 	                
 	                <div class="row align-items-center flex-row-reverse">
@@ -121,16 +121,16 @@
 											    $foto = 'profile.png';
 											}
 										?>
-										<img src="./imagens/<?php echo $foto; ?>" class="rounded img-thumbnail" title="avatar">
+										<img src="./imagens/<?php echo $foto; ?>" class="rounded img-thumbnail" name="foto" title="avatar">
 	                        	</div>
 	                        </div>
 	                    </div>
 	                </div>
 
-									<?php 
-										  }
+					<?php 
+						  }
 
-									?> 
+					?> 
 	                <!--div com cliente qte avaliações e star rating -->
 	                <div class="counter">
 	                    <div class="row">
@@ -256,13 +256,13 @@
 
 				  	<!--menu de outras manutenções-->
 			  	<div class="col-5">
-			  		
-			  		 <a class="nav-link btn btn-lg btn-block btManter" href="./visao-prestador.php" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-calendar"></i>&nbsp; Agenda &nbsp;</a>
-			  		<!--<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-calendar"></i>&nbsp; Agenda &nbsp;</button>-->
-			  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#editarModal" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-cog"></i>&nbsp; Editar Perfil &nbsp;</button>
-			  		<button type="button" class="btn btn-lg btn-block btManter" id="desativarConta" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-trash-o"></i>&nbsp; Desativar Conta &nbsp;</button>
-			  		<!--<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="abreAdicionarSolicitação()"><i class="fa fa-envelope"></i>&nbsp; Solicitar Serviço &nbsp;</button>-->
-			  		
+			  		<form name="form-altera-pessoa" id="form-altera-pessoa">
+				  		 <a class="nav-link btn btn-lg btn-block btManter" href="./visao-prestador.php" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-calendar"></i>&nbsp; Agenda &nbsp;</a>
+				  		<!--<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-calendar"></i>&nbsp; Agenda &nbsp;</button>-->
+				  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#editarModal" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="buscaInfoPessoa(<?php echo $var_id; ?>)"><i class="fa fa-cog"></i>&nbsp; Editar Perfil &nbsp;</button>
+				  		<button type="button" class="btn btn-lg btn-block btManter" id="desativarConta" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-trash-o"></i>&nbsp; Desativar Conta &nbsp;</button>
+				  		<!--<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="abreAdicionarSolicitação()"><i class="fa fa-envelope"></i>&nbsp; Solicitar Serviço &nbsp;</button>-->
+			  		</form>
 			  	</div>
 			</div>
 			<!--fim manutenções -->
@@ -270,6 +270,7 @@
         	<!--editarPerfil -->
         	<div class="modal fade modal-lg" id="editarModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 			  	<div class="modal-dialog modal-lg">
+			  		<form id="form-altera-pessoa-modal" name="form-altera-pessoa-modal">
 			    	<div class="modal-content">
 				      	<div class="modal-header">
 				        	
@@ -283,24 +284,25 @@
 				      		<form id="editarForm" action="../controller/Usuario_Controller.php?metodo=alterar" method="POST">
 				      			<div class="form-group">
 									<label for="editarDescricao">Descrição:</label>		
-									<textarea class="form-control" rows="3" name="nome" id="editarDescricao" placeholder="uma breve descrição de você ou seu serviços..."></textarea>
+									<textarea class="form-control" rows="3" name="descricao" id="editarDescricao" placeholder="uma breve descrição de você ou seu serviços..."><?php if(isset($_GET['descricao']))echo $_GET['descricao'];?></textarea>
 								</div>
 				      			<div class="form-group labelPeq">
 									<label for="editarNome">Nome:</label>		
-									<input class="form-control form-control-sm" type="text" name="nome" id="editarNome" placeholder="Novo nome.." maxlength="50" >
+									<input class="form-control form-control-sm" type="text" name="nome" id="editarNome" placeholder="Novo nome.." maxlength="50" value="<?php echo $_GET['nome']; ?>">
 								</div>
 				      			<div class="form-group labelPeq">
 									<label for="editarTelefone">Telefone:</label>		
-									<input class="form-control form-control-sm" type="tel" name="telefone" id="editarTelefone"  placeholder="(00) 98855-7711" minlength="11">
+									<input class="form-control form-control-sm" type="tel" name="telefone" id="editarTelefone"  placeholder="(00) 98855-7711" minlength="11" value="<?php echo $_GET['telefone']; ?>">
 								</div>
 				      			<div class="form-group labelPeq">
-									<label for="editarFoto">Foto de Perfil:</label>		
-									<input type="file" id="editarFoto" name="foto" value="">
+									<label for="foto">Foto de Perfil:</label>		
+									<input type="file" id="foto" name="foto" value="<?php echo $_GET['foto']; ?>">
 								</div>							
-				      			<button type="submit" class="btn btn-primary buttonEditar" id="buttonEditarPerfil" value="Enviar" disabled data-toggle="tooltip" title="Esse botão é desabilitado se os campos estiverem vazios."> Salvar Edição </button>
+				      			<button type="button" class="btn btn-primary buttonEditar" id="buttonEditarPerfil" value="Enviar" data-toggle="tooltip" title="Esse botão é desabilitado se os campos estiverem vazios." onclick="salvar_alteracoes(<?php echo $var_id; ?>,<?php echo $tipo_pessoa; ?>)"> Salvar Edição </button>
 				      		</form>
 				      	</div>
 			    	</div>
+			    	</form>
 			  	</div>
 			</div>	
         
@@ -332,6 +334,10 @@
 			}
 			else{
 				$("#new-service").hide();
+			}
+
+			if (window.location.search.substring(0,11) == "?descricao=") {
+				$('#editarModal').modal('show');
 			}
 
 			/*botão adicionar*/
@@ -449,11 +455,11 @@
     	}
 
     	function busca_diaria(clicked_id){
-    		  var id_diaria = clicked_id.substring(10);
+    		var id_diaria = clicked_id.substring(10);
 
- 			  document.getElementById("form-lista-servicos").action= "../controller/Servico_Prestador_Controller.php?metodo=buscar&id_diaria="+id_diaria;
-		 	  document.getElementById("form-lista-servicos").method= "POST";
-			  document.getElementById("form-lista-servicos").submit(); // Form submission
+ 			document.getElementById("form-lista-servicos").action= "../controller/Servico_Prestador_Controller.php?metodo=buscar&id_diaria="+id_diaria;
+		 	document.getElementById("form-lista-servicos").method= "POST";
+			document.getElementById("form-lista-servicos").submit(); // Form submission
     	}
 
 		function alterar_servico(id_diaria, old_desc_servico, old_preco_servico){
@@ -474,5 +480,18 @@
     	}
     	/*Fim CRUD Serviços Prestador*/	
 
+    	/*busca informações para modal Editar Perfil*/
+    	function buscaInfoPessoa(id_pessoa){
+ 			document.getElementById("form-altera-pessoa").action= "../controller/Usuario_Controller.php?metodo=buscar&id_pessoa="+id_pessoa;
+		 	document.getElementById("form-altera-pessoa").method= "POST";
+			document.getElementById("form-altera-pessoa").submit(); // Form submission
+    	}
+
+    	/*salva alterações do usuário -> foto, detalhes, telefone etc*/
+    	function salvar_alteracoes(id_pessoa, tipo_pessoa){
+ 		 	document.getElementById("form-altera-pessoa-modal").action= "../controller/Usuario_Controller.php?metodo=atualizar&id_pessoa="+id_pessoa+"&tipo_pessoa="+tipo_pessoa;
+		 	document.getElementById("form-altera-pessoa-modal").method= "POST";
+			document.getElementById("form-altera-pessoa-modal").submit(); // Form submission
+    	}
 	</script>
 </html>

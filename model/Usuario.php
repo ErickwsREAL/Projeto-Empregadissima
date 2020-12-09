@@ -90,30 +90,27 @@
                 $conn->close();
         }
 
-    	public static function select($dadosGET, $params){
-			include ("logar_bd_empregadissimas.php");
+        public static function select($dadosGET, $params){
+            include ("logar_bd_empregadissimas.php");
 
-    		$busca = $params['id_pessoa'];
-
-            $sql = "SELECT nome, cpf, telefone, data_nascimento, comprovante, email, senha, sexo, tipo_pessoa, status_cadastro FROM pessoa WHERE nome='$busca'";
+            $sql = "SELECT descricao, nome, telefone, foto, tipo_pessoa FROM pessoa WHERE id_pessoa='$dadosGET'";
 
             $result = $conn->query($sql);
 
             $row = $result->fetch_assoc();
 
             $dados = array(
+                'descricao' => $row["descricao"],
                 'nome' => $row["nome"],
-                'cpf' => $row["cpf"],
                 'telefone' => $row["telefone"],
-                'data_nascimento' => $row["data_nascimento"],
-                'comprovante' => $row["cpf"],
-                'email' => $row["telefone"],
-                'senha' => $row["nome"],
-                'sexo' => $row["cpf"],
-                'tipo_pessoa' => $row["telefone"],
-                'status_cadastro '=> $row["status_cadastro"]
+                'foto' => $row["foto"],
+                'tipo_pessoa' => $row["tipo_pessoa"]
             );
-    	}
+
+            $conn->close();
+            
+            return $dados;
+        }
 
 		public static function delete($dadosGET, $params){
 			include ("logar_bd_empregadissimas.php");
@@ -128,21 +125,27 @@
 
     	}
 
-        /*public static function update($dadosGET, $dadosPOST){
-        	include ("logar_bd_empregadissimas.php");
+        public static function update($dadosGET, $dadosPOST){
+            include ("logar_bd_empregadissimas.php");
 
-            $nomeAntigo = $dadosGET['nomeAntigo'];
+            $id_pessoa = $dadosGET['id_pessoa'];
 
-            $nomeNovo = $dadosPOST['nome'];
-            $sobrenomeNovo = $dadosPOST['sobrenome'];
+            echo $dadosGET['id_pessoa'];
+            echo $dadosPOST['telefone'];
+            echo $dadosPOST['nome'];
+            echo $dadosPOST['foto'];
 
-            $sql = "UPDATE pessoa SET nome='$nomeNovo', sobrenome='$sobrenomeNovo' WHERE nome='$nomeAntigo'";
+            $descricao = $dadosPOST['descricao'];
+            $nome = $dadosPOST['nome'];
+            $telefone = $dadosPOST['telefone'];
+            $foto = $dadosPOST['foto'];
+
+            $sql = "UPDATE pessoa SET descricao='$descricao', nome='$nome', telefone='$telefone', foto='$foto' WHERE id_pessoa='$id_pessoa'";
 
             $conn->query($sql);
 
-            $conn->close();
+            $conn->close();        
         }
-        */
 
 
         public static function approve($dados_array, $dadosPOST){

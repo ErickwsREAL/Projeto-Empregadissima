@@ -78,28 +78,6 @@
 				    <label for="senhaUsuario">Senha</label>
 				    <input type="password" class="form-control" id="senhaUsuario" name="senha" minlength="8" required>
  				</div>
-				<div class="form-row">
-				    <div class="form-group col-md-4">
-				      <label for="bairroUsuario">Bairro</label>
-				      <input type="text" class="form-control endereco" id="bairroUsuario" name="bairro" placeholder="Ex: Jardim Sumaré" required>
-				    </div>
-				    <div class="form-group col-md-4">
-				      <label for="ruaUsuario">Rua</label>
-				      <input type="text" class="form-control endereco" id="ruaUsuario" name="rua" placeholder="Ex: Pioneiro Genir Galli" required>
-				    </div>
-				    <div class="form-group col-md-2">
-				      <label for="numeroUsuario">Número da Casa</label>
-				      <input type="number" class="form-control endereco" id="numeroUsuario" name="numero" placeholder="Ex: 000" required>
-					</div>
-					<div class="form-group col-md-2">
-				      <label for="complementoUsuario">Complemento</label>
-				      <input type="text" class="form-control endereco" id="complementoUsuario" name="complemento" placeholder="Ex: APTO 3 BLOCO 503">
-					</div>
-					<div class="form-group col-md-2">
-						<label for="cepUsuario"> CEP </label>
-						<input type="text" name="cep" id="cepUsuario" class="form-control endereco" placeholder="87035-600" max="9" required>
-					</div>
-				</div>
 				<div class="form-group" id="comprovantes">
 					<br><label for="comprovanteUsuario">Comprovante pessoal (Documento):</label>
 					<input type="file" id="comprovanteUsuario" name="comprovante" value="" required>
@@ -158,9 +136,6 @@
 
 			var $campoTel = $("#telefoneUsuario");
 			$campoTel.mask('(00) 00000-0000');
-
-			var $campoCep = $("#cepUsuario");
-			$campoCep.mask('00000-000');
 		});
 		</script>
 	</body>

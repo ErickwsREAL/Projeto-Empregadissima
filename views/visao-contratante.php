@@ -78,7 +78,7 @@
                 </li>
             </ul>
             <div class="form-inline my-2 my-lg-0">
-                <a class="nav-link" href="./index.php" id="btn-sair" style="color:white;   "> Sair </a>
+                <a class="nav-link" href="./sair.php" id="btn-sair" style="color:white;   "> Sair </a>
             </div>
             </div>
         </nav>
@@ -151,7 +151,14 @@
 
         <!-- inicio grid -->
         <div class="contractor-grid">
-            <?php while ($dados_pessoa = $result->fetch_array() ){
+            <?php
+                $var_id = $_SESSION['pessoa']['id_pessoa'];
+
+                $consulta = "SELECT * FROM pessoa WHERE tipo_pessoa = 1";
+                $con = $conn -> query($consulta) or die($conn-> error);
+            ?>
+
+            <?php while ($dados_pessoa= $con ->fetch_array() ){
             ?>   
             <div class="contractor-item">
                 <div class="thumbnail">
@@ -172,7 +179,8 @@
             </div>   
             <?php 
             }
-            ?>
+            ?>             
+
         </div>
         <!-- fim grid -->
 
