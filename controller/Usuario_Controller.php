@@ -105,22 +105,19 @@
 
 
         case  'excluir_cadastro':
-             if(isset($_POST['checagem'])){
-                foreach ($_POST['checagem'] as $key) {
-                
-                    $sql = "DELETE FROM pessoa WHERE id_pessoa=" .$key;
-
-                    if ($conn->query($sql) === TRUE) {
-                         echo '<script>alert("Cadastro removido com sucesso!")</script>';
-                         echo '<script>location.href="../views/adm-manter-cadastros.php"</script>';
-                    } 
-                    else {
-                        echo '<script>alert("Erro ao remover cadastro") .$conn->error;</script>';
-                        echo '<script>location.href="../views/adm-manter-cadastros.php"</script>';
-
-                    }
-                }
+            include ("../model/logar_bd_empregadissimas.php");
+            if(isset($_POST['checagem'])){
+                foreach($_POST['checagem'] as $apvid){   
+                    $adm = ("DELETE FROM pessoa WHERE id_pessoa =".$apvid);
+                    
+                    mysqli_query($conn,$adm); 
+                }   
+            
             }
-        break;    
+            echo '<script>alert("Cadastro removido!")</script>';
+            
+            echo '<script>location.href="../views/adm-manter-cadastros.php"</script>';    
+            break;            
+             
     }    
 ?>
