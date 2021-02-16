@@ -2,7 +2,7 @@
     class Usuario{    
 
     	public static function desativarCadastro($id_pessoa){
-            include ("logar_bd_empregadissimas.php");
+            include ("../controller/login_control/logar_bd_empregadissimas.php");
            
             $id_p = $id_pessoa['id_p'];
 
@@ -14,7 +14,7 @@
         }
 
         public static function insert($dadosUsuario){
-            include ("logar_bd_empregadissimas.php");
+            include ("../controller/login_control/logar_bd_empregadissimas.php");
 
             $nome = $dadosUsuario['nome'];
             $cpf = $dadosUsuario['cpf'];
@@ -35,7 +35,7 @@
     	}
 
         public static function insertEndereço($dadosEnd){
-            include ("logar_bd_empregadissimas.php");
+            include ("../controller/login_control/logar_bd_empregadissimas.php");
 
             $bairro = $dadosEnd['bairro'];
             $rua = $dadosEnd['rua'];
@@ -53,7 +53,7 @@
         
 
         public static function deletarEndereço($id_end){
-            include ("logar_bd_empregadissimas.php");
+            include ("../controller/login_control/logar_bd_empregadissimas.php");
 
                 $sql = "DELETE FROM endereco WHERE id_endereco = '$id_end' ";
        
@@ -63,7 +63,7 @@
         }
         
         public static function buscarEndereço($id_end){
-            include ("logar_bd_empregadissimas.php");
+            include ("../controller/login_control/logar_bd_empregadissimas.php");
 
                 $sql = "SELECT * FROM endereco WHERE id_endereco = '$id_end' ";
        
@@ -86,7 +86,7 @@
         }
         
         public static function atualizarEndereço($dadosEnd){
-            include ("logar_bd_empregadissimas.php");
+            include ("../controller/login_control/logar_bd_empregadissimas.php");
 
                 $bairro = $dadosEnd['bairro'];
                 $rua = $dadosEnd['rua'];
@@ -103,7 +103,7 @@
         }
 
         public static function select($dadosGET, $params){
-            include ("logar_bd_empregadissimas.php");
+            include ("../controller/login_control/logar_bd_empregadissimas.php");
 
             $sql = "SELECT descricao, nome, telefone, foto, tipo_pessoa FROM pessoa WHERE id_pessoa='$dadosGET'";
 
@@ -125,7 +125,7 @@
         }
 
 		public static function delete($dadosGET, $params){
-			include ("logar_bd_empregadissimas.php");
+			include ("../controller/login_control/logar_bd_empregadissimas.php");
 
             $deletar = $dados['id_pessoa'];
 
@@ -138,7 +138,7 @@
     	}
 
         public static function update($dadosGET, $dadosPOST){
-            include ("logar_bd_empregadissimas.php");
+            include ("../controller/login_control/logar_bd_empregadissimas.php");
 
             $id_pessoa = $dadosGET['id_pessoa'];
 
@@ -161,7 +161,7 @@
 
 
         public static function approve($dados_array, $dadosPOST){
-            include ("logar_bd_empregadissimas.php");
+            include ("../controller/login_control/logar_bd_empregadissimas.php");
             
 
 

@@ -1,7 +1,7 @@
-<?php include ("../model/logar_bd_empregadissimas.php")
+<?php include ("../controller/login_control/logar_bd_empregadissimas.php")
 ?>
 
-<?php include "verifica_login.php"?>
+<?php include ("../controller/login_control/verifica_login_usuario.php") ?>
 
 <?php echo $_SESSION['pessoa']['id_pessoa']?>
 <!DOCTYPE html>
@@ -78,7 +78,7 @@
                 </li>
             </ul>
             <div class="form-inline my-2 my-lg-0">
-                <a class="nav-link" href="./sair.php" id="btn-sair" style="color:white;   "> Sair </a>
+                <a class="nav-link" href="../controller/login_control/sair.php" id="btn-sair" style="color:white;   "> Sair </a>
             </div>
             </div>
         </nav>

@@ -1,7 +1,7 @@
-<?php include ("../model/logar_bd_empregadissimas.php")
+<?php include ("../controller/login_control/logar_bd_empregadissimas.php")
 ?>
 
-<?php include "verifica_login_adm.php"
+<?php include ("../controller/login_control/verifica_login_adm.php")
 ?>
 
 <?php $_SESSION['administrador']['id_adm']
@@ -42,7 +42,7 @@
 
 	  		?>
 			<div class="info-adm" style="">
-			    <h4>Sessão:&nbsp; <?php echo $dados_adm["sessao"]; ?> &nbsp;&nbsp;&nbsp; <a class="nav-link" href="sair.php" id="btn-sair" style="color:black;font-size:1em;"> Sair </a></h4>
+			    <h4>Sessão:&nbsp; <?php echo $dados_adm["sessao"]; ?> &nbsp;&nbsp;&nbsp; <a class="nav-link" href="../controller/login_control/sair.php" id="btn-sair" style="color:black;font-size:1em;"> Sair </a></h4>
 			</div>
 	  		<?php 
 		  	}	

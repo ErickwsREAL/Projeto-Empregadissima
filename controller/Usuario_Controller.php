@@ -1,4 +1,4 @@
-<?php include ("../model/logar_bd_empregadissimas.php") ?>
+<?php include ("../login_control/logar_bd_empregadissimas.php") ?>
 <?php
 
     require_once '../model/Usuario.php';
@@ -127,7 +127,7 @@
 
 
         case  'excluir_cadastro':
-            include ("../model/logar_bd_empregadissimas.php");
+            include ("../login_control/logar_bd_empregadissimas.php");
             if(isset($_POST['checagem'])){
                 foreach($_POST['checagem'] as $apvid){   
                     $adm = ("DELETE FROM pessoa WHERE id_pessoa =".$apvid);

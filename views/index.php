@@ -1,4 +1,4 @@
-<?php include ("../model/logar_bd_empregadissimas.php")
+<?php include ("../controller/login_control/logar_bd_empregadissimas.php")
 ?>
 <!-- página incial do projeto -->
 <!DOCTYPE html>
@@ -26,7 +26,7 @@
 
 		<div class="collapse" id="collapseAdm">
 			<div class="card card-body" id="cardAdm">
-					<form action="login_adm.php" method="POST">
+					<form action=../controller/login_control/login_adm.php method="POST">
 						<div class="form-group">
 							<label for="admLogin">Sessão:</label>		
 							<input type="text" name="sessao" id="admLogin" required>
@@ -59,7 +59,7 @@
 			      	</div>
 			      	<div class="modal-body" id="loginBody">
 			      		<!-- Fomulário para login -->
-			      		<form action="login.php" method="POST">
+			      		<form action="../controller/login_control/login_usuario.php" method="POST">
 			      			<div class="form-group">
 								<label for="loginEmail">Email:</label>		
 								<input class="form-control form-control-sm" type="text" name="email" id="loginEmail" required>

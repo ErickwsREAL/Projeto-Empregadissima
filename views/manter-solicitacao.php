@@ -1,12 +1,12 @@
-<?php include ("../model/logar_bd_empregadissimas.php")
+<?php include ("../controller/login_control/logar_bd_empregadissimas.php")
 ?>
 
-<?php include "verifica_login.php"?>
+<?php include ("../controller/login_control/verifica_login_usuario.php") ?>
 
 <?php echo $_SESSION['pessoa']['id_pessoa'];
 
 function getDadosContratante($id_contratante) {
-	include ("../model/logar_bd_empregadissimas.php");
+	include ("../controller/login_control/logar_bd_empregadissimas.php");
 
     $sql = "SELECT nome, foto, tipo_pessoa FROM pessoa WHERE id_pessoa='$id_contratante'";
 
@@ -59,7 +59,7 @@ function getDadosContratante($id_contratante) {
 	        </li>
           </ul>
           	<div class="form-inline my-2 my-lg-0">
-	      		<a class="nav-link" href="./sair.php" id="btn-sair" style="color:white;"> Sair </a>
+	      		<a class="nav-link" href="../controller/login_control/sair.php" id="btn-sair" style="color:white;"> Sair </a>
 	    	</div>
         </div>
     </nav>

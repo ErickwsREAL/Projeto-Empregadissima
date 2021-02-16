@@ -5,7 +5,7 @@ if(session_status() === PHP_SESSION_NONE){
 }
 
 if (empty($_SESSION['administrador'])){
-    header("location: index.php");
+    header("location: ../../views/index.php");
 }
 
 ?>
