@@ -1,7 +1,7 @@
-<?php include ("../model/logar_bd_empregadissimas.php")
+<?php include ("../controller/login_control/logar_bd_empregadissimas.php")
 ?>
 
-<?php include "verifica_login.php"
+<?php include ("../controller/login_control/verifica_login_usuario.php")
 ?>
 
 <?php echo $_SESSION['pessoa']['id_pessoa']
@@ -37,7 +37,7 @@
 		        </li>
 	          </ul>
 	          	<div class="form-inline my-2 my-lg-0">
-		      		<a class="nav-link" href="./sair.php" id="btn-sair" style="color:white;"> Sair </a>
+		      		<a class="nav-link" href="../controller/login_control/sair.php" id="btn-sair" style="color:white;"> Sair </a>
 		    	</div>
 	        </div>
 	      </nav>
@@ -177,7 +177,7 @@
 						<div class="card">
 							<!-- formulário lista de serviços -->
 							<form name="form-lista-servicos" id="form-lista-servicos">
-
+								
 								<?php
 									$var_id = $_SESSION['pessoa']['id_pessoa'];
 
@@ -255,14 +255,17 @@
 				  	</div>
 
 				  	<!--menu de outras manutenções-->
-			  	<div class="col-5">
+			  	<div class="col-5">	
 			  		<form name="form-altera-pessoa" id="form-altera-pessoa">
 				  		 <a class="nav-link btn btn-lg btn-block btManter" href="./visao-prestador.php" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-calendar"></i>&nbsp; Agenda &nbsp;</a>
 				  		<!--<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-calendar"></i>&nbsp; Agenda &nbsp;</button>-->
 				  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#editarModal" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="buscaInfoPessoa(<?php echo $var_id; ?>)"><i class="fa fa-cog"></i>&nbsp; Editar Perfil &nbsp;</button>
-				  		<button type="button" class="btn btn-lg btn-block btManter" id="desativarConta" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-trash-o"></i>&nbsp; Desativar Conta &nbsp;</button>
 				  		<!--<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="abreAdicionarSolicitação()"><i class="fa fa-envelope"></i>&nbsp; Solicitar Serviço &nbsp;</button>-->
 			  		</form>
+				  	<form method="POST" action="../controller/Usuario_Controller.php?metodo=desativarCadastro">
+				  		<input name="id_p" value="<?php echo $var_id ?>" style="display: none;">
+				  		<button type="submit" class="btn btn-lg btn-block btManter" id="desativarConta" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-trash-o"></i>&nbsp; Desativar Conta &nbsp;</button>
+				  	</form>
 			  	</div>
 			</div>
 			<!--fim manutenções -->
@@ -311,9 +314,6 @@
 
 	   	<div class="item footer">Copyright @EmpregadíssimaOwners</div>
 		
-		<div id="caixa" title="Alerta"> 	
-			<p>Tem certeza que deseja <b>desativar</b> sua conta? A reativação só é possível após contato com o Administrador.</p>
-		</div>
 
 <!--		<div id="caixa-excluir-servico" title="Alerta"> 	
 			<p>Tem certeza que deseja <b>excluir</b> esse serviço? </p>
@@ -399,23 +399,6 @@
 			        $('#buttonEditarPerfil').prop("disabled",false);
 			    }
 			});	
-
-			$("#caixa").dialog({
-				autoOpen: false,
-				modal: true,
-				resizable: false,
-				draggable: false,
-				height: "auto",
-				width: 350,
-				buttons: {
-	        	"Sim": function() {
-	          		$( this ).dialog( "close" );
-	        		},
-	        	Cancelar: function() {
-	          		$( this ).dialog( "close" );
-	        		}
-      			}
-			});
 
 			var $campoTel = $("#editarTelefone");
 			$campoTel.mask('(00) 00000-0000');

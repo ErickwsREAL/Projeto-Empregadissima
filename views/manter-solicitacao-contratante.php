@@ -1,15 +1,15 @@
-<?php include ("../model/logar_bd_empregadissimas.php")
+<?php include ("../controller/login_control/logar_bd_empregadissimas.php")
 ?>
 
-<?php include "verifica_login.php"?>
+<?php include ("../controller/login_control/verifica_login_usuario.php") ?>
 
 <?php echo $_SESSION['pessoa']['id_pessoa'];
 
 
 function getDadosPrestador($id_prestador) {
-	include ("../model/logar_bd_empregadissimas.php");
+	include ("../controller/login_control/logar_bd_empregadissimas.php");
 
-    $sql = "SELECT nome, foto, tipo_pessoa FROM pessoa WHERE id_pessoa='$id_prestador'";
+    $sql = "SELECT nome, tipo_pessoa, foto FROM pessoa WHERE id_pessoa='$id_prestador'";
 
     $result = $conn->query($sql);
 
@@ -64,7 +64,7 @@ function getDadosPrestador($id_prestador) {
 	        </li>
           </ul>
           	<div class="form-inline my-2 my-lg-0">
-	      		<a class="nav-link" href="./sair.php" id="btn-sair" style="color:white;"> Sair </a>
+	      		<a class="nav-link" href="../controller/login_control/sair.php" id="btn-sair" style="color:white;"> Sair </a>
 	    	</div>
         </div>
     </nav>
@@ -76,7 +76,7 @@ function getDadosPrestador($id_prestador) {
 		</div>
 
 		<div class="lista-abas animacao-flip">
-			<form name="form-pend" id="form-pend">
+
 			<div id="tabs">
 				<ul>
 					<li><a href="#tabs-1"> Pendentes </a></li>
@@ -85,7 +85,9 @@ function getDadosPrestador($id_prestador) {
 				</ul>
 
 				<div id="tabs-1">
-					
+
+					<div class="card"> 
+
 					<?php
 						$var_id = $_SESSION['pessoa']['id_pessoa'];
 
@@ -103,54 +105,52 @@ function getDadosPrestador($id_prestador) {
 				            $valores['foto'] = $parametros['foto'];
 				            $valores['tipo_pessoa'] = $parametros['tipo_pessoa'];
 			  		?>	
-
-					<div class="card"> 
-
-						<div class="card-container">
+		
+						<form name="form-pend" id="form-pend">
+							<div class="card-container">
 
 							<!-- -->
-							<div class="grid-container">
-								<div class="grid-item">
-		                        	<div class="img-container">
+								<div class="grid-container">
+									<div class="grid-item">
+			                        	<div class="img-container">
 
-										<?php
-											if ($valores['foto'] != NULL) {
-												$foto = $valores['foto']; 
-											} else {
-											    $foto = 'profile.png';
-											}
-										?>
+											<?php
+												if ($valores['foto'] != NULL) {
+													$foto = $valores['foto']; 
+												} else {
+												    $foto = 'profile.png';
+												}
+											?>
 
-		                        		<img src="./imagens/<?php echo $foto; ?>" id="profile-img" title="Imagem de Perfil">
-		                        	</div>
+			                        		<img src="./imagens/<?php echo $foto; ?>" id="profile-img" title="Imagem de Perfil">
+			                        	</div>
+									</div>
+
+									<div class="grid-item">
+										<input type="hidden" name="tipo_pessoa" value="<?php echo $valores['tipo_pessoa']; ?>">
+										<h3> <b> Solicitação de Serviço com <?php echo $valores['nome'] ?> </b></h3> 
+										<p><b> Dia: </b> <?php echo $dados_servico["data_servico"]; ?> 	&nbsp;	 <b>Hora: </b> 
+										</p> 
+									</div>
 								</div>
+								<!-- -->
 
-								<div class="grid-item">
-									<input type="hidden" name="tipo_pessoa" value="<?php echo $valores['tipo_pessoa']; ?>">
-									<h3> <b> Solicitação de Serviço com <?php echo $valores['nome'] ?> </b></h3> 
-									<p><b> Dia: </b> <?php echo $dados_servico["data_servico"]; ?> 	&nbsp;	 <b>Hora: </b> 
-									</p> 
-								</div>
-							</div>
-							<!-- -->
+								<p class="center">
+									<!--bootstrap buttons + classe-->
+									<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $dados_servico["id_servico"]; ?>" name="detalhe-pend" data-toggle="modal" data-target="#detalhes-pend-modal" onclick="buscarDetalhes(this.id, <?php echo $valores['tipo_pessoa']; ?>)"> Detalhes </button>
+									<button type="button" class="btn btn-lg bt-alterar"  id="alterar-pend"  name="alterar-pend" data-toggle="modal" data-target="#alterar-pend-modal" style="margin-right: 15px; font-weight: bold;"> Alterar </button>
+									<button type="button" class="btn btn-lg bt-cancelar" id="cancelar-pend" name="cancelar-pend" style="margin-right: 15px; font-weight: bold;"> Cancelar </button>	
+								</p>
 
-							<p class="center">
-								<!--bootstrap buttons + classe-->
-								<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $dados_servico["id_servico"]; ?>" name="detalhe-pend" data-toggle="modal" data-target="#detalhes-pend-modal" onclick="buscarDetalhes(this.id)"> Detalhes </button>
-								<button type="button" class="btn btn-lg bt-alterar"  id="alterar-pend"  name="alterar-pend" data-toggle="modal" data-target="#alterar-pend-modal" style="margin-right: 15px; font-weight: bold;"> Alterar </button>
-								<button type="button" class="btn btn-lg bt-cancelar" id="cancelar-pend" name="cancelar-pend" style="margin-right: 15px; font-weight: bold;"> Cancelar </button>	
-							</p>
-
-						</div> 
-					</div>
+							</div> 
+						</form>
 
 					<?php 
 						}
 					?>
-
 				</div>
 				<div id="tabs-2">
-
+					<p></p>
 				<?php
 
 					$consulta = "SELECT * FROM servico WHERE id_contratante = $var_id AND status_servico = 2 ";
@@ -206,7 +206,7 @@ function getDadosPrestador($id_prestador) {
 								<!--bootstrap buttons + classe-->
 								<button type="button" class="btn btn-lg bt-detalhes btn-check" id="check-out" data-toggle="modal" data-target="#checkoutModal">Check-out</button>
 								<button type="button" class="btn btn-lg bt-detalhes btn-check" id="check-in" data-toggle="modal" data-target="#checkinModal">Check-in</button>
-								<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $dados_servico["id_servico"]; ?>" name="detalhe-and" data-toggle="modal" data-target="#detalhes-pend-modal" onclick="buscarDetalhes(this.id) ">Detalhes</button>
+								<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $dados_servico["id_servico"]; ?>" name="detalhe-and" data-toggle="modal" data-target="#detalhes-pend-modal" onclick="buscarDetalhes(this.id, <?php echo $valores['tipo_pessoa']; ?>) ">Detalhes</button>
 							</p>
 						</div>
 					</div>
@@ -267,7 +267,7 @@ function getDadosPrestador($id_prestador) {
 
 							<p>
 								<!-- bootstrap buttons + classe -->
-								<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $dados_servico["id_servico"]; ?>" name="detalhes-fina" data-toggle="modal" data-target="#detalhes-pend-modal" onclick="buscarDetalhes(this.id)"> Detalhes </button>
+								<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $dados_servico["id_servico"]; ?>" name="detalhes-fina" data-toggle="modal" data-target="#detalhes-pend-modal" onclick="buscarDetalhes(this.id, <?php echo $valores['tipo_pessoa']; ?>)"> Detalhes </button>
 
 								<!-- leva para pagina de avaliações -->
 								<button type="button" class="btn btn-lg bt-avaliar" id="avaliar-and" name="avaliar-fina" data-toggle="modal" data-target="#modal-avaliar" style="margin-right: 15px; font-weight:bold;"> Avaliar </button>
@@ -535,6 +535,13 @@ function getDadosPrestador($id_prestador) {
 <div class="item footer">Copyright @EmpregadíssimaOwners</div>
 
 <script >
+
+	$(document).ready(function(){ 
+		if (window.location.search.substring(0,14) == "?data_servico=") {
+			$('#detalhes-pend-modal').modal('show');
+		}
+	});
+
 	$( function() {
 		$("#tabs").tabs();
 	});
@@ -623,11 +630,11 @@ function getDadosPrestador($id_prestador) {
       	}
 	});
 
-	function buscarDetalhes(id_serv){
+	function buscarDetalhes(id_serv, tipo_pessoa){
 		var id_servico = id_serv.substring(13);
-			alert(id_servico);
+	
 
-			document.getElementById("form-pend").action= "../controller/Servico_Controller.php?metodo=buscar&id_servico="+id_servico;
+			document.getElementById("form-pend").action= "../controller/Servico_Controller.php?metodo=buscar&id_servico="+id_servico+"&tipo_pessoa="+tipo_pessoa;
 	 	 	document.getElementById("form-pend").method= "POST";
 		 	document.getElementById("form-pend").submit(); // Form submission
 	}

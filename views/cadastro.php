@@ -1,4 +1,4 @@
-<?php include ("../model/logar_bd_empregadissimas.php")
+<?php include ("../controller/login_control/logar_bd_empregadissimas.php")
 ?>
 <!DOCTYPE html>
 <html>
@@ -136,7 +136,6 @@
 
 			var $campoTel = $("#telefoneUsuario");
 			$campoTel.mask('(00) 00000-0000');
-
 		});
 		</script>
 	</body>

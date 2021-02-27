@@ -1,9 +1,13 @@
-<?php include ("../model/logar_bd_empregadissimas.php")
+<?php 
+    include ("../controller/login_control/logar_bd_empregadissimas.php");
+    include ("../controller/login_control/verifica_login_usuario.php");
+    include ("../model/Agenda.php");
+
+    $dias_disponiveis = Agenda::select($_SESSION['pessoa']['id_pessoa']);
 ?>
 
-<?php include "verifica_login.php"?>
-
 <?php echo $_SESSION['pessoa']['id_pessoa']?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,50 +33,9 @@
 <link rel="stylesheet" href="./css/buscarContratante.css">
 <link rel="stylesheet" href="./css/telaAgenda.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<title> Empregadíssima | Buscar prestador </title>
+<title> Empregadíssima | Agenda </title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-    $(document).ready(function(){
-        $("#swap-solic").click(function(){
-            $(".filter-section").hide();
-            $(".contractor-grid").hide();
-            $(".c-solicitacoes").show();
-        });
-
-        $("#swap-busca").click(function(){
-            $(".c-solicitacoes").hide();
-            $(".filter-section").show();
-            $(".contractor-grid").show();
-        });
-
-        $(".cancel-button").click(function(){
-           $(".price-range").hide();
-           $(".filter-text").show();
-        });
-
-        $(".apply-button").click(function(){
-           $(".price-range").hide();
-           $(".filter-text").show();
-        });
-
-        $("#filter-button").click(function(){
-           $(".price-range").toggle();
-           $(".filter-text").toggle();
-        });
-    });
-
-    function change() {
-        var btn = document.getElementById('filter-button');
-        if (btn.value == "false") {
-            btn.value = "true";
-            btn.innerHTML = "Esconder filtros";
-        }
-        else {
-            btn.value = "false";
-            btn.innerHTML = "Mostrar filtros";
-        }
-    }
-
 </script>
 </head>
 <body>
@@ -84,14 +47,14 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="./perfil.html">Perfil </a>
+                    <a class="nav-link" href="./perfil.php">Perfil </a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="./manter-solicitacao.html"> Minhas Solicitações </a>
+                    <a class="nav-link" href="./manter-solicitacao.php"> Minhas Solicitações </a>
                 </li>
             </ul>
             <div class="form-inline my-2 my-lg-0">
-                <a class="nav-link" href="./index.html" id="btn-sair" style="color:white;"> Sair </a>
+                <a class="nav-link" href="../controller/login_control/sair.php" id="btn-sair" style="color:white;"> Sair </a>
             </div>
             </div>
         </nav>
@@ -104,8 +67,8 @@
         <div class="column4"></div>
 
         <!-- inicio grid -->
-        <div id="calendario">
-            <input style="width: 100%;" type="text" id="selectedValues" class="date-values" readonly/>
+        <form id="calendario", method="post", action="../controller/Agenda_Controller.php?metodo=inserir_agenda&id_prestador=<?php echo $_SESSION['pessoa']['id_pessoa']?>">
+            <input name="datas_selecionadas", style="width: 100%;" type="text" id="selectedValues" class="date-values" readonly/>
             <div id="parent" class="container">
                 <div class="row header-row">
                     <div class="col-xs previous">
@@ -142,12 +105,32 @@
                     <tbody id="calendarBody"></tbody>
                 </table>
             </div>
-        </div>
+        </form>
+
+        <form name="form-agenda", id="form-agenda">
+            <div class="card-container">
+                <h4><b>Agenda</b></h4>
+                <p>Lista dos dias disponíveis</p>
+                <ul class="list-group">
+
+                <?php foreach($dias_disponiveis as $dados_agenda) {
+                ?>
+                    <li class="list-group-item">
+                        <p class="man-desc"> <?php echo $dados_agenda["dia_disponivel"];?> </p>
+                        <div style="float: right;">
+                            <!-- botão visivel apenas para prestadores -->
+                            <button type="button" class="btn btn-danger btn-sm spc bt-excluir-servico" 
+                                    id="bt-excluir-servico-<?php echo $dados_agenda["id"];?>" 
+                                    onClick="excluir_agenda(this.id)">
+                                    <i class="fa fa-trash"></i> Excluir </button>
+                        </div>
+                    </li>
+                <?php 
+                    }
+                ?> 
+            </div>
+        </form>
         <!-- fim grid -->
-
-        <div id="c-solicitacoes" class="c-solicitacoes">
-
-        </div>
 
         <!-- inicio footer-->
         <div class="footer-page page-footer font-small ">
@@ -159,4 +142,24 @@
     </div>
     <!-- fim grid contrainer -->
 </body>
+<script>
+    function excluir_agenda(clicked_id){
+        /*Apartir do id do botão, pega-se uma substring de 19 posições, assim, pegando o id da agenda.
+            Ex: clicked_id = bt-excluir-servico-18, com a substring(19) temos na variavel res = 18, que é o id da agenda */
+
+        var id_agenda = clicked_id.substring(19);
+
+        if (!confirm("Deseja EXCLUIR esta data disponível da agenda?")) 
+        {
+            return false;
+        }	
+        else{
+            document.getElementById("form-agenda").action = "../controller/Agenda_Controller.php?metodo=deletar_agenda&id_agenda="+id_agenda;
+            document.getElementById("form-agenda").method = "POST";
+            document.getElementById("form-agenda").submit; // Submissão do formulário
+
+            return true;
+        }
+    }
+</script>
 </html>

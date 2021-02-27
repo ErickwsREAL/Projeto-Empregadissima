@@ -1,7 +1,7 @@
 <?php
     class Servico_Prestador{    
         public static function insert($dadosServico){
-           include ("logar_bd_empregadissimas.php");
+           include ("../controller/login_control/logar_bd_empregadissimas.php");
 
            $desc_servico = $dadosServico['desc_servico'];
            $preco_servico = $dadosServico['preco_servico'];
@@ -20,7 +20,7 @@
         }
 
          public static function select($dadosGET, $params){
-            include ("logar_bd_empregadissimas.php");
+            include ("../controller/login_control/logar_bd_empregadissimas.php");
 
             $sql = "SELECT descricao_diaria, valor, id_diaria FROM diaria_prestador WHERE id_diaria='$dadosGET'";
 
@@ -50,7 +50,7 @@
 
         public static function delete($dadosGET, $dados){
             
-            include ("logar_bd_empregadissimas.php");
+            include ("../controller/login_control/logar_bd_empregadissimas.php");
 
             $sql = "DELETE FROM diaria_prestador WHERE id_diaria='$dadosGET'";
 
@@ -91,7 +91,7 @@
         }*/
 
         public static function update($dadosGET, $dadosPOST){
-            include ("logar_bd_empregadissimas.php");
+            include ("../controller/login_control/logar_bd_empregadissimas.php");
 
             $id_diaria = $dadosGET['id_diaria'];
 

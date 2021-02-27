@@ -1,7 +1,7 @@
-<?php include ("../model/logar_bd_empregadissimas.php")
+<?php include ("../controller/login_control/logar_bd_empregadissimas.php")
 ?>
 
-<?php include "verifica_login.php"?>
+<?php include ("../controller/login_control/verifica_login_usuario.php") ?>
 
 <?php echo $_SESSION['pessoa']['id_pessoa']?>
 <!DOCTYPE html>
@@ -78,7 +78,7 @@
                 </li>
             </ul>
             <div class="form-inline my-2 my-lg-0">
-                <a class="nav-link" href="./sair.php" id="btn-sair" style="color:white;   "> Sair </a>
+                <a class="nav-link" href="../controller/login_control/sair.php" id="btn-sair" style="color:white;   "> Sair </a>
             </div>
             </div>
         </nav>
@@ -90,8 +90,8 @@
         <!-- inicio area do filtro/busca -->
         <div class="filter-section">
             <form action="visao-contratante.php" method="post" class="search-bar">
-                <input type="text" name="search" placeholder="Procure por um(a) prestador(a)...">
-                <button id="button-prestador" type="submit"><i class="fa fa-search"></i></button>
+                <input type="text" placeholder="Procure por um(a) prestador(a)..." name="search">
+                <button type="submit"><i class="fa fa-search"></i></button>
             </form>
             <?php
                 $var_id = $_SESSION['pessoa']['id_pessoa'];
@@ -151,7 +151,9 @@
 
         <!-- inicio grid -->
         <div class="contractor-grid">
-            <?php while ($dados_pessoa = $result->fetch_array() ){
+         
+
+            <?php while ($dados_pessoa= $result ->fetch_array() ){
             ?>   
             <div class="contractor-item">
                 <div class="thumbnail">
@@ -173,6 +175,7 @@
             <?php 
             }
             ?>             
+
         </div>
         <!-- fim grid -->
 

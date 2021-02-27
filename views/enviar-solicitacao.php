@@ -1,7 +1,7 @@
-<?php include ("../model/logar_bd_empregadissimas.php")
+<?php include ("../controller/login_control/logar_bd_empregadissimas.php")
 ?>
 
-<?php include "verifica_login.php"?>
+<?php include ("../controller/login_control/verifica_login_usuario.php") ?>
 
 <?php $_SESSION['pessoa']['id_pessoa'];
 

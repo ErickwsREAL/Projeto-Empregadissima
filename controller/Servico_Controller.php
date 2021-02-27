@@ -1,4 +1,4 @@
-<?php include ("../model/logar_bd_empregadissimas.php") ?>
+<?php include ("../login_control/logar_bd_empregadissimas.php") ?>
 <?php
 
     require_once '../model/Servico.php';
@@ -30,7 +30,13 @@
             $valores['forma_pagamento'] = $parametros['forma_pagamento'];
             $valores['id_diaria'] = $parametros['id_diaria'];
             
-            echo '<script>location.href="../views/manter-solicitacao.php?data_servico='.$valores['data_servico'].'&id_endereco='.$valores['id_endereco'].'&forma_pagamento='.$valores['forma_pagamento'].'&id_diaria='.$valores['id_diaria'].'"</script>';
+            if ($_GET['tipo_pessoa'] == 1){
+                echo '<script>location.href="../views/manter-solicitacao-contratante.php?data_servico='.$valores['data_servico'].'&id_endereco='.$valores['id_endereco'].'&forma_pagamento='.$valores['forma_pagamento'].'&id_diaria='.$valores['id_diaria'].'"</script>';
+            }
+            else{
+                echo '<script>location.href="../views/manter-solicitacao.php?data_servico='.$valores['data_servico'].'&id_endereco='.$valores['id_endereco'].'&forma_pagamento='.$valores['forma_pagamento'].'&id_diaria='.$valores['id_diaria'].'"</script>';
+            }
+
             break;
         case 'atualizar':
 

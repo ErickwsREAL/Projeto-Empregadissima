@@ -1,7 +1,7 @@
 <?php
     class Servico{    
         public static function insert($dadosServico, $data_servico){
-           include ("logar_bd_empregadissimas.php");
+           include ("../controller/login_control/logar_bd_empregadissimas.php");
 
            $id_endereco = $dadosServico['id_endereco'];
            $forma_pagamento = $dadosServico['forma_pagamento'];
@@ -24,7 +24,7 @@
             $conn->close();
         }
         public static function aprovaServico($dadosServico, $id_servico){
-          include("logar_bd_empregadissimas.php");
+          include("../controller/login_control/logar_bd_empregadissimas.php");
 
           echo $id_servico;
 
@@ -42,7 +42,7 @@
         }
 
         public static function reprovaServico($dadosServico, $id_servico){
-          include("logar_bd_empregadissimas.php");
+          include("../controller/login_control/logar_bd_empregadissimas.php");
 
           $sql = "DELETE FROM servico WHERE (id_servico = '$id_servico')";
 
@@ -58,9 +58,7 @@
         }
 
          public static function select($dadosGET, $id_servico){
-            include ("logar_bd_empregadissimas.php");
-
-            $tipo_pessoa = $dadosServico['tipo_pessoa'];
+            include ("../controller/login_control/logar_bd_empregadissimas.php");
 
             $sql = "SELECT data_servico, id_endereco, forma_pagamento, id_diaria FROM servico WHERE id_servico='$id_servico'";
 

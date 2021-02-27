@@ -1,7 +1,7 @@
-<?php include ("../model/logar_bd_empregadissimas.php")
+<?php include ("../controller/login_control/logar_bd_empregadissimas.php")
 ?>
 
-<?php include "verifica_login_adm.php"
+<?php include ("../controller/login_control/verifica_login_adm.php")
 ?>
 
 <?php $_SESSION['administrador']['id_adm']
@@ -41,9 +41,9 @@
 	  		<?php while ($dados_adm= $con ->fetch_array() ){
 
 	  		?>
-				<div class="info-adm" style="">
-				    <h4>Sessão:&nbsp; <?php echo $dados_adm["sessao"]; ?> &nbsp;&nbsp;&nbsp; <a class="nav-link" href="sair.php" id="btn-sair" style="color:black;font-size:1em;"> Sair </a></h4>
-				</div>
+			<div class="info-adm" style="">
+			    <h4>Sessão:&nbsp; <?php echo $dados_adm["sessao"]; ?> &nbsp;&nbsp;&nbsp; <a class="nav-link" href="../controller/login_control/sair.php" id="btn-sair" style="color:black;font-size:1em;"> Sair </a></h4>
+			</div>
 	  		<?php 
 		  	}	
 	  		?>
@@ -117,9 +117,11 @@
 					    	<!-- fim form-lista-cad-apv -->
 							<div class="buttons-classe">
 								<p>
-								
-									<!--bootstrap buttons + id-->
-									<button type="button" class="btn btn-lg bt-aprovar" id="bt-aprovar" name="bt-aprovar" onclick="aprovarCadastrosF();">Aprovar</button>
+
+									<button type="button" class="btn btn-lg bt-aprovar" id="bt-aprovar" name="bt-aprovar" onclick="aprovarCadastrosF();">Aprovar</button>								
+									<!--bootstrap buttons + id
+									<button type="button" class="btn btn-lg bt-aprovar" id="bt-aprovar" name="bt-aprovar" onclick="aprovarCadastrosF();">Aprovar</button>-->
+
 									<button type="button" class="btn btn-lg bt-reprovar" id="bt-reprovar" onclick="reprovarCadastrosF();">Reprovar</button>
 								</p>
 							</div>
@@ -129,78 +131,59 @@
 				    <!-- fim aba Cadastros Pendentes-->
 
 						<!-- aba 2 - Exclusao de Conta -->
-						<div id="tabs-2">
-							<div class="cadast-pend">
-			    		    	<h2>Excluir Contas</h2>
-			    			</div>
-					    	
-					    	<div class="buscarCadastro">
-							    <form>
-							      <input type="number" placeholder="ID ou CPF..." name="search">
-							      <button type="submit"><i class="fa fa-search"></i></button>
-							    </form>
-							</div>
-								
-								<table>
-									<tr>
-										<th>
-											<!-- bootstrap check-box + classe checkMargin-->
-											<div class="form-check checkMargin">
-												<input class="form-check-input" type="checkbox" value="" id="checkAll2">
-												<label class="form-check-label" for="checkAll2"> </label>
-											</div>
-										</th>
-										<th>Codigo do Cadastro</th>
-										<th>Nome</th> 
-										<th>CPF</th>								
-									</tr>
-									<tr>
-										<td>
-											<!-- bootstrap check-box + classe checkMargin-->
-											<div class="form-check checkMargin">
-												<input class="form-check-input check" type="checkbox" value="" id="defaultCheck4">
-												<label class="form-check-label" for="defaultCheck4"> </label>
-											</div>
-										</td>
-									    <td>1</td>
-									    <td>Bruna</td>
-									    <td>123.456.456-78</td>							    
-								 	</tr>		 	
-								  	<tr>
-								  		<td>
-								  			<!-- bootstrap check-box + classe checkMargin-->
-											<div class="form-check checkMargin">
-												<input class="form-check-input check" type="checkbox" value="" id="defaultCheck5">
-												<label class="form-check-label" for="defaultCheck5"> </label>
-											</div>
-								  		</td>
-									    <td>2</td>
-									    <td>Brunr</td>
-									    <td>132.159.167-98</td>    
-								  	</tr>
-								  	<tr>
-								  		<td>
-								  			<!-- bootstrap check-box + classe checkMargin-->
-											<div class="form-check checkMargin">
-												<input class="form-check-input check" type="checkbox" value="" id="defaultCheck6">
-												<label class="form-check-label" for="defaultCheck7"> </label>
-											</div>
-								  		</td>
-									    <td>3</td>
-									    <td>Brunw</td>
-									    <td>789.658.136.75</td>
-								  	</tr>
-								</table>
-						    	<!-- fim table-->
-						    							
-								<div class="buttons-classe">
-									<p>
-										<!--bootstrap buttons + id-->
-										<button type="button" class="btn btn-lg" id="bt-excluir">Excluir</button>
-									</p>
-								</div>
-							</div>
+						<form method="POST" action="../controller/Usuario_Controller.php?metodo=excluir_cadastro">
+							<div id="tabs-2">
+								<div class="cadast-pend">
+				    		    	<h2>Excluir Contas</h2>
+				    			</div>
+						   	
+						    	
+									
+									<table id="tabledata">
+										<tr>
+											<th>
+												<!-- bootstrap check-box + classe checkMargin-->
+												<div class="form-check checkMargin">
+													<input class="form-check-input" type="checkbox" value="" id="checkAll2">
+													<label class="form-check-label" for="checkAll2"> </label>
+												</div>
+											</th>
+											<th>Codigo do Cadastro</th>
+											<th>Nome</th> 
+											<th>CPF</th>								
+										</tr>
+										
+										<?php
+										 	$stmt = $conn->prepare("SELECT * FROM pessoa WHERE status_cadastro != '1'");
+										 	$stmt->execute();
+										 	$result = $stmt->get_result();	
 
+										?>
+										<?php while($row = $result->fetch_array()){ ?>
+										<tr>
+											<td>
+												<!-- bootstrap check-box + classe checkMargin-->
+												<div class="form-check checkMargin">
+													<input class="form-check-input check" name="checagem[]" type="checkbox" value="<?php echo $row['id_pessoa'] ?>" id="defaultCheck4">
+													<label class="form-check-label" for="defaultCheck4"> </label>
+												</div>	
+											</td>
+										    <td><?php echo $row['id_pessoa'] ?></td>
+										    <td><?php echo $row['nome'] ?></td>
+										    <td><?php echo $row['cpf'] ?></td>							    
+									 	</tr>		 	
+										<?php } ?>
+									</table>
+							    	<!-- fim table-->
+							    			
+									<div class="buttons-classe">
+										<p>
+											<!--bootstrap buttons + id-->
+											<button type="submit" name="submit" class="btn btn-lg" id="bt-excluir">Excluir</button>
+										</p>
+									</div>
+								</div>	
+							</form>			
 							
 
 						
@@ -586,7 +569,7 @@
 								</div>
 							</div>
 							<div style="margin-left: 0.5%; display: inline-block; width: 9%;" class="form-group">
-								<select onchange="changeFunction()" class="form-control form-control-sm" id="select-user">
+								<select name="select-user-type" onchange="changeFunction()" class="form-control form-control-sm" id="select-user">
 									<option>Tipo de usuário</option>
 									<option>Prestador</option>
 									<option>Contratante</option>
@@ -610,158 +593,40 @@
 									</div>
 									<button onclick="resetFields()" id="user-reset-button" class="cancel-button btn-sm btn-danger">Resetar</button>
 									<button onclick="showUserGrid()" id="user-apply-button" class="apply-button btn-sm btn-success">Aplicar</button>
-								</div>	
+								</div>
+								<?php
+									$query = "SELECT id_pessoa, nome, foto, tipo_pessoa FROM pessoa";
+									$result = $conn->query($query) or die($conn->error);
+								?>
 								<div id="user-grid">
+									<?php while ($dados_pessoa_relatorio = $result->fetch_array() ){
+									?>
 									<div id="user-item">
 										<div class="thumbnail">
-											<img src="./imagens/avatar3.png">
+											<?php
+												if ($dados_pessoa_relatorio["foto"] != NULL) {
+													$foto = $dados_pessoa_relatorio["foto"]; 
+												} else {
+													$foto = 'profile.png';
+												}
+
+												if ($dados_pessoa_relatorio['tipo_pessoa'] == 1) {
+													$tipo_pessoa = "Prestador";
+												} else {
+													$tipo_pessoa = "Contratante";
+												}
+											?>
+											<img id="report-img" src="./imagens/<?php echo $foto; ?>">
 											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Prestadora</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
+												<h3 style="font-size:20px; color: white"><?php echo $dados_pessoa_relatorio["nome"]; ?></h3>
+												<h3 style="font-size:20px; color: white"><?php echo $tipo_pessoa; ?></h3>
+												<p><a href="./perfil-prestador-visao-contratante.php?id_prestador=<?php echo $dados_pessoa_relatorio["id_pessoa"]; ?>" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
 											</div>
 										</div>
 									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar2.png">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Contratante</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar1.png">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Prestadora</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar7.jpeg">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Contratante</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar7.jpeg">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Prestadora</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar3.png">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Prestadora</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar2.png">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Contratante</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar1.png">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Prestadora</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar7.jpeg">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Contratante</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar7.jpeg">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Prestadora</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar3.png">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Prestadora</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar2.png">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Contratante</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar1.png">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Prestadora</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar7.jpeg">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Contratante</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
-									<div id="user-item">
-										<div class="thumbnail">
-											<img src="./imagens/avatar7.jpeg">
-											<div class="caption">
-												<h3 style="font-size:20px; color: white">Barbara Paz</h3>
-												<h3 style="font-size:20px; color: white">Prestadora</h3>
-												<p><a href="#" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
-											</div>
-										</div>
-									</div>
+									<?php 
+									}
+									?>
 								</div>
 								<div id="graph-user-wrapper">
 									<div style="display: inline-block;" id="user_piechart"></div>
@@ -826,15 +691,6 @@
 		  <p> Para Reprovar Cadastros é necessário selecionar pelo menos 1 checkbox </p>
 		</div>
 
-		<div class="dialog-excluir-adm" id="dialog-excluir-adm" title="Alerta">
-		  <p> Deseja <b>excluir</b> esta/estas contas? </p>
-		</div>
-
-		<!--Verifica se o usuário checou algum checkbox -->
-		<div class="dialog-checkbox-nao-checado2" id="dialog-checkbox-nao-checado2" title=" Erro! ">
-		  <p> Para excluir Cadastros é necessário selecionar pelo menos 1 checkbox </p>
-		</div>
-
 		<!--fim do formulario-->
 	</form>
 
@@ -842,7 +698,8 @@
 
 <!--jquery-->
 <script>
-    $(document).ready(function(){ 
+    $(document).ready(function(){ 	
+
 		$("#aprovar-cadastros-checkAll").click(function(){
 		    $('.aprovar-cadastros-check').not(this).prop('checked', this.checked);
 		});
@@ -854,83 +711,47 @@
 
 
 
+		$( function() {
+			$("#tabs").tabs();
+			$('#report-tabs').tabs();		
+		});
 
-	$( function() {
-		$("#tabs").tabs();
-		$('#report-tabs').tabs();		
-	});
+		$('#exampleModalCenter').on('shown.bs.modal', function () {
+	  		$('#myInput').trigger('focus')
+		})	
 
-	$('#exampleModalCenter').on('shown.bs.modal', function () {
-  		$('#myInput').trigger('focus')
-	})	
+		$( function() {
+		    $( "#dialog-reprovar-adm" ).dialog({
+		    	autoOpen: false,
+		     	resizable: false,
+		      	height: "auto",
+		      	width: 400,
+		      	modal: true,
+		      	buttons: {
+		        "Sim": function() {
+		          $( this ).dialog( "close" );
+		        },
+		        Sair: function() {
+		          $( this ).dialog( "close" );
+		        }
+		      }
+		    });
+		} );
 
-	$( function() {
-	    $( "#dialog-reprovar-adm" ).dialog({
-	    	autoOpen: false,
-	     	resizable: false,
-	      	height: "auto",
-	      	width: 400,
-	      	modal: true,
-	      	buttons: {
-	        "Sim": function() {
-	          $( this ).dialog( "close" );
-	        },
-	        Sair: function() {
-	          $( this ).dialog( "close" );
-	        }
-	      }
-	    });
-	} );
-
-	$( function() {
-	    $( "#dialog-checkbox-nao-checado" ).dialog({
-	    	autoOpen: false,
-	     	resizable: false,
-	      	height: "auto",
-	      	width: 400,
-	      	modal: true,
-	      	buttons: {
-	        Ok: function() {
-	          $( this ).dialog( "close" );
-	        }
-	      }
-	    });
-	} );
-
-	$( function() {
-	    $( "#dialog-excluir-adm" ).dialog({
-	    	autoOpen: false,
-	     	resizable: false,
-	      	height: "auto",
-	      	width: 400,
-	      	modal: true,
-	      	buttons: {
-	        "Sim": function() {
-	          $( this ).dialog( "close" );
-	        },
-	        Sair: function() {
-	          $( this ).dialog( "close" );
-	        }
-	      }
-	    });
-	} );
-
-	$( function() {
-	    $( "#dialog-checkbox-nao-checado2" ).dialog({
-	    	autoOpen: false,
-	     	resizable: false,
-	      	height: "auto",
-	      	width: 400,
-	      	modal: true,
-	      	buttons: {
-	        Ok: function() {
-	          $( this ).dialog( "close" );
-	        }
-	      }
-	    });
-	} );
-
-
+		$( function() {
+		    $( "#dialog-checkbox-nao-checado" ).dialog({
+		    	autoOpen: false,
+		     	resizable: false,
+		      	height: "auto",
+		      	width: 400,
+		      	modal: true,
+		      	buttons: {
+		        Ok: function() {
+		          $( this ).dialog( "close" );
+		        }
+		      }
+		    });
+		} );
 
 	});
 
@@ -1112,6 +933,7 @@
 	        document.getElementById("form-lista-cad-apv").submit();// Form submission
 		}
 	}
+	
 </script>
 
 </html>

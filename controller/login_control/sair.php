@@ -5,6 +5,6 @@ if(session_status() === PHP_SESSION_NONE){
 }
 
 session_destroy();
-header("location: index.php");
+header("location: ../../views/index.php");
 
 ?>
