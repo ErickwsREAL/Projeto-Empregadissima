@@ -20,6 +20,7 @@
         crossorigin="anonymous">
 
 <link href="css/styles.css" rel="stylesheet">
+<link href="css/cssperfil.css" rel="stylesheet">
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
         crossorigin="anonymous"></script>
@@ -108,9 +109,8 @@
         </form>
 
         <form name="form-agenda", id="form-agenda">
-            <div class="card-container">
+            <div style="text-align: center" class="card-container">
                 <h4><b>Agenda</b></h4>
-                <p>Lista dos dias disponíveis</p>
                 <ul class="list-group">
 
                 <?php foreach($dias_disponiveis as $dados_agenda) {
@@ -154,9 +154,9 @@
             return false;
         }	
         else{
-            document.getElementById("form-agenda").action = "../controller/Agenda_Controller.php?metodo=deletar_agenda&id_agenda="+id_agenda;
+            document.getElementById("form-agenda").action = "../controller/Agenda_Controller.php?metodo=deletar_agenda&id_agenda=" + id_agenda;
             document.getElementById("form-agenda").method = "POST";
-            document.getElementById("form-agenda").submit; // Submissão do formulário
+            document.getElementById("form-agenda").submit(); // Submissão do formulário
 
             return true;
         }

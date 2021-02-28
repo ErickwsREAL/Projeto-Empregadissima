@@ -36,7 +36,6 @@
             } else {
                 return "Não foi possível excluir a data selecionada!";
             }
-            
         }
 
         public static function select($id_prestador) {

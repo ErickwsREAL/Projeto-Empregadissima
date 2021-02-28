@@ -18,6 +18,9 @@
         case 'selecionar_agenda':
             $r = Agenda::select($id_prestador);
             break;
+        default:
+            echo '<script> alert("Teste") </script>';
+            break;
     }
 
 ?>
