@@ -1,5 +1,3 @@
-<?php include ("../controller/login_control/logar_bd_empregadissimas.php")
-?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -30,7 +28,7 @@
 		<div class="container" id="formCadastro">
 			
 			<!-- formulário cadastro de usuário -->
-			<form action="../controller/Usuario_Controller.php?metodo=inserir" method="POST">
+			<form action="../controller/PessoaControlador.php?metodo=Inserir" method="POST">
   				<div id="radios">
 	  				<div class="form-check form-check-inline">
 	  					<!-- prestador valor=1 -->
@@ -97,22 +95,6 @@
 			$( "#buttonVoltar" ).on( "click", function() {
 		    	$( "#caixa" ).dialog( "open" );
 		    });
-
-			$('#tipo_pessoa_p').on('click', function(){           
-       			if($(this).is(':checked')){
-           			$('.endereco').attr('disabled', true);
-       			} else {
-           			$('.endereco').attr('disabled', false);
-      	 		}
-   			});
-
-			$('#tipo_pessoa_c').on('click', function(){           
-       			if($(this).is(':checked')){
-           			$('.endereco').attr('disabled', false);
-       			} else {
-           			$('.endereco').attr('disabled', false);
-      	 		}
-   			});
 
 			$("#caixa").dialog({
 				autoOpen: false,

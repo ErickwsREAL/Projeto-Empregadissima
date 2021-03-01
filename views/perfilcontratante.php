@@ -56,7 +56,7 @@
 					$con = $conn -> query($consulta) or die($conn-> error);
 				?>
 
-		  		<?php while ($dados_pessoa= $con ->fetch_array() ){
+		  		<?php while ($dados_pessoa= $con->fetch_array() ){
 		  			$tipo_pessoa = $dados_pessoa["tipo_pessoa"];
 		  		?>	   
 
@@ -164,11 +164,12 @@
 			  	<!--menu de outras manutenções-->
 			  	<div class="col-6" id="buttons">
 			  		<form name="form-altera-pessoa" id="form-altera-pessoa">
-				  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#editarModal" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="buscaInfoPessoa(<?php echo $var_id; ?>)"><i class="fa fa-cog"></i>&nbsp; Editar Perfil &nbsp;</button>
+				  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#editarModal" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="buscaInfoPessoa(<?php echo $var_id; ?>, <?php echo $tipo_pessoa; ?>)"><i class="fa fa-cog"></i>&nbsp; Editar Perfil &nbsp;</button>
 				  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#enderecoModal" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-key fa-fw	"></i>&nbsp; Meus Endereços &nbsp;</button>
 			  		</form>
-			  		<form method="POST" action="../controller/Usuario_Controller.php?metodo=desativarCadastro">
+			  		<form method="POST" action="../controller/PessoaControlador.php?metodo=Desativar">
 				  		<input name="id_p" value="<?php echo $var_id ?>" style="display: none;">
+				  		<input name="tipo_p" value="<?php echo $tipo_pessoa?>" style="display: none;">
 				  		<button type="submit" class="btn btn-lg btn-block btManter" id="desativarConta" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-trash-o"></i>&nbsp; Desativar Conta &nbsp;</button>
 				  	</form>
 			  	</div>
@@ -204,7 +205,7 @@
 										<label for="foto">Foto de Perfil:</label>		
 										<input type="file" id="foto" name="foto" value="<?php echo $_GET['foto']; ?>">
 									</div>								
-					      			<button type="submit" class="btn btn-primary buttonEditar" id="buttonEditarPerfil" value="Enviar" data-toggle="tooltip" title="Esse botão é desabilitado se os campos estiverem vazios." onclick="salvar_alteracoes(<?php echo $var_id; ?>,<?php echo $tipo_pessoa; ?>)">> Salvar Edição </button>
+					      			<button type="submit" class="btn btn-primary buttonEditar" id="buttonEditarPerfil" value="Enviar" data-toggle="tooltip" title="Esse botão é desabilitado se os campos estiverem vazios." onclick="salvar_alteracoes(<?php echo $var_id; ?>,<?php echo $tipo_pessoa; ?>)"> Salvar Edição </button>
 					      		</form>
 					      	</div>
 				    	</div>
@@ -469,15 +470,15 @@
 			}
 
 		/*Busca Informações para modal Editar Perfil*/
-		function buscaInfoPessoa(id_pessoa){
- 			  document.getElementById("form-altera-pessoa").action= "../controller/Usuario_Controller.php?metodo=buscar&id_pessoa="+id_pessoa;
+		function buscaInfoPessoa(id_pessoa, tipo_pessoa){
+ 			  document.getElementById("form-altera-pessoa").action= "../controller/PessoaControlador.php?metodo=Buscar&id_pessoa="+id_pessoa+"&tipo_pessoa="+tipo_pessoa;
 		 	  document.getElementById("form-altera-pessoa").method= "POST";
 			  document.getElementById("form-altera-pessoa").submit(); // Form submission
     	}
 
     	/*salva alterações do usuário -> foto, detalhes, telefone etc*/
     	function salvar_alteracoes(id_pessoa, tipo_pessoa){
- 			document.getElementById("form-altera-pessoa-modal").action= "../controller/Usuario_Controller.php?metodo=atualizar&id_pessoa="+id_pessoa+"&tipo_pessoa="+tipo_pessoa;
+ 			document.getElementById("form-altera-pessoa-modal").action= "../controller/PessoaControlador.php?metodo=Atualizar&id_pessoa="+id_pessoa+"&tipo_pessoa="+tipo_pessoa;
 		 	document.getElementById("form-altera-pessoa-modal").method= "POST";
 			document.getElementById("form-altera-pessoa-modal").submit(); // Form submission
     	}					
