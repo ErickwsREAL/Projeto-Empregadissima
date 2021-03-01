@@ -29,7 +29,7 @@ if(!empty($email) && !empty($senha)){
             header("location: ../../views/perfilcontratante.php");
         }
     }
-    elseif ($row['status_cadastro'] == '2') {
+    elseif ($row['status_cadastro'] == '1') {
         echo '<script>alert("Seu login ainda não foi liberado, aguarde um email do Empregadíssimas liberando-o :(")</script>';
         echo '<script>location.href="../../views/index.php"</script>';
     }

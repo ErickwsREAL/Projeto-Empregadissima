@@ -259,11 +259,12 @@
 			  		<form name="form-altera-pessoa" id="form-altera-pessoa">
 				  		 <a class="nav-link btn btn-lg btn-block btManter" href="./visao-prestador.php" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-calendar"></i>&nbsp; Agenda &nbsp;</a>
 				  		<!--<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-calendar"></i>&nbsp; Agenda &nbsp;</button>-->
-				  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#editarModal" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="buscaInfoPessoa(<?php echo $var_id; ?>)"><i class="fa fa-cog"></i>&nbsp; Editar Perfil &nbsp;</button>
+				  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#editarModal" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="buscaInfoPessoa(<?php echo $var_id; ?>, <?php echo $tipo_pessoa; ?>)"><i class="fa fa-cog"></i>&nbsp; Editar Perfil &nbsp;</button>
 				  		<!--<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="abreAdicionarSolicitação()"><i class="fa fa-envelope"></i>&nbsp; Solicitar Serviço &nbsp;</button>-->
 			  		</form>
-				  	<form method="POST" action="../controller/Usuario_Controller.php?metodo=desativarCadastro">
+				  	<form method="POST" action="../controller/PessoaControlador.php?metodo=Desativar">
 				  		<input name="id_p" value="<?php echo $var_id ?>" style="display: none;">
+				  		<input name="tipo_p" value="<?php echo $tipo_pessoa?>" style="display: none;">
 				  		<button type="submit" class="btn btn-lg btn-block btManter" id="desativarConta" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-trash-o"></i>&nbsp; Desativar Conta &nbsp;</button>
 				  	</form>
 			  	</div>
@@ -284,7 +285,7 @@
 				        	</button>
 				      	</div>
 				      	<div class="modal-body" id="editarBody">
-				      		<form id="editarForm" action="../controller/Usuario_Controller.php?metodo=alterar" method="POST">
+				      		<form id="editarForm">
 				      			<div class="form-group">
 									<label for="editarDescricao">Descrição:</label>		
 									<textarea class="form-control" rows="3" name="descricao" id="editarDescricao" placeholder="uma breve descrição de você ou seu serviços..."><?php if(isset($_GET['descricao']))echo $_GET['descricao'];?></textarea>
@@ -464,15 +465,15 @@
     	/*Fim CRUD Serviços Prestador*/	
 
     	/*busca informações para modal Editar Perfil*/
-    	function buscaInfoPessoa(id_pessoa){
- 			document.getElementById("form-altera-pessoa").action= "../controller/Usuario_Controller.php?metodo=buscar&id_pessoa="+id_pessoa;
+    	function buscaInfoPessoa(id_pessoa, tipo_pessoa){
+ 			document.getElementById("form-altera-pessoa").action= "../controller/PessoaControlador.php?metodo=Buscar&id_pessoa="+id_pessoa+"&tipo_pessoa="+tipo_pessoa;
 		 	document.getElementById("form-altera-pessoa").method= "POST";
 			document.getElementById("form-altera-pessoa").submit(); // Form submission
     	}
 
     	/*salva alterações do usuário -> foto, detalhes, telefone etc*/
     	function salvar_alteracoes(id_pessoa, tipo_pessoa){
- 		 	document.getElementById("form-altera-pessoa-modal").action= "../controller/Usuario_Controller.php?metodo=atualizar&id_pessoa="+id_pessoa+"&tipo_pessoa="+tipo_pessoa;
+ 		 	document.getElementById("form-altera-pessoa-modal").action= "../controller/PessoaControlador.php?metodo=Atualizar&id_pessoa="+id_pessoa+"&tipo_pessoa="+tipo_pessoa;
 		 	document.getElementById("form-altera-pessoa-modal").method= "POST";
 			document.getElementById("form-altera-pessoa-modal").submit(); // Form submission
     	}
