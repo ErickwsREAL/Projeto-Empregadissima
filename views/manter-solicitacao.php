@@ -135,7 +135,7 @@ function getDadosContratante($id_contratante) {
 									<button type="button" class="btn btn-lg bt-aprovar" id="aprovar-pend-<?php echo $dados_servico["id_servico"]; ?>" 
 											name="aprovar-pend" onclick="aprovarServico(this.id);">Aceitar</button>
 									<button type="button" class="btn btn-lg bt-reprovar" id="reprovar-pend-<?php echo $dados_servico["id_servico"]; ?>" name="reprovar-pend"
-											onclick="reprovarServico(this.id);">Rejeitar</button>
+											onclick="reprovarServico(this.id, <?php echo $valores['tipo_pessoa']; ?>);">Rejeitar</button>
 									<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $dados_servico["id_servico"]; ?>" name="detalhe-pend" onclick="buscarDetalhes(this.id, <?php echo $valores['tipo_pessoa']; ?>)" data-toggle="modal" data-target="#exampleModalCenter">Detalhes</button>
 								</p>
 							</div>
@@ -366,9 +366,6 @@ function getDadosContratante($id_contratante) {
 	  </div>
 	</div>
 
-	<div class="dialog-reprovar" id="dialog-reprovar" title="Alerta">
-	  <p> Deseja <b>Rejeitar</b> esta Solicitação? </p>
-	</div>
 	<div id="dialog-cancelar" title="Alerta">
 	  <p> Deseja realmente <b>cancelar</b> o serviço?<br> O cancelamento implica no não pagamento ao prestador. </p>
 	</div>	
@@ -443,29 +440,6 @@ function getDadosContratante($id_contratante) {
   		$('#myInput').trigger('focus')
 	});
 
-	/*dialogo Deseja Rejeitar esta Solicitação?*/
-	$( function() {
-	    $( "#dialog-reprovar" ).dialog({
-	    	autoOpen: false,
-	     	resizable: true,
-	      	height: "auto",
-	      	width: 400,
-	      	modal: true,
-	      	buttons: {
-	        "Sim": function() {
-	          $( this ).dialog( "close" );
-	        },
-	        Sair: function() {
-	          $( this ).dialog( "close" );
-	        }
-	      }
-	    });
-	} );
-
-    $( ".bt-reprovar" ).on( "click", function() {
-	    $( "#dialog-reprovar" ).dialog( "open" );
-	});
-
 	$( "#cancelarServiço" ).on( "click", function() {
 	    if($('#cancelarServiço').is(':checked')){
        		$( "#dialog-cancelar" ).dialog( "open" );
@@ -536,14 +510,14 @@ function getDadosContratante($id_contratante) {
 			}
 	}
 
-	function reprovarServico(id_serv){
+	function reprovarServico(id_serv, tipo_pessoa){
 		var id_servico = id_serv.substring(14);
 
 			if (!confirm("Deseja REJEITAR esta solicitação?")) {
 				return false;
 			}	
 			else{
-				document.getElementById("form-pend").action= "../controller/Servico_Controller.php?metodo=alt_status_rep&id_servico="+id_servico;
+				document.getElementById("form-pend").action= "../controller/Servico_Controller.php?metodo=alt_status_rep&id_servico="+id_servico+"&tipo_pessoa="+tipo_pessoa;
 		 	 	document.getElementById("form-pend").method= "POST";
 			 	document.getElementById("form-pend").submit(); // Form submission
 	 			return true;

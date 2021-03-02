@@ -119,8 +119,6 @@
 								<p>
 
 									<button type="button" class="btn btn-lg bt-aprovar" id="bt-aprovar" name="bt-aprovar" onclick="aprovarCadastrosF();">Aprovar</button>								
-									<!--bootstrap buttons + id
-									<button type="button" class="btn btn-lg bt-aprovar" id="bt-aprovar" name="bt-aprovar" onclick="aprovarCadastrosF();">Aprovar</button>-->
 
 									<button type="button" class="btn btn-lg bt-reprovar" id="bt-reprovar" onclick="reprovarCadastrosF();">Reprovar</button>
 								</p>

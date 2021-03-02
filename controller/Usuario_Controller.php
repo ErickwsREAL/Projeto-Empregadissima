@@ -1,4 +1,4 @@
-<?php include ("../login_control/logar_bd_empregadissimas.php") ?>
+<?php include ("login_control/logar_bd_empregadissimas.php") ?>
 <?php
 
     require_once '../model/Usuario.php';
@@ -99,7 +99,7 @@
             if(isset($_POST['checkbox-apv-cdtros'])){
                 foreach($_POST['checkbox-apv-cdtros'] as $apvid){
 
-                    $altUser = "UPDATE pessoa SET status_cadastro = 2  WHERE id_pessoa =".$apvid; // 2 - cadastro aprovado
+                    $altUser = ("UPDATE pessoa SET status_cadastro = 2  WHERE id_pessoa =".$apvid); // 2 - cadastro aprovado
                      mysqli_query($conn,$altUser);
                 }   
             }
@@ -114,7 +114,7 @@
             if(isset($_POST['checkbox-apv-cdtros'])){
                 foreach($_POST['checkbox-apv-cdtros'] as $apvid){
 
-                    $altUser = "UPDATE pessoa SET status_cadastro = 3  WHERE id_pessoa =".$apvid; // 3 - cadastro reprovado
+                    $altUser = ("UPDATE pessoa SET status_cadastro = 3  WHERE id_pessoa =".$apvid); // 3 - cadastro reprovado
                     mysqli_query($conn,$altUser);
                 }   
             }
@@ -127,7 +127,7 @@
 
 
         case  'excluir_cadastro':
-            include ("../login_control/logar_bd_empregadissimas.php");
+            include ("login_control/logar_bd_empregadissimas.php");
             if(isset($_POST['checagem'])){
                 foreach($_POST['checagem'] as $apvid){   
                     $adm = ("DELETE FROM pessoa WHERE id_pessoa =".$apvid);
