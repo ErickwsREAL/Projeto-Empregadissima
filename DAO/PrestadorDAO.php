@@ -1,6 +1,5 @@
 <?php
 	
-include_once ("../model/PessoaFabricador.php");
 include_once ("../model/Pessoa.php");
 
 	class PrestadorDAO {

@@ -19,7 +19,7 @@
 		protected $Descricao;
 		protected $Foto;
 	
-		 function getNome() {
+		function getNome() {
 	        return $this->Nome;
 	    }
 
