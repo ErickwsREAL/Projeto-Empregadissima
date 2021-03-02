@@ -286,7 +286,7 @@
 					      		$var_id = $_SESSION['pessoa']['id_pessoa'];
 					      	?>	
 
-					      	<form method="POST" action="../controller/Usuario_Controller.php?metodo=insertEndereço">
+					      	<form method="POST" action="../controller/EnderecoControlador.php?metodo=Inserir">
 								<div class="form-row">
     								<div class="col-md-4">
       									<input type="text" class="form-control arruma" placeholder="Bairro" id="bairroUsuário"  name="bairro" required>
