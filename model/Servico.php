@@ -11,6 +11,8 @@
       protected $id_endereco;
       protected $forma_pagamento;
       protected $data_servico;
+      protected $hora_entrada;
+      protected $hora_saida;
 
       public function getIdDiaria() {
         return $this->id_diaria;
@@ -59,6 +61,22 @@
       public function setDataServico($data_servico) {
         $this->data_servico = $data_servico;
       }   
-  }
+
+      public function getHoraEntrada() {
+        return $this->hora_entrada;
+      }
+      
+      public function setHoraEntrada($hora_entrada) {
+        $this->hora_entrada = $hora_entrada;
+      }   
+
+      public function getHoraSaida() {
+        return $this->hora_saida;
+      }   
+
+      public function setHoraSaida($hora_saida) {
+        $this->hora_saida = $hora_saida;
+      }   
+    }
 
 ?>
