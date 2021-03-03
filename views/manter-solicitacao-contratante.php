@@ -140,7 +140,8 @@ function getDadosPrestador($id_prestador) {
 									<div class="grid-item">
 										<input type="hidden" name="tipo_pessoa" value="<?php echo $valores['tipo_pessoa']; ?>">
 										<h3> <b> Solicitação de Serviço com <?php echo $valores['nome'] ?> </b></h3> 
-										<p><b> Dia: </b> <?php echo $dados_servico["data_servico"]; ?> 
+										<p><b> Dia: </b> <?php echo $dados_servico["data_servico"]; ?> </p>
+										<p><b> Hora Entrada (Previsão): </b> <?php echo $dados_servico["hora_entrada"]; ?> - <b> Hora Saída (Previsão): </b> <?php echo $dados_servico["hora_saida"]; ?> 
 										</p> 
 									</div>
 								</div>
@@ -208,6 +209,8 @@ function getDadosPrestador($id_prestador) {
 										<input type="hidden" name="tipo_pessoa" value="<?php echo $valores['tipo_pessoa']; ?>">
 										<h3> <b> Você possui um serviço em andamento com <?php echo $valores['nome'] ?> </b></h3> 
 										<p><b> Dia: </b> <?php echo $dados_servico["data_servico"]; ?></p> 
+										<p><b> Hora Entrada (Previsão): </b> <?php echo $dados_servico["hora_entrada"]; ?> - <b> Hora Saída (Previsão): </b> <?php echo $dados_servico["hora_saida"]; ?>
+										</p>
 									</div>
 								</div>
 								<!-- -->
@@ -266,7 +269,8 @@ function getDadosPrestador($id_prestador) {
 								<div class="grid-item">
 									<input type="hidden" name="tipo_pessoa" value="<?php echo $valores['tipo_pessoa']; ?>">
 									<h3> <b> Serviço Finalizado com <?php echo $valores['nome'] ?> </b></h3> 
-									<p><b> Dia: </b> <?php echo $dados_servico["data_servico"]; ?>
+									<p><b> Dia: </b> <?php echo $dados_servico["data_servico"]; ?></p>
+									<p><b> Hora Entrada (Previsão): </b> <?php echo $dados_servico["hora_entrada"]; ?> - <b> Hora Saída (Previsão): </b> <?php echo $dados_servico["hora_saida"]; ?>
 									</p> 
 								</div>
 							</div>
@@ -349,8 +353,9 @@ function getDadosPrestador($id_prestador) {
 
 			<div class="modal-body">
 	        	<p><b> Data: </b>  <?php if(isset($_GET['data_servico']))echo $_GET['data_servico'];?>   &nbsp; 
-
-	        	</p>
+				
+		        <p><b> Hora Entrada (Previsão): </b> <?php if(isset($_GET['hora_entrada']))echo $_GET['hora_entrada']; ?> </p>
+				<p><b> Hora Saída (Previsão): </b> <?php if(isset($_GET['hora_saida']))echo $_GET['hora_saida'];?> </p>
 
 					<?php
 						$consulta = "SELECT * FROM diaria_prestador WHERE id_diaria = '".$_GET['id_diaria']."'";

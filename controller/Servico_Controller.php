@@ -1,4 +1,4 @@
-<?php include ("../login_control/logar_bd_empregadissimas.php") ?>
+<?php include ("login_control/logar_bd_empregadissimas.php") ?>
 <?php
 
     require_once ('../model/Servico.php');
@@ -17,12 +17,13 @@
             $servico->setIdContratante($_POST['id_contratante']);
             $servico->setIdDiaria($_POST['id_diaria']);
             $servico->setDataServico($_GET['data_servico']);
-            
+            $servico->setHoraEntrada($_POST['hora_entrada']);
+            $servico->setHoraSaida($_POST['hora_saida']);
+
             $servicoDAO = new ServicoDAO();
             $check = $servicoDAO->insert($servico);
 
-            //Servico::insert($_POST, $_GET['data_servico']);
-            if ($check == 1) {
+            if ($check == 2) {
                 echo '<script>alert("Seu cadastro não foi efetuado! Tente novamente.")</script>';
             }
             echo '<script>alert("Solicitação de Serviço enviada com sucesso!")</script>';
@@ -43,12 +44,14 @@
             $valores['id_endereco'] = $parametros['id_endereco'];
             $valores['forma_pagamento'] = $parametros['forma_pagamento'];
             $valores['id_diaria'] = $parametros['id_diaria'];
-            
+            $valores['hora_entrada'] = $parametros['hora_entrada'];
+            $valores['hora_saida'] = $parametros['hora_saida'];
+
             if ($_GET['tipo_pessoa'] == 1){
-                echo '<script>location.href="../views/manter-solicitacao-contratante.php?data_servico='.$valores['data_servico'].'&id_endereco='.$valores['id_endereco'].'&forma_pagamento='.$valores['forma_pagamento'].'&id_diaria='.$valores['id_diaria'].'"</script>';
+                echo '<script>location.href="../views/manter-solicitacao-contratante.php?data_servico='.$valores['data_servico'].'&id_endereco='.$valores['id_endereco'].'&forma_pagamento='.$valores['forma_pagamento'].'&id_diaria='.$valores['id_diaria'].'&hora_entrada='.$valores['hora_entrada'].'&hora_saida='.$valores['hora_saida'].'"</script>';
             }
             else{
-                echo '<script>location.href="../views/manter-solicitacao.php?data_servico='.$valores['data_servico'].'&id_endereco='.$valores['id_endereco'].'&forma_pagamento='.$valores['forma_pagamento'].'&id_diaria='.$valores['id_diaria'].'"</script>';
+                echo '<script>location.href="../views/manter-solicitacao.php?data_servico='.$valores['data_servico'].'&id_endereco='.$valores['id_endereco'].'&forma_pagamento='.$valores['forma_pagamento'].'&id_diaria='.$valores['id_diaria'].'&hora_entrada='.$valores['hora_entrada'].'&hora_saida='.$valores['hora_saida'].'"</script>';
             }
 
             break;
