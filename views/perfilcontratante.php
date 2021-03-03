@@ -244,8 +244,8 @@
 						    	</form>
 						    </div>	
 						
-						      	<button type="button" class="btn btn-dprimary buttonEditar butf" id="buttonEditarEnd" onclick="atualizar_end();"> Editar Selecionado</button>
-						      	<button type="button" class="btn btn-danger butf" onclick="excluir_end();"> Excluir Selecionado</button>
+						      	<button type="button" class="btn btn-dprimary buttonEditar butf" id="buttonEditarEnd" onclick="buscar_end();"> Editar Selecionado</button>
+						      	<button type="button" class="btn btn-danger butf" onclick="excluir_end();"> Excluir Selecionado </button>
 				      			
 				      	</div>
 				      
@@ -253,7 +253,7 @@
 
 				      	<div id="editarEnd3">			
 				      			<p> Editar Endereço Selecionado:</p>
-				      			<form id="formEndereco" method="POST" action="../controller/Usuario_Controller.php?metodo=atualizarEndereço">
+				      			<form id="formEndereco" method="POST" action="../controller/EnderecoControlador.php?metodo=Atualizar">
 									<div class="form-row">
 	    								<div class="col-md-4">
 	      									<input type="text" class="form-control" placeholder="Bairro" id="bairroUsuárioED" name="bairro" value="<?php  if(isset($_GET['bairro'])) echo $_GET['bairro']; ?>">
@@ -451,7 +451,7 @@
 				}	
 				else{
 	 				  
-	 			 document.getElementById("formedit").action= "../controller/Usuario_Controller.php?metodo=deletarEndereço&id_end="+id_end;
+	 			 document.getElementById("formedit").action= "../controller/EnderecoControlador.php?metodo=Excluir&id_end="+id_end;
 			 	 document.getElementById("formedit").method= "POST";
 				 document.getElementById("formedit").submit();
 
@@ -459,11 +459,11 @@
 				}
     		}
 
-    		function atualizar_end(){
+    		function buscar_end(){
 				var e = document.getElementById("endereçosUsuário");
 				var id_end = e.value;
 				
-				document.getElementById("formedit").action= "../controller/Usuario_Controller.php?metodo=buscarEndereço&id_end="+id_end;
+				document.getElementById("formedit").action= "../controller/EnderecoControlador.php?metodo=Buscar&id_end="+id_end;
 		 	  	document.getElementById("formedit").method= "POST";
 			  	document.getElementById("formedit").submit();
 			
