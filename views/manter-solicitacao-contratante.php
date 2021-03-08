@@ -33,9 +33,9 @@ function getDadosPrestador($id_prestador) {
 <html>
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/jquery-ui.css">
-	<link rel="stylesheet" type="text/css" href="./css/solicitacao-css.css">
+	<link rel="stylesheet" type="text/css" href="css/solicitacao-css.css">
 	<script src="js/jquery-3.5.1.min.js"></script>
 	<script src="js/jquery-ui.js"></script>
 
@@ -43,6 +43,17 @@ function getDadosPrestador($id_prestador) {
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="css/solicitacao-css.css">
+	<script src="js/jquery-3.5.1.min.js"></script>
+	<script src="js/jquery-ui.js"></script>
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 
 	<title>Empregadíssima | Solicitações </title>
 </head>
