@@ -1,10 +1,20 @@
 <?php
 	
 include_once ("../model/Pessoa.php");
+include_once ("../model/PessoaFabricador.php");
+
 
 	class ContratanteDAO {
 
-		public function inserirContratanteDAO(Contratante $contratante){
+		public function criarContratante(){
+                  
+                  $ContratanteF = new ContratanteFabricador();
+                  $Contratante = $ContratanteF->criarPessoa();
+
+                  return $Contratante;
+            }
+
+            public function inserirContratanteDAO(Contratante $contratante){
 			include ("../controller/login_control/logar_bd_empregadissimas.php");
 			
       		$Nome = $contratante->getNome(); 
@@ -80,12 +90,13 @@ include_once ("../model/Pessoa.php");
 
             }
 
+
             public function buscarContratanteDAO(Contratante $contratante){
                   include ("../controller/login_control/logar_bd_empregadissimas.php");
-
+                  
                   $idContrantrante = $contratante->getID();
 
-                  $sql = "SELECT nome, descricao, telefone, foto FROM pessoa WHERE id_pessoa = '$idContrantrante'";
+                  $sql = "SELECT nome, descricao, telefone, foto, sexo, cidade, data_nascimento, email FROM pessoa WHERE id_pessoa = '$idContrantrante'";
 
                   $resultados = $conn->query($sql);
 
@@ -94,14 +105,15 @@ include_once ("../model/Pessoa.php");
                   $contratante->setNome($row["nome"]);
                   $contratante->setFoto($row["foto"]);
                   $contratante->setDescricao($row["descricao"]);
+                  $contratante->setDataNascimento($row["data_nascimento"]);
+                  $contratante->setCidade($row["cidade"]);
+                  $contratante->setSexo($row["sexo"]);
                   $contratante->setTelefone($row["telefone"]);
-            
-                  $conn->close();
-
+                  $contratante->setEmail($row["email"]);
+                  
                   return $contratante;
 
             }
-
 
 
 

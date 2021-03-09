@@ -8,7 +8,7 @@ if(session_status() === PHP_SESSION_NONE){
 $email = $_POST['email'];
 $senha = $_POST['senha'];
  
-$sql = "SELECT * FROM pessoa WHERE email = '$email'";
+$sql = "SELECT id_pessoa, senha, tipo_pessoa, status_cadastro FROM pessoa WHERE email = '$email'";
 
 $result = $conn->query($sql);
 
@@ -47,6 +47,7 @@ if($row['status_cadastro'] == '3') {
 //clausulás guardas acima//
 
 unset($row['senha']);
+unset($row['status_cadastro']);
 
 $_SESSION['pessoa'] = $row;
 
