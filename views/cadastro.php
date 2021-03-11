@@ -26,7 +26,6 @@
 		</div>
 
 		<div class="container" id="formCadastro">
-			
 			<!-- formulário cadastro de usuário -->
 			<form action="../controller/PessoaControlador.php?metodo=Inserir" method="POST">
   				<div id="radios">
@@ -47,7 +46,7 @@
 						<label class="form-check-label" for="sexoUsuarioA">Outro</label>	
 					</div>	
 		  		</div>	
-		  		
+
 	  			<div class="form-group">
 					<br><label for="nomeUsuario">Nome</label>
 					<input type="text" class="form-control" id="NomeUsuario" name="nome" maxlength="50" placeholder="Máximo 50 caractéres..." required>

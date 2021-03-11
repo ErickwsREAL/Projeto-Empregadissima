@@ -1,10 +1,7 @@
-<?php include ("../controller/login_control/logar_bd_empregadissimas.php")
-?>
-
-<?php include ("../controller/login_control/verifica_login_usuario.php")
-?>
-
-<?php echo $_SESSION['pessoa']['id_pessoa']
+<?php 
+include ("../controller/login_control/logar_bd_empregadissimas.php");
+include ("../controller/login_control/verifica_login_usuario.php");
+include_once ("../controller/PessoaControlador.php");
 ?>
 
 <!DOCTYPE html>
@@ -49,31 +46,27 @@
 				<!-- informações do perfil-->
 	            <div class="container">
 					
-					<?php
-						$var_id = $_SESSION['pessoa']['id_pessoa'];
-
-						$consulta = "SELECT * FROM pessoa WHERE id_pessoa = $var_id";
-						$con = $conn -> query($consulta) or die($conn-> error);
-					?>
-
-			  		<?php while ($dados_pessoa= $con ->fetch_array() ){
-						$tipo_pessoa = $dados_pessoa["tipo_pessoa"];
-			  		?>	                
+				<?php
+					$var_id = $_SESSION['pessoa']['id_pessoa'];
+					$tipo_pessoa = $_SESSION['pessoa']['tipo_pessoa'];
+					
+					$Prestador = buscarUsuario($var_id, $tipo_pessoa);
+				?>                
 	                
 	                <div class="row align-items-center flex-row-reverse">
 	                    <div class="col-lg-6">
 	                        <div class="profile-text go-to">
 
-	                            <h3 class="dark-color"> <?php echo $dados_pessoa["nome"]; ?> </h3>
-	                                <p> <?php echo $dados_pessoa["descricao"]; ?> </p>
+	                            <h3 class="dark-color"> <?php echo $Prestador->getNome(); ?> </h3>
+	                                <p> <?php echo $Prestador->getDescricao(); ?> </p>
 	                            <div class="row profile-list">
 	                                <div class="col-md-6">
 	                                    <div class="media">
 	                                        <label>Idade</label>
 
 											<?php
-												$dataNascimento = $dados_pessoa["data_nascimento"];;
-												$date = new DateTime($dataNascimento );
+												$dataNascimento = $Prestador->getDataNascimento();
+												$date = new DateTime($dataNascimento);
 												$interval = $date->diff( new DateTime( date('Y-m-d') ) );
 											?>	      
 
@@ -81,22 +74,23 @@
 	                                    </div>
 	                                    <div class="media">
 	                                        <label>Cidade</label>
-	                                        <p> <?php echo $dados_pessoa["cidade"]; ?> </p>
+	                                        <p> <?php echo $Prestador->getCidade(); ?> </p>
 	                                    </div>
 
 	                                </div>
 	                                <div class="col-md-6">
 	                                    <div class="media">
 	                                        <label>E-mail</label>
-	                                        <p> <?php echo $dados_pessoa["email"]; ?> </p>
+	                                        <p> <?php echo $Prestador->getEmail(); ?> </p>
 	                                    </div>
 	                                    <div class="media">
 	                                        <label>Sexo</label>
 
 										<?php
-											if ($dados_pessoa["sexo"] == 1) {
+											$sexoID = $Prestador->getSexo();
+											if ($sexoID == 1) {
 											    $sexo = 'Masculino';
-											} elseif ($dados_pessoa["sexo"] == 2) {
+											} elseif ($sexoID == 2) {
 											    $sexo = 'Feminino';
 											} else {
 											    $sexo = 'Outros';
@@ -115,7 +109,7 @@
 	                        	<div class="img-container">
 
 										<?php
-											if ($dados_pessoa["foto"] != NULL) {
+											if ($Prestador->getFoto() != NULL) {
 												$foto = $dados_pessoa["foto"]; 
 											} else {
 											    $foto = 'profile.png';
@@ -127,10 +121,8 @@
 	                    </div>
 	                </div>
 
-					<?php 
-						  }
+<!-- =======================================================================================================================================-->
 
-					?> 
 	                <!--div com cliente qte avaliações e star rating -->
 	                <div class="counter">
 	                    <div class="row">
@@ -263,8 +255,8 @@
 				  		<!--<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="abreAdicionarSolicitação()"><i class="fa fa-envelope"></i>&nbsp; Solicitar Serviço &nbsp;</button>-->
 			  		</form>
 				  	<form method="POST" action="../controller/PessoaControlador.php?metodo=Desativar">
-				  		<input name="id_p" value="<?php echo $var_id ?>" style="display: none;">
-				  		<input name="tipo_p" value="<?php echo $tipo_pessoa?>" style="display: none;">
+				  		<input name="id_pessoa" value="<?php echo $var_id ?>" style="display: none;">
+				  		<input name="tipo_pessoa" value="<?php echo $tipo_pessoa?>" style="display: none;">
 				  		<button type="submit" class="btn btn-lg btn-block btManter" id="desativarConta" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-trash-o"></i>&nbsp; Desativar Conta &nbsp;</button>
 				  	</form>
 			  	</div>
@@ -288,19 +280,19 @@
 				      		<form id="editarForm">
 				      			<div class="form-group">
 									<label for="editarDescricao">Descrição:</label>		
-									<textarea class="form-control" rows="3" name="descricao" id="editarDescricao" placeholder="uma breve descrição de você ou seu serviços..."><?php if(isset($_GET['descricao']))echo $_GET['descricao'];?></textarea>
+									<textarea class="form-control" rows="3" name="descricao" id="editarDescricao" placeholder="uma breve descrição de você ou seu serviços..."><?php echo $Prestador->getDescricao() ?></textarea>
 								</div>
 				      			<div class="form-group labelPeq">
 									<label for="editarNome">Nome:</label>		
-									<input class="form-control form-control-sm" type="text" name="nome" id="editarNome" placeholder="Novo nome.." maxlength="50" value="<?php echo $_GET['nome']; ?>">
+									<input class="form-control form-control-sm" type="text" name="nome" id="editarNome" placeholder="Novo nome.." maxlength="50" value="<?php echo $Prestador->getNome(); ?>">
 								</div>
 				      			<div class="form-group labelPeq">
 									<label for="editarTelefone">Telefone:</label>		
-									<input class="form-control form-control-sm" type="tel" name="telefone" id="editarTelefone"  placeholder="(00) 98855-7711" minlength="11" value="<?php echo $_GET['telefone']; ?>">
+									<input class="form-control form-control-sm" type="tel" name="telefone" id="editarTelefone"  placeholder="(00) 98855-7711" minlength="11" value="<?php echo $Prestador->getTelefone(); ?>">
 								</div>
 				      			<div class="form-group labelPeq">
 									<label for="foto">Foto de Perfil:</label>		
-									<input type="file" id="foto" name="foto" value="<?php echo $_GET['foto']; ?>">
+									<input type="file" id="foto" name="foto" value="<?php echo $Prestador->getFoto(); ?>">
 								</div>							
 				      			<button type="button" class="btn btn-primary buttonEditar" id="buttonEditarPerfil" value="Enviar" data-toggle="tooltip" title="Esse botão é desabilitado se os campos estiverem vazios." onclick="salvar_alteracoes(<?php echo $var_id; ?>,<?php echo $tipo_pessoa; ?>)"> Salvar Edição </button>
 				      		</form>
@@ -463,13 +455,6 @@
 			}
     	}
     	/*Fim CRUD Serviços Prestador*/	
-
-    	/*busca informações para modal Editar Perfil*/
-    	function buscaInfoPessoa(id_pessoa, tipo_pessoa){
- 			document.getElementById("form-altera-pessoa").action= "../controller/PessoaControlador.php?metodo=Buscar&id_pessoa="+id_pessoa+"&tipo_pessoa="+tipo_pessoa;
-		 	document.getElementById("form-altera-pessoa").method= "POST";
-			document.getElementById("form-altera-pessoa").submit(); // Form submission
-    	}
 
     	/*salva alterações do usuário -> foto, detalhes, telefone etc*/
     	function salvar_alteracoes(id_pessoa, tipo_pessoa){

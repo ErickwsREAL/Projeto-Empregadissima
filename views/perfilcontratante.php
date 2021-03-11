@@ -2,7 +2,6 @@
 include ("../controller/login_control/logar_bd_empregadissimas.php");
 include ("../controller/login_control/verifica_login_usuario.php");
 include_once ("../controller/PessoaControlador.php");
-include_once ("../DAO/ContratanteDAO.php");
 ?>
 
 <!DOCTYPE html>
@@ -51,13 +50,7 @@ include_once ("../DAO/ContratanteDAO.php");
 					$var_id = $_SESSION['pessoa']['id_pessoa'];
 					$tipo_pessoa = $_SESSION['pessoa']['tipo_pessoa'];
 					
-					$Pcontrolador = new PessoaControlador();
-					$Contratante = $Pcontrolador->criarPC($tipo_pessoa);
-
-					$Contratante->setID($var_id);
-					$Contratante->setTipoPessoa($tipo_pessoa);
-					
-					$Contratante = $Pcontrolador->Buscar($Contratante);
+					$Contratante = buscarUsuario($var_id, $tipo_pessoa);
 				?>
 		  		
                 <div class="row align-items-center flex-row-reverse">
@@ -92,9 +85,11 @@ include_once ("../DAO/ContratanteDAO.php");
                                     <div class="media">
                                         <label>Sexo</label>
 										<?php
-											if ($Contratante->getSexo() == 1) {
+
+											$sexoID = $Contratante->getSexo();
+											if ($sexoID == 1) {
 												$sexo = 'Masculino';
-											} elseif ($Contratante->getSexo() == 2) {
+											} elseif ($sexoID == 2) {
 											  $sexo = 'Feminino';
 											} else {
 											    $sexo = 'Outros';
@@ -167,8 +162,8 @@ include_once ("../DAO/ContratanteDAO.php");
 				  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#enderecoModal" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-key fa-fw	"></i>&nbsp; Meus Endereços &nbsp;</button>
 			  		</form>
 			  		<form method="POST" action="../controller/PessoaControlador.php?metodo=Desativar">
-				  		<input name="id_p" value="<?php echo $Contratante->getID() ?>" style="display: none;">
-				  		<input name="tipo_pessoa" value="<?php echo $Contratante->getTipoPessoa() ?>" style="display: none;">
+				  		<input name="id_pessoa" value="<?php echo $var_id ?>" style="display: none;">
+				  		<input name="tipo_pessoa" value="<?php echo $tipo_pessoa ?>" style="display: none;">
 				  		<button type="submit" class="btn btn-lg btn-block btManter" id="desativarConta" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-trash-o"></i>&nbsp; Desativar Conta &nbsp;</button>
 				  	</form>
 			  	</div>
@@ -190,7 +185,7 @@ include_once ("../DAO/ContratanteDAO.php");
 					      		<form id="editarForm">
 					      			<div class="form-group">
 										<label for="editarDescricao">Descrição:</label>		
-										<textarea class="form-control" id="editarDescricao" rows="3" name="descricao" id="editarDescricao" placeholder="uma breve descrição de você ou seu serviços..."s><?php echo $Contratante->getDescricao() ?></textarea>
+										<textarea class="form-control" id="editarDescricao" rows="3" name="descricao" id="editarDescricao" placeholder="uma breve descrição de você ou seu serviços..."><?php echo $Contratante->getDescricao() ?></textarea>
 									</div>
 					      			<div class="form-group labelPeq">
 										<label for="editarNome">Nome:</label>		
@@ -204,7 +199,7 @@ include_once ("../DAO/ContratanteDAO.php");
 										<label for="foto">Foto de Perfil:</label>		
 										<input type="file" id="foto" name="foto" value="<?php echo $Contratante->getFoto(); ?>">
 									</div>								
-					      			<button type="submit" class="btn btn-primary buttonEditar" id="buttonEditarPerfil" value="Enviar" data-toggle="tooltip" title="Esse botão é desabilitado se os campos estiverem vazios." onclick="salvar_alteracoes(<?php echo $Contratante->getID(); ?>,<?php echo $Contratante->getTipoPessoa(); ?>)"> Salvar Edição </button>
+					      			<button type="submit" class="btn btn-primary buttonEditar" id="buttonEditarPerfil" value="Enviar" data-toggle="tooltip" title="Esse botão é desabilitado se os campos estiverem vazios." onclick="salvar_alteracoes(<?php echo $var_id ?>,<?php echo $tipo_pessoa ?>)"> Salvar Edição </button>
 					      		</form>
 					      	</div>
 				    	</div>
