@@ -1,12 +1,7 @@
-<?php include ("../controller/login_control/logar_bd_empregadissimas.php")
-?>
-
-<?php include ("../controller/login_control/verifica_login_usuario.php") ?>
-
-<?php echo $_SESSION['pessoa']['id_pessoa'];
-
-$id_prestador=$_GET["id_prestador"];
-
+<?php 
+include ("../controller/login_control/logar_bd_empregadissimas.php");
+include ("../controller/login_control/verifica_login_usuario.php");
+include_once ("../controller/PessoaControlador.php");
 ?>
 
 <!DOCTYPE html>
@@ -48,26 +43,23 @@ $id_prestador=$_GET["id_prestador"];
             <div class="container">
 
 				<?php
+					$id_prestador=$_GET["id_prestador"];
 					$var_id = $_SESSION['pessoa']['id_pessoa']; //id do contratante 
-
-					$consulta = "SELECT * FROM pessoa WHERE id_pessoa = $id_prestador"; // busca informações do id do prestador
-					$con = $conn -> query($consulta) or die($conn-> error);
+					$prestador = buscarUsuario($id_prestador, 1);
+					
 				?>
-
-		  		<?php while ($dados_prestador= $con ->fetch_array() ){
-		  		?>	
 
                 <div class="row align-items-center flex-row-reverse">
                     <div class="col-lg-6">
                         <div class="profile-text go-to">
-                            <h3 class="dark-color"><?php echo $dados_prestador["nome"]; ?></h3>
-                                <p><?php echo $dados_prestador["descricao"]; ?></p>
+                            <h3 class="dark-color"><?php echo $prestador->getNome(); ?></h3>
+                                <p><?php echo $prestador->getDescricao(); ?></p>
                             <div class="row profile-list">
                                 <div class="col-md-6">
                                     <div class="media">
                                         <label>Idade</label>
 											<?php
-												$dataNascimento = $dados_prestador["data_nascimento"];;
+												$dataNascimento = $prestador->getDatanascimento();
 												$date = new DateTime($dataNascimento);
 												$interval = $date->diff( new DateTime( date('Y-m-d') ) );
 											?>	                                        
@@ -75,20 +67,21 @@ $id_prestador=$_GET["id_prestador"];
                                     </div>
                                     <div class="media">
                                         <label>Cidade</label>
-                                        <p><?php echo $dados_prestador["cidade"]; ?></p>
+                                        <p><?php echo $prestador->getCidade(); ?></p>
                                     </div>
 
                                 </div>
                                 <div class="col-md-6">
                                     <div class="media">
                                         <label>E-mail</label>
-                                        <p><?php echo $dados_prestador["email"]; ?></p>
+                                        <p><?php echo $prestador->getEmail(); ?></p>
                                     </div>
                                     <div class="media">
 										<?php
-											if ($dados_prestador["sexo"] == 1) {
+											$sexoID = $prestador->getSexo();
+											if ($sexoID == 1) {
 											    $sexo = 'Masculino';
-											} elseif ($dados_prestador["sexo"] == 2) {
+											} elseif ($sexoID == 2) {
 											    $sexo = 'Feminino';
 											} else {
 											    $sexo = 'Outros';
@@ -105,8 +98,8 @@ $id_prestador=$_GET["id_prestador"];
                         <div class="profile-avatar" >
                         	<div class="img-container">
 								<?php
-									if ($dados_prestador["foto"] != NULL) {
-										$foto = $dados_prestador["foto"]; 
+									if ($prestador->getFoto() != NULL) {
+										$foto = 	$prestador->getFoto(); 
 									} else {
 									    $foto = 'profile.png';
 									}
@@ -116,11 +109,7 @@ $id_prestador=$_GET["id_prestador"];
                         </div>
                     </div>
                 </div>
-					<?php 
-						  }
-
-					?> 
-
+			
 
                 <!--div com cliente, qte avaliações e star rating -->
                 <div class="counter">

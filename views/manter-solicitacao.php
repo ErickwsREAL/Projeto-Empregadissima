@@ -3,7 +3,7 @@
 
 <?php include ("../controller/login_control/verifica_login_usuario.php") ?>
 
-<?php echo $_SESSION['pessoa']['id_pessoa'];
+<?php 
 
 function getDadosContratante($id_contratante) {
 	include ("../controller/login_control/logar_bd_empregadissimas.php");

@@ -3,7 +3,7 @@
 
 <?php include ("../controller/login_control/verifica_login_usuario.php") ?>
 
-<?php echo $_SESSION['pessoa']['id_pessoa'];
+<?php
 
 
 function getDadosPrestador($id_prestador) {
