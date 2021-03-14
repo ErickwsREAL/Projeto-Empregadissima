@@ -3,7 +3,6 @@
 
 <?php include ("../controller/login_control/verifica_login_usuario.php") ?>
 
-<?php echo $_SESSION['pessoa']['id_pessoa']?>
 <!DOCTYPE html>
 <html>
 <head>
