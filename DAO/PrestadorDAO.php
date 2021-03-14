@@ -69,7 +69,7 @@ include_once ("../model/Pessoa.php");
                   
                   $idPrestador = $prestador->getID();
 
-                  $sql = "SELECT nome, descricao, telefone, foto, sexo, cidade, data_nascimento, email FROM pessoa WHERE id_pessoa = '$idPrestador'";
+                  $sql = "SELECT nome, descricao, telefone, foto, sexo, cidade, data_nascimento, email, tipo_pessoa FROM pessoa WHERE id_pessoa = '$idPrestador'";
 
                   $resultados = $conn->query($sql);
 
@@ -83,6 +83,7 @@ include_once ("../model/Pessoa.php");
                   $prestador->setSexo($row["sexo"]);
                   $prestador->setTelefone($row["telefone"]);
                   $prestador->setEmail($row["email"]);
+                  $prestador->setTipoPessoa($row["tipo_pessoa"]);
                   
                   return $prestador;
 

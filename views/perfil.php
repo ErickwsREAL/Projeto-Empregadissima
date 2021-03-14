@@ -110,7 +110,7 @@ include_once ("../controller/PessoaControlador.php");
 
 										<?php
 											if ($Prestador->getFoto() != NULL) {
-												$foto = $dados_pessoa["foto"]; 
+												$foto = $Prestador->getFoto(); 
 											} else {
 											    $foto = 'profile.png';
 											}

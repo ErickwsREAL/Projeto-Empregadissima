@@ -336,7 +336,7 @@ $id_prestador=$_GET["id_prestador"];
 				return false;
 			}	
 			else{
-					document.getElementById("form-ins-servico").action= "../controller/Servico_Controller.php?metodo=inserir&data_servico="+data_servico;
+					document.getElementById("form-ins-servico").action= "../controller/Servico_Controlador.php?metodo=inserir&data_servico="+data_servico;
 					document.getElementById("form-ins-servico").method= "POST";
 					document.getElementById("form-ins-servico").submit();// Form submission
 			return true;
