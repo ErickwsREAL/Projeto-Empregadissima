@@ -2,6 +2,7 @@
 include ("../controller/login_control/logar_bd_empregadissimas.php");
 include ("../controller/login_control/verifica_login_usuario.php");
 include_once ("../controller/PessoaControlador.php");
+include_once ("../controller/EnderecoControlador.php");
 ?>
 
 <!DOCTYPE html>
@@ -206,7 +207,7 @@ include_once ("../controller/PessoaControlador.php");
 				    </form>
 			  	</div>
 			</div>	
-<!-- arrumado acima-------------------------------------------------------------------------------------------------------------------------->			
+		
 			<!--modal crud endereço -->
 			<div class="modal fade modal-lg" id="enderecoModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 			  	<div class="modal-dialog modal-lg">
@@ -220,10 +221,7 @@ include_once ("../controller/PessoaControlador.php");
 			      	
 			      	<div class="modal-body">
 			      		<?php
-							$var_id = $_SESSION['pessoa']['id_pessoa'];
-
-							$consulta = "SELECT id_endereco, bairro, rua, numero, complemento, cep FROM endereco WHERE id_pessoa = $var_id";
-							$con = $conn -> query($consulta) or die($conn-> error);
+							$rows = buscarTEnd($var_id);
 						?>
 
 			      		<div id="editarEndereço">
@@ -231,9 +229,9 @@ include_once ("../controller/PessoaControlador.php");
 								<form id="formedit">		      
 								    <label for="endereçosUsuário">Endereços: </label>
 								    <select id="endereçosUsuário" class="form-control">
-										<?php while ($dados_end = $con ->fetch_array() ){
+										<?php foreach ($rows as $row){
 									  	?>    	
-								      	<option selected value="<?php echo $dados_end['id_endereco']; ?>"> Bairro: <?php echo $dados_end['bairro']; ?> Rua: <?php echo $dados_end['rua']; ?>, Número: <?php echo $dados_end['numero']; ?>, Complemento: <?php echo $dados_end['complemento']; ?> CEP: <?php echo $dados_end['cep']; ?> </option>
+								      	<option selected value="<?php echo $row['id_endereco']; ?>"> Bairro: <?php echo $row['bairro']; ?> Rua: <?php echo $row['rua']; ?>, Número: <?php echo $row['numero']; ?>, Complemento: <?php echo $row['complemento']; ?> CEP: <?php echo $row['cep']; ?> </option>
 								      	<?php } ?>
 								    </select>
 						    	</form>
@@ -251,7 +249,7 @@ include_once ("../controller/PessoaControlador.php");
 				      			<form id="formEndereco" method="POST" action="../controller/EnderecoControlador.php?metodo=Atualizar">
 									<div class="form-row">
 	    								<div class="col-md-4">
-	      									<input type="text" class="form-control" placeholder="Bairro" id="bairroUsuárioED" name="bairro" value="<?php  if(isset($_GET['bairro'])) echo $_GET['bairro']; ?>">
+	      									<input type="text" class="form-control" placeholder="Bairro" id="bairroUsuárioED" name="bairro" value="<?php  echo $endereco->getBairro(); ?>">
 	    								</div>
 	    								<div class="col-md-4">
 	      									<input type="text" class="form-control" placeholder="Rua" id="ruaUsuárioED" name="rua" value="<?php if(isset($_GET['rua'])) echo $_GET['rua']; ?>">
@@ -277,9 +275,6 @@ include_once ("../controller/PessoaControlador.php");
 						
 						<div id="adicionarEndereço">	
 							<p>Adicionar um endereço:</p>
-					      	<?php
-					      		$var_id = $_SESSION['pessoa']['id_pessoa'];
-					      	?>	
 
 					      	<form method="POST" action="../controller/EnderecoControlador.php?metodo=Inserir">
 								<div class="form-row">
@@ -456,21 +451,13 @@ include_once ("../controller/PessoaControlador.php");
     		}
 
     		function buscar_end(){
-				var e = document.getElementById("endereçosUsuário");
-				var id_end = e.value;
 				
-				document.getElementById("formedit").action= "../controller/EnderecoControlador.php?metodo=Buscar&id_end="+id_end;
-		 	  	document.getElementById("formedit").method= "POST";
-			  	document.getElementById("formedit").submit();
-			
+				var e = document.getElementById("endereçosUsuário");
+				var id_end = e.value;	
+				
+				
 			}
 
-		/*Busca Informações para modal Editar Perfil*/
-		/*function buscaInfoPessoa(id_pessoa, tipo_pessoa){
- 			  document.getElementById("form-altera-pessoa").action= "../controller/PessoaControlador.php?metodo=Buscar&id_pessoa="+id_pessoa+"&tipo_pessoa="+tipo_pessoa;
-		 	  document.getElementById("form-altera-pessoa").method= "POST";
-			  document.getElementById("form-altera-pessoa").submit(); // Form submission
-    	}*/
 
     	/*salva alterações do usuário -> foto, detalhes, telefone etc*/
     	function salvar_alteracoes(id_pessoa, tipo_pessoa){
