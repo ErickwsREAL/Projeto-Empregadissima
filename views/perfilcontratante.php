@@ -1,10 +1,8 @@
-<?php include ("../controller/login_control/logar_bd_empregadissimas.php")
-?>
-
-<?php include ("../controller/login_control/verifica_login_usuario.php")
-?>
-
-<?php echo $_SESSION['pessoa']['id_pessoa']
+<?php 
+include ("../controller/login_control/logar_bd_empregadissimas.php");
+include ("../controller/login_control/verifica_login_usuario.php");
+include_once ("../controller/PessoaControlador.php");
+include_once ("../controller/EnderecoControlador.php");
 ?>
 
 <!DOCTYPE html>
@@ -51,28 +49,24 @@
 
 				<?php
 					$var_id = $_SESSION['pessoa']['id_pessoa'];
-
-					$consulta = "SELECT * FROM pessoa WHERE id_pessoa = $var_id";
-					$con = $conn -> query($consulta) or die($conn-> error);
+					$tipo_pessoa = $_SESSION['pessoa']['tipo_pessoa'];
+					
+					$Contratante = buscarUsuario($var_id, $tipo_pessoa);
 				?>
-
-		  		<?php while ($dados_pessoa= $con->fetch_array() ){
-		  			$tipo_pessoa = $dados_pessoa["tipo_pessoa"];
-		  		?>	   
-
+		  		
                 <div class="row align-items-center flex-row-reverse">
                     <div class="col-lg-6">
                         <div class="profile-text go-to">
-                            <h3 class="dark-color"><?php echo $dados_pessoa["nome"]; ?></h3>
-                                <p><?php echo $dados_pessoa["descricao"]; ?></p>
+                            <h3 class="dark-color"> <?php echo $Contratante->getNome() ?></h3>
+                                <p><?php echo $Contratante->getDescricao() ?></p>
                             <div class="row profile-list">
                                 <div class="col-md-6">
                                     <div class="media">
                                         <label>Idade</label>
 									
 										<?php
-											$dataNascimento = $dados_pessoa["data_nascimento"];;
-											$date = new DateTime($dataNascimento );
+											$dataNascimento = $Contratante->getDataNascimento();
+											$date = new DateTime($dataNascimento);
 											$interval = $date->diff( new DateTime( date('Y-m-d') ) );
 										?>
 
@@ -80,22 +74,24 @@
                                     </div>
                                     <div class="media">
                                         <label>Cidade</label>
-                                        <p><?php echo $dados_pessoa["cidade"]; ?></p>
+                                        <p><?php echo $Contratante->getCidade() ?></p>
                                     </div>
 
                                 </div>
                                 <div class="col-md-6">
                                     <div class="media">
                                         <label>E-mail</label>
-                                        <p><?php echo $dados_pessoa["email"]; ?></p>
+                                        <p><?php echo $Contratante->getEmail() ?></p>
                                     </div>
                                     <div class="media">
                                         <label>Sexo</label>
 										<?php
-											if ($dados_pessoa["sexo"] == 1) {
-											    $sexo = 'Masculino';
-											} elseif ($dados_pessoa["sexo"] == 2) {
-											    $sexo = 'Feminino';
+
+											$sexoID = $Contratante->getSexo();
+											if ($sexoID == 1) {
+												$sexo = 'Masculino';
+											} elseif ($sexoID == 2) {
+											  $sexo = 'Feminino';
 											} else {
 											    $sexo = 'Outros';
 											}
@@ -112,8 +108,8 @@
                         	<div class="img-container">
 
 								<?php
-									if ($dados_pessoa["foto"] != NULL) {
-										$foto = $dados_pessoa["foto"]; 
+									if ($Contratante->getFoto() != NULL) {
+										$foto = $Contratante->getFoto(); 
 									} else {
 									    $foto = 'profile.png';
 									}
@@ -124,10 +120,8 @@
                         </div>
                     </div>
                 </div>
-
-				<?php 
-					}
-				?> 
+               	
+<!--arrumado acima------------------------------------------------------------------------------------------------------------------------->			
 
                 <!--div com cliente, qte avaliações e star rating -->
                 <div class="counter">
@@ -164,12 +158,13 @@
 			  	<!--menu de outras manutenções-->
 			  	<div class="col-6" id="buttons">
 			  		<form name="form-altera-pessoa" id="form-altera-pessoa">
-				  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#editarModal" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="buscaInfoPessoa(<?php echo $var_id; ?>, <?php echo $tipo_pessoa; ?>)"><i class="fa fa-cog"></i>&nbsp; Editar Perfil &nbsp;</button>
+				  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#editarModal" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-cog"></i>&nbsp; Editar Perfil &nbsp;</button>
+
 				  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#enderecoModal" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-key fa-fw	"></i>&nbsp; Meus Endereços &nbsp;</button>
 			  		</form>
 			  		<form method="POST" action="../controller/PessoaControlador.php?metodo=Desativar">
-				  		<input name="id_p" value="<?php echo $var_id ?>" style="display: none;">
-				  		<input name="tipo_p" value="<?php echo $tipo_pessoa?>" style="display: none;">
+				  		<input name="id_pessoa" value="<?php echo $var_id ?>" style="display: none;">
+				  		<input name="tipo_pessoa" value="<?php echo $tipo_pessoa ?>" style="display: none;">
 				  		<button type="submit" class="btn btn-lg btn-block btManter" id="desativarConta" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-trash-o"></i>&nbsp; Desativar Conta &nbsp;</button>
 				  	</form>
 			  	</div>
@@ -191,27 +186,28 @@
 					      		<form id="editarForm">
 					      			<div class="form-group">
 										<label for="editarDescricao">Descrição:</label>		
-										<textarea class="form-control" id="editarDescricao" rows="3" name="descricao" id="editarDescricao" placeholder="uma breve descrição de você ou seu serviços..."s><?php if(isset($_GET['descricao']))echo $_GET['descricao']; ?></textarea>
+										<textarea class="form-control" id="editarDescricao" rows="3" name="descricao" id="editarDescricao" placeholder="uma breve descrição de você ou seu serviços..."><?php echo $Contratante->getDescricao() ?></textarea>
 									</div>
 					      			<div class="form-group labelPeq">
 										<label for="editarNome">Nome:</label>		
-										<input class="form-control form-control-sm" type="text" name="nome" id="editarNome" placeholder="Novo nome.." maxlength="50" value="<?php echo $_GET['nome']; ?>">
+										<input class="form-control form-control-sm" type="text" name="nome" id="editarNome" placeholder="Novo nome.." maxlength="50" value="<?php echo $Contratante->getNome() ?>">
 									</div>
 					      			<div class="form-group labelPeq">
 										<label for="editarTelefone">Telefone:</label>		
-										<input class="form-control form-control-sm" type="tel" name="telefone" id="editarTelefone" placeholder="(00) 98855-7711" minlength="11" value="<?php echo $_GET['telefone']; ?>">
+										<input class="form-control form-control-sm" type="tel" name="telefone" id="editarTelefone" placeholder="(00) 98855-7711" minlength="11" value="<?php echo $Contratante->getTelefone() ?>">
 									</div>
 					      			<div class="form-group labelPeq">
 										<label for="foto">Foto de Perfil:</label>		
-										<input type="file" id="foto" name="foto" value="<?php echo $_GET['foto']; ?>">
+										<input type="file" id="foto" name="foto" value="<?php echo $Contratante->getFoto(); ?>">
 									</div>								
-					      			<button type="submit" class="btn btn-primary buttonEditar" id="buttonEditarPerfil" value="Enviar" data-toggle="tooltip" title="Esse botão é desabilitado se os campos estiverem vazios." onclick="salvar_alteracoes(<?php echo $var_id; ?>,<?php echo $tipo_pessoa; ?>)"> Salvar Edição </button>
+					      			<button type="submit" class="btn btn-primary buttonEditar" id="buttonEditarPerfil" value="Enviar" data-toggle="tooltip" title="Esse botão é desabilitado se os campos estiverem vazios." onclick="salvar_alteracoes(<?php echo $var_id ?>,<?php echo $tipo_pessoa ?>)"> Salvar Edição </button>
 					      		</form>
 					      	</div>
 				    	</div>
 				    </form>
 			  	</div>
 			</div>	
+		
 			<!--modal crud endereço -->
 			<div class="modal fade modal-lg" id="enderecoModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 			  	<div class="modal-dialog modal-lg">
@@ -225,10 +221,7 @@
 			      	
 			      	<div class="modal-body">
 			      		<?php
-							$var_id = $_SESSION['pessoa']['id_pessoa'];
-
-							$consulta = "SELECT id_endereco, bairro, rua, numero, complemento, cep FROM endereco WHERE id_pessoa = $var_id";
-							$con = $conn -> query($consulta) or die($conn-> error);
+							$rows = buscarTEnd($var_id);
 						?>
 
 			      		<div id="editarEndereço">
@@ -236,9 +229,9 @@
 								<form id="formedit">		      
 								    <label for="endereçosUsuário">Endereços: </label>
 								    <select id="endereçosUsuário" class="form-control">
-										<?php while ($dados_end = $con ->fetch_array() ){
+										<?php foreach ($rows as $row){
 									  	?>    	
-								      	<option selected value="<?php echo $dados_end['id_endereco']; ?>"> Bairro: <?php echo $dados_end['bairro']; ?> Rua: <?php echo $dados_end['rua']; ?>, Número: <?php echo $dados_end['numero']; ?>, Complemento: <?php echo $dados_end['complemento']; ?> CEP: <?php echo $dados_end['cep']; ?> </option>
+								      	<option selected value="<?php echo $row['id_endereco']; ?>"> Bairro: <?php echo $row['bairro']; ?> Rua: <?php echo $row['rua']; ?>, Número: <?php echo $row['numero']; ?>, Complemento: <?php echo $row['complemento']; ?> CEP: <?php echo $row['cep']; ?> </option>
 								      	<?php } ?>
 								    </select>
 						    	</form>
@@ -256,7 +249,7 @@
 				      			<form id="formEndereco" method="POST" action="../controller/EnderecoControlador.php?metodo=Atualizar">
 									<div class="form-row">
 	    								<div class="col-md-4">
-	      									<input type="text" class="form-control" placeholder="Bairro" id="bairroUsuárioED" name="bairro" value="<?php  if(isset($_GET['bairro'])) echo $_GET['bairro']; ?>">
+	      									<input type="text" class="form-control" placeholder="Bairro" id="bairroUsuárioED" name="bairro" value="<?php  echo $endereco->getBairro(); ?>">
 	    								</div>
 	    								<div class="col-md-4">
 	      									<input type="text" class="form-control" placeholder="Rua" id="ruaUsuárioED" name="rua" value="<?php if(isset($_GET['rua'])) echo $_GET['rua']; ?>">
@@ -282,9 +275,6 @@
 						
 						<div id="adicionarEndereço">	
 							<p>Adicionar um endereço:</p>
-					      	<?php
-					      		$var_id = $_SESSION['pessoa']['id_pessoa'];
-					      	?>	
 
 					      	<form method="POST" action="../controller/EnderecoControlador.php?metodo=Inserir">
 								<div class="form-row">
@@ -329,6 +319,7 @@
 	<!--jquery -->
 	<script>	
 		$(document).ready(function(){ 
+			//document.getElementById('autoform').submit();
 			$("#new-service").hide();
 
 			$("#add-service").click(function(){
@@ -460,21 +451,13 @@
     		}
 
     		function buscar_end(){
-				var e = document.getElementById("endereçosUsuário");
-				var id_end = e.value;
 				
-				document.getElementById("formedit").action= "../controller/EnderecoControlador.php?metodo=Buscar&id_end="+id_end;
-		 	  	document.getElementById("formedit").method= "POST";
-			  	document.getElementById("formedit").submit();
-			
+				var e = document.getElementById("endereçosUsuário");
+				var id_end = e.value;	
+				
+				
 			}
 
-		/*Busca Informações para modal Editar Perfil*/
-		function buscaInfoPessoa(id_pessoa, tipo_pessoa){
- 			  document.getElementById("form-altera-pessoa").action= "../controller/PessoaControlador.php?metodo=Buscar&id_pessoa="+id_pessoa+"&tipo_pessoa="+tipo_pessoa;
-		 	  document.getElementById("form-altera-pessoa").method= "POST";
-			  document.getElementById("form-altera-pessoa").submit(); // Form submission
-    	}
 
     	/*salva alterações do usuário -> foto, detalhes, telefone etc*/
     	function salvar_alteracoes(id_pessoa, tipo_pessoa){

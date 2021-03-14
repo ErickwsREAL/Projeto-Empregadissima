@@ -4,6 +4,22 @@
 
 	class EnderecoDAO {
 
+		public function buscarEnderecos($id_contratante){
+			include ("../controller/login_control/logar_bd_empregadissimas.php");
+
+			$idContratante = $id_contratante;
+			
+			$sql = "SELECT * FROM endereco WHERE id_pessoa = '$idContratante'";
+
+			$resultado = $conn->query($sql);
+
+			while($row = $resultado->fetch_array()){
+				$rows[] = $row;
+			}
+			$conn->close();
+			return $rows;
+		}
+
 		public function inserirEndereco(Endereco $endereco){
 			include ("../controller/login_control/logar_bd_empregadissimas.php");
 
@@ -71,7 +87,6 @@
 			$conn->close();
 		}
 	}
-
 
 
 

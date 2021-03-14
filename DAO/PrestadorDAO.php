@@ -4,7 +4,15 @@ include_once ("../model/Pessoa.php");
 
 	class PrestadorDAO {
 
-		public function inserirPrestadorDAO(Prestador $prestador){
+		public function criarprestador(){
+                  
+                  $prestadorF = new prestadorFabricador();
+                  $prestador = $prestadorF->criarPessoa();
+
+                  return $prestador;
+            }
+
+            public function inserirPrestadorDAO(Prestador $prestador){
 		    include ("../controller/login_control/logar_bd_empregadissimas.php");
 			
       		$Nome = $prestador->getNome(); 
@@ -21,17 +29,9 @@ include_once ("../model/Pessoa.php");
 
                   $sql = "INSERT INTO pessoa(nome, cpf,telefone, data_nascimento, comprovante, email, senha, sexo, cidade, tipo_pessoa, status_cadastro) VALUES ('$Nome','$CPF', '$Telefone', '$DataNascimento', '$Comprovante', '$Email', '$Senha', '$Sexo', '$Cidade', '$TipoPessoa',  $StatusCadastro)";
                  
-                  $checkB = $conn->query($sql);
-
-              	if ($checkB == false) {
-                  	$conn->close();
-                  	
-                  	return $check = 1;
-                  }
+                  $conn->query($sql);
                   
                   $conn->close();
-
-                  return $check = 2;
 		}
 
             public function desativarPrestadorDAO(Prestador $prestador){
@@ -41,17 +41,9 @@ include_once ("../model/Pessoa.php");
 
                   $sql = "UPDATE pessoa SET status_cadastro = 3 WHERE id_pessoa = '$idPrestador'";
 
-                  $checkB = $conn->query($sql);
+                  $conn->query($sql);
 
-                  if ($checkB == false) {
-                        $conn->close();
-                  
-                        return $check = 1;
-                  }
-                  
                   $conn->close();
-
-                  return $check = 2;
                   
             }
 
@@ -66,26 +58,18 @@ include_once ("../model/Pessoa.php");
 
                   $sql = "UPDATE pessoa SET nome = '$nomePrestador', foto = '$fotoPrestador', descricao = '$descricaoPrestador', telefone = '$telefonePrestador' WHERE id_pessoa = '$idPrestador'";
 
-                  $checkB = $conn->query($sql);
+                  $conn->query($sql);
 
-                  if ($checkB == false) {
-                       $conn->close();
-                  
-                       return $check = 1;
-                  }
-            
                   $conn->close();
-
-                  return $check = 2;
 
             }     
 
             public function buscarPrestadorDAO(Prestador $prestador){
                   include ("../controller/login_control/logar_bd_empregadissimas.php");
-
+                  
                   $idPrestador = $prestador->getID();
 
-                  $sql = "SELECT nome, descricao, telefone, foto FROM pessoa WHERE id_pessoa = '$idPrestador'";
+                  $sql = "SELECT nome, descricao, telefone, foto, sexo, cidade, data_nascimento, email FROM pessoa WHERE id_pessoa = '$idPrestador'";
 
                   $resultados = $conn->query($sql);
 
@@ -94,10 +78,12 @@ include_once ("../model/Pessoa.php");
                   $prestador->setNome($row["nome"]);
                   $prestador->setFoto($row["foto"]);
                   $prestador->setDescricao($row["descricao"]);
+                  $prestador->setDataNascimento($row["data_nascimento"]);
+                  $prestador->setCidade($row["cidade"]);
+                  $prestador->setSexo($row["sexo"]);
                   $prestador->setTelefone($row["telefone"]);
-            
-                  $conn->close();
-
+                  $prestador->setEmail($row["email"]);
+                  
                   return $prestador;
 
             }

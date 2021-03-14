@@ -3,20 +3,41 @@
 	include_once ("../DAO/EnderecoDAO.php");
 	include_once ("../model/Endereco.php");
 
+	$endereco = new Endereco();
+	$enderecoDAO = new EnderecoDAO();
+
+	function buscarTEnd($id_pessoa){
+		
+		$enderecoDAO = new EnderecoDAO();
+		$rows = $enderecoDAO->buscarEnderecos($id_pessoa);
+
+		return $rows;
+	}
+
+	function buscarEndereco($id_endereco){
+
+		$enderecoDAO = new EnderecoDAO();	
+		$endereco = new Endereco();
+		
+		$endereco->setID($id_endereco);
+		$endereco = $enderecoDAO->buscarEndereco($endereco);
+
+		return $endereco;
+	}
+
 	switch($_GET['metodo']){
 
 		case 'Inserir':
-			
-			$enderecoC = new Endereco();
-			$enderecoC->setIDContratante($_POST['id_c']);
-			$enderecoC->setRua($_POST['rua']);
-			$enderecoC->setBairro($_POST['bairro']);
-			$enderecoC->setCEP($_POST['cep']);
-			$enderecoC->setNumero($_POST['numero']);
-			$enderecoC->setComplemento($_POST['complemento']);
+					
+			$endereco->setIDContratante($_POST['id_c']);
+			$endereco->setRua($_POST['rua']);
+			$endereco->setBairro($_POST['bairro']);
+			$endereco->setCEP($_POST['cep']);
+			$endereco->setNumero($_POST['numero']);
+			$endereco->setComplemento($_POST['complemento']);
 
-			$enderecoDAOC = new EnderecoDAO();
-			$enderecoDAOC->inserirEndereco($enderecoC); 
+			$enderecoDAO->inserirEndereco($endereco); 
+			
 			echo '<script>alert("Cadastro do endereço feito com sucesso!")</script>';
 			echo '<script>location.href="../views/perfilcontratante.php"</script>';
 
@@ -24,11 +45,9 @@
 
 		case 'Excluir':
 			
-			$enderecoC = new Endereco();
-			$enderecoC->setID($_GET['id_end']);
+			$endereco->setID($_GET['id_end']);
 
-			$enderecoDAOC = new EnderecoDAO();
-			$enderecoDAOC->excluirEndereco($enderecoC);
+			$enderecoDAO->excluirEndereco($endereco);
 
 			echo '<script>alert("Endereço Excluido!")</script>';
 			echo '<script>location.href="../views/perfilcontratante.php"</script>';
@@ -37,16 +56,15 @@
 
 		case 'Atualizar':
 			
-			$enderecoC = new Endereco();
-			$enderecoC->setID($_POST['id_end']);
-			$enderecoC->setRua($_POST['rua']);
-			$enderecoC->setBairro($_POST['bairro']);
-			$enderecoC->setCEP($_POST['cep']);
-			$enderecoC->setNumero($_POST['numero']);
-			$enderecoC->setComplemento($_POST['complemento']);
+			$endereco->setID($_POST['id_end']);
+			$endereco->setRua($_POST['rua']);
+			$endereco->setBairro($_POST['bairro']);
+			$endereco->setCEP($_POST['cep']);
+			$endereco->setNumero($_POST['numero']);
+			$endereco->setComplemento($_POST['complemento']);
 
-			$enderecoDAOC = new EnderecoDAO();
-			$enderecoDAOC->atualizarEndereco($enderecoC);
+
+			$enderecoDAO->atualizarEndereco($endereco);
 
 			echo '<script>alert("Endereço Atualizado!")</script>';
 			echo '<script>location.href="../views/perfilcontratante.php"</script>';
@@ -55,11 +73,9 @@
 
 		case 'Buscar':
 			
-			$enderecoC = new Endereco();
-			$enderecoC->setID($_GET['id_end']);
+			$endereco->setID($_GET['id_end']);
 
-			$enderecoDAOC = new EnderecoDAO();
-			$endereco = $enderecoDAOC->buscarEndereco($enderecoC);
+			$endereco = $enderecoDAO->buscarEndereco($endereco);
 
 			echo '<script>location.href="../views/perfilcontratante.php?bairro='.$endereco->getBairro().'&rua='.$endereco->getRua().'&numero='.$endereco->getNumero().'&complemento='.$endereco->getComplemento().'&cep='.$endereco->getCEP().'&id_end='.$endereco->getID().'"</script>';
 

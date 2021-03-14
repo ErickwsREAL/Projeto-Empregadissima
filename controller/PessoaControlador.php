@@ -5,14 +5,60 @@
 	include_once ("../model/PessoaFabricador.php");
 	include_once ("../model/Pessoa.php");
 	
+//------------------------------------------------------------------------------------------------------------------------------------------	
+	$ContratanteDAO = new ContratanteDAO(); 
+	$PrestadorDAO = new PrestadorDAO();		 
+	$Contratante = criarObjetoPC(2, $ContratanteDAO);
+	$Prestador = criarObjetoPC(1, $PrestadorDAO);
+
+	function criarObjetoPC($tipo_pessoa, $usuarioDAO){
+			
+		if ($tipo_pessoa == 2) {
+
+			$Contratante = $usuarioDAO->criarContratante(); 
+
+			return $Contratante;
+		}
+			
+		if ($tipo_pessoa == 1) {
+
+			$Prestador = $usuarioDAO->criarPrestador(); 
+
+			return $Prestador;
+		}
+	}
+
+	function buscarUsuario($id_pessoa, $tipo_pessoa){
+	
+		if ($tipo_pessoa == 2) {
+
+			$ContratanteDAO = new ContratanteDAO();
+				
+			$Contratante = criarObjetoPC($tipo_pessoa, $ContratanteDAO);
+			$Contratante->setID($id_pessoa);
+			$Contratante = $ContratanteDAO->buscarContratanteDAO($Contratante);
+				
+			return $Contratante;
+		}
+
+		if ($tipo_pessoa == 1) {
+
+			$PrestadorDAO = new PrestadorDAO();
+				
+			$Prestador = criarObjetoPC($tipo_pessoa, $PrestadorDAO);
+			$Prestador->setID($id_pessoa);
+			$Prestador = $PrestadorDAO->buscarPrestadorDAO($Prestador);
+				
+			return $Prestador;
+		}
+
+	}
+//------------------------------------------------------------------------------------------------------------------------------------------
 	switch($_GET['metodo']){
 
 		case 'Inserir':
 			if ($_POST['tipo_pessoa'] == 2) {
 
-				$ContratanteF = new ContratanteFabricador();
-				$Contratante = $ContratanteF->criarPessoa(); 
-				
 				$Contratante->setNome($_POST['nome']);
 				$Contratante->setCPF($_POST['cpf']);
 				$Contratante->setTelefone($_POST['telefone']);
@@ -25,18 +71,12 @@
 				$Contratante->setCidade($_POST['cidade']);
 				$Contratante->setSenha($_POST['senha']);
 
-				$ContratanteDAOb = new ContratanteDAO(); 
-				$check = $ContratanteDAOb->inserirContratanteDAO($Contratante);
-				if ($check != 2) {
-					echo '<script>alert("Seu cadastro não foi efetuado! Tente novamente.")</script>';
-				}
+				$ContratanteDAO->inserirContratanteDAO($Contratante);
+		
 				echo '<script>alert("Cadastro feito com sucesso! Aguarde a liberação feita pelo administrador.")</script>';
 				echo '<script>location.href="../views/index.php"</script>';
 			}
 			elseif ($_POST['tipo_pessoa'] == 1) {
-
-				$PrestadorF = new PrestadorFabricador();
-				$Prestador = $PrestadorF->criarPessoa(); 
 				
 				$Prestador->setNome($_POST['nome']);
 				$Prestador->setCPF($_POST['cpf']);
@@ -50,61 +90,41 @@
 				$Prestador->setCidade($_POST['cidade']);
 				$Prestador->setSenha($_POST['senha']);
 
-				$PrestadorDAOb = new PrestadorDAO(); 
-				$check = $PrestadorDAOb->inserirPrestadorDAO($Prestador);
-				if ($check != 2) {
-					echo '<script>alert("Seu cadastro não foi efetuado! Tente novamente.")</script>';
-				}
+				$PrestadorDAO->inserirPrestadorDAO($Prestador);
+				
 				echo '<script>alert("Cadastro feito com sucesso! Aguarde a liberação feita pelo administrador.")</script>';
 				echo '<script>location.href="../views/index.php"</script>';
 			}
+			
 			break;
-
+//--------------------------------------------------------------acima cadastro.php, abaixo perfilcontratante.php e perfil.php------------
 		case 'Desativar':
-			if ($_POST['tipo_p'] == 2) {
+			if ($_POST['tipo_pessoa'] == 2) {
 
-				$ContratanteF = new ContratanteFabricador();
-				$Contratante = $ContratanteF->criarPessoa(); 
+				$Contratante->setID($_POST['id_pessoa']);
 
-				$Contratante->setID($_POST['id_p']);
+				$ContratanteDAO->desativarContratanteDAO($Contratante);
 
-				$ContratanteDAOb = new ContratanteDAO(); 
-				$check = $ContratanteDAOb->desativarContratanteDAO($Contratante);
-
-				if ($check != 2) {
-						echo '<script>alert("Não foi possivel desativar o seu cadastro.")</script>';
-				}
-				
 				echo '<script>alert("Cadastro desativado! Para reativar contate algum administrador.")</script>';
 				echo '<script>location.href="../views/index.php"</script>';
 							
 			}
 
-			if ($_POST['tipo_p'] == 1) {
+			if ($_POST['tipo_pessoa'] == 1) {
 
-				$PrestadorF = new PrestadorFabricador();
-				$Prestador = $PrestadorF->criarPessoa(); 
+				$Prestador->setID($_POST['id_pessoa']);
 
-				$Prestador->setID($_POST['id_p']);
-
-				$PrestadorDAOb = new PrestadorDAO(); 
-				$check = $PrestadorDAOb->desativarPrestadorDAO($Prestador);
-
-				if ($check != 2) {
-					echo '<script>alert("Não foi possivel desativar o seu cadastro")</script>';
-				}
+				$PrestadorDAOb->desativarPrestadorDAO($Prestador);
 					
 				echo '<script>alert("Cadastro desativado! Para reativar contate algum administrador.")</script>';
 				echo '<script>location.href="../views/index.php"</script>';
 							
 			}	
+			
 			break;
 
 		case 'Atualizar':
 			if ($_GET['tipo_pessoa'] == 2) {
-
-				$ContratanteF = new ContratanteFabricador();
-				$Contratante = $ContratanteF->criarPessoa(); 
 
 				$Contratante->setID($_GET['id_pessoa']);
 				$Contratante->setDescricao($_POST['descricao']);
@@ -112,12 +132,7 @@
 				$Contratante->setTelefone($_POST['telefone']);
 				$Contratante->setFoto($_POST['foto']);
 
-				$ContratanteDAOb = new ContratanteDAO(); 
-				$check = $ContratanteDAOb->atualizarContratanteDAO($Contratante);
-
-				if ($check != 2) {
-						echo '<script>alert("Não foi possivel atualizar o seu cadastro.")</script>';
-				}
+				$ContratanteDAO->atualizarContratanteDAO($Contratante);
 				
 				echo '<script>alert("Cadastro Atualizado!")</script>';
 				echo '<script>location.href="../views/perfilcontratante.php"</script>';
@@ -125,60 +140,21 @@
 			}
 
 			if ($_GET['tipo_pessoa'] == 1) {
-
-				$PrestadorF = new PrestadorFabricador();
-				$Prestador = $PrestadorF->criarPessoa(); 
 
 				$Prestador->setID($_GET['id_pessoa']);
 				$Prestador->setDescricao($_POST['descricao']);
 				$Prestador->setNome($_POST['nome']);
 				$Prestador->setTelefone($_POST['telefone']);
 				$Prestador->setFoto($_POST['foto']);
-
-				$PrestadorDAOb = new PrestadorDAO(); 
-				$check = $PrestadorDAOb->atualizarPrestadorDAO($Prestador);
-
-				if ($check != 2) {
-						echo '<script>alert("Não foi possivel atualizar o seu cadastro.")</script>';
-				}
+				
+				$PrestadorDAO->atualizarPrestadorDAO($Prestador);
 				
 				echo '<script>alert("Cadastro Atualizado!")</script>';
-				echo '<script>location.href="../views/perfilcontratante.php"</script>';
+				echo '<script>location.href="../views/perfil.php"</script>';
 							
 			}
 
 			break;
+	}		
 
-		case 'Buscar':
-			
-			if ($_GET['tipo_pessoa'] == 2) {
-
-				$ContratanteF = new ContratanteFabricador();
-				$Contratante = $ContratanteF->criarPessoa(); 
-
-				$Contratante->setID($_GET['id_pessoa']);
-
-				$ContratanteDAOb = new ContratanteDAO(); 
-				$Contratante = $ContratanteDAOb->buscarContratanteDAO($Contratante);
-
-				echo '<script>location.href="../views/perfilcontratante.php?descricao='.$Contratante->getDescricao().'&nome='.$Contratante->getNome().'&telefone='.$Contratante->getTelefone().'&foto='.$Contratante->getFoto().'"</script>'; 
-							
-			}
-
-			if ($_GET['tipo_pessoa'] == 1) {
-
-				$PrestadorF = new PrestadorFabricador();
-				$Prestador = $PrestadorF->criarPessoa(); 
-
-				$Prestador->setID($_GET['id_pessoa']);
-
-				$PrestadorDAOb = new PrestadorDAO(); 
-				$Prestador = $PrestadorDAOb->buscarPrestadorDAO($Prestador);
-
-				echo '<script>location.href="../views/perfil.php?descricao='.$Prestador->getDescricao().'&nome='.$Prestador->getNome().'&telefone='.$Prestador->getTelefone().'&foto='.$Prestador->getFoto().'"</script>'; 
-							
-			}		
-
-			break;	
-	}
 ?>
