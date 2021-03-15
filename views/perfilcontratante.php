@@ -229,9 +229,12 @@ include_once ("../controller/EnderecoControlador.php");
 								<form id="formedit">		      
 								    <label for="endereçosUsuário">Endereços: </label>
 								    <select id="endereçosUsuário" class="form-control">
-										<?php foreach ($rows as $row){
+										<?php foreach ($rows as $row){ 
 									  	?>    	
+								      	
 								      	<option selected value="<?php echo $row['id_endereco']; ?>"> Bairro: <?php echo $row['bairro']; ?> Rua: <?php echo $row['rua']; ?>, Número: <?php echo $row['numero']; ?>, Complemento: <?php echo $row['complemento']; ?> CEP: <?php echo $row['cep']; ?> </option>
+								      
+
 								      	<?php } ?>
 								    </select>
 						    	</form>
@@ -453,7 +456,8 @@ include_once ("../controller/EnderecoControlador.php");
     		function buscar_end(){
 				
 				var e = document.getElementById("endereçosUsuário");
-				var id_end = e.value;	
+				var id_end = e.value;
+				document.getElementById('output').innerHTML = lengthOfName;	
 				
 				
 			}
