@@ -69,7 +69,7 @@ include_once ("../model/Pessoa.php");
                   
                   $idPrestador = $prestador->getID();
 
-                  $sql = "SELECT nome, descricao, telefone, foto, sexo, cidade, data_nascimento, email FROM pessoa WHERE id_pessoa = '$idPrestador'";
+                  $sql = "SELECT nome, descricao, telefone, foto, sexo, cidade, data_nascimento, email, tipo_pessoa FROM pessoa WHERE id_pessoa = '$idPrestador'";
 
                   $resultados = $conn->query($sql);
 
@@ -83,9 +83,49 @@ include_once ("../model/Pessoa.php");
                   $prestador->setSexo($row["sexo"]);
                   $prestador->setTelefone($row["telefone"]);
                   $prestador->setEmail($row["email"]);
+                  $prestador->setTipoPessoa($row["tipo_pessoa"]);
                   
                   return $prestador;
 
+            }
+
+            public function contaPrestadores($search) {
+                  include ("../controller/login_control/logar_bd_empregadissimas.php");
+                  $count = 0;
+                  $nome = $search;
+
+                  if (isset($nome)) {
+                        $sql = "SELECT nome, id_pessoa, foto FROM pessoa WHERE tipo_pessoa = 1 AND nome LIKE '%$nome%'";
+                  } else {
+                        $sql = "SELECT nome, id_pessoa, foto FROM pessoa WHERE tipo_pessoa = 1";
+                  }
+
+                  $resultados = $conn->query($sql);
+                  while($prestadores = $resultados->fetch_array()) {
+                        $count += 1;
+                  }
+
+                  $conn->close();
+                  return $count;
+            }
+
+            public function buscarPrestadores($search) {
+                  include ("../controller/login_control/logar_bd_empregadissimas.php");
+                  $nome = $search;
+
+                  if (isset($nome)) {
+                        $sql = "SELECT nome, id_pessoa, foto FROM pessoa WHERE tipo_pessoa = 1 AND nome LIKE '%$nome%'";
+                  } else {
+                        $sql = "SELECT nome, id_pessoa, foto FROM pessoa WHERE tipo_pessoa = 1";
+                  }
+
+                  $resultados = $conn->query($sql);
+                  while($prestadores = $resultados->fetch_array()) {
+                        $lista_prestadores[] = $prestadores;
+                  }
+
+                  $conn->close();
+                  return $lista_prestadores;
             }
 
       }

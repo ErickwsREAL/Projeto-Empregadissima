@@ -1,33 +1,9 @@
-<?php include ("../controller/login_control/logar_bd_empregadissimas.php")
+<?php 
+include ("../controller/login_control/logar_bd_empregadissimas.php");
+include ("../controller/login_control/verifica_login_usuario.php"); 
+include_once ("../controller/Servico_Controlador.php");
+include_once ("../controller/PessoaControlador.php");
 ?>
-
-<?php include ("../controller/login_control/verifica_login_usuario.php") ?>
-
-<?php
-
-
-function getDadosPrestador($id_prestador) {
-	include ("../controller/login_control/logar_bd_empregadissimas.php");
-
-    $sql = "SELECT nome, tipo_pessoa, foto FROM pessoa WHERE id_pessoa='$id_prestador'";
-
-    $result = $conn->query($sql);
-
-    $row = $result->fetch_assoc();
-
-    $dados_prestador = array(
-        'nome' => $row["nome"],
-        'foto' => $row["foto"],
-		'tipo_pessoa' => $row["tipo_pessoa"]
-    );
-
-    $conn->close();
-    
-    return $dados_prestador;
-}
-
-?>
-
 
 <!DOCTYPE html>
 <html>
@@ -107,15 +83,9 @@ function getDadosPrestador($id_prestador) {
 
 						<?php 
 							while ($dados_servico= $con ->fetch_array() ){
-							
-								$id_prestador = $dados_servico["id_prestador"];
 
-								$parametros = getDadosPrestador($id_prestador);
+								$Prestador = buscarUsuario($dados_servico["id_prestador"], 1);
 
-								$valores = array();
-								$valores['nome'] = $parametros['nome'];
-								$valores['foto'] = $parametros['foto'];
-								$valores['tipo_pessoa'] = $parametros['tipo_pessoa'];
 						?>	
 		
 
@@ -127,8 +97,8 @@ function getDadosPrestador($id_prestador) {
 									<div class="grid-item">
 			                        	<div class="img-container">
 											<?php
-												if ($valores['foto'] != NULL) {
-													$foto = $valores['foto']; 
+												if ($Prestador->getFoto() != NULL) {
+													$foto = $Prestador->getFoto(); 
 												} else {
 												    $foto = 'profile.png';
 												}
@@ -138,8 +108,8 @@ function getDadosPrestador($id_prestador) {
 									</div>
 
 									<div class="grid-item">
-										<input type="hidden" name="tipo_pessoa" value="<?php echo $valores['tipo_pessoa']; ?>">
-										<h3> <b> Solicitação de Serviço com <?php echo $valores['nome'] ?> </b></h3> 
+										<input type="hidden" name="tipo_pessoa" value="<?php echo $Prestador->getTipoPessoa(); ?>">
+										<h3> <b> Solicitação de Serviço com <?php echo $Prestador->getNome(); ?> </b></h3> 
 										<p><b> Dia: </b> <?php echo $dados_servico["data_servico"]; ?> </p>
 										<p><b> Hora Entrada (Previsão): </b> <?php echo $dados_servico["hora_entrada"]; ?> - <b> Hora Saída (Previsão): </b> <?php echo $dados_servico["hora_saida"]; ?> 
 										</p> 
@@ -149,10 +119,10 @@ function getDadosPrestador($id_prestador) {
 
 								<p class="center">
 									<!--bootstrap buttons + classe-->
-									<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $dados_servico["id_servico"]; ?>" name="detalhe-pend" data-toggle="modal" data-target="#detalhes-pend-modal" onclick="buscarDetalhes(this.id, <?php echo $valores['tipo_pessoa']; ?>)"> Detalhes </button>
+									<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $dados_servico["id_servico"]; ?>" name="detalhe-pend" data-toggle="modal" data-target="#detalhes-pend-modal" onclick="buscarDetalhes(this.id, <?php echo $Prestador->getTipoPessoa() ?>)"> Detalhes </button>
 									<button type="button" class="btn btn-lg bt-alterar"  id="alterar-pend"  name="alterar-pend" data-toggle="modal" data-target="#alterar-pend-modal" style="margin-right: 15px; font-weight: bold;"> Alterar </button>
 									<button type="button" class="btn btn-lg bt-cancelar" id="cancelar-pend-<?php echo $dados_servico["id_servico"]; ?>" name="cancelar-pend" style="margin-right: 15px; font-weight: bold;"
-											onclick="reprovarServico(this.id, <?php echo $valores['tipo_pessoa']; ?>);"> Cancelar </button>	
+											onclick="reprovarServico(this.id, <?php echo $Prestador->getTipoPessoa(); ?>);"> Cancelar </button>	
 								</p>
 							</div>
 						</div>
@@ -177,12 +147,8 @@ function getDadosPrestador($id_prestador) {
 						
 							$id_prestador = $dados_servico["id_prestador"];
 
-							$parametros = getDadosPrestador($id_prestador);
+							$Prestador = buscarUsuario($id_prestador, 1);
 
-							$valores = array();
-							$valores['nome'] = $parametros['nome'];
-							$valores['foto'] = $parametros['foto'];
-							$valores['tipo_pessoa'] = $parametros['tipo_pessoa'];
 
 					?>
 
@@ -194,8 +160,8 @@ function getDadosPrestador($id_prestador) {
 									<div class="grid-item">
 			                        	<div class="img-container">
 											<?php
-												if ($valores['foto'] != NULL) {
-													$foto = $valores['foto']; 
+												if ($Prestador->getFoto() != NULL) {
+													$foto = $Prestador->getFoto(); 
 												} else {
 													$foto = 'profile.png';
 												}
@@ -206,8 +172,8 @@ function getDadosPrestador($id_prestador) {
 									</div>
 
 									<div class="grid-item">
-										<input type="hidden" name="tipo_pessoa" value="<?php echo $valores['tipo_pessoa']; ?>">
-										<h3> <b> Você possui um serviço em andamento com <?php echo $valores['nome'] ?> </b></h3> 
+										<input type="hidden" name="tipo_pessoa" value="<?php echo $Prestador->getTipoPessoa(); ?>">
+										<h3> <b> Você possui um serviço em andamento com <?php echo $Prestador->getNome() ?> </b></h3> 
 										<p><b> Dia: </b> <?php echo $dados_servico["data_servico"]; ?></p> 
 										<p><b> Hora Entrada (Previsão): </b> <?php echo $dados_servico["hora_entrada"]; ?> - <b> Hora Saída (Previsão): </b> <?php echo $dados_servico["hora_saida"]; ?>
 										</p>
@@ -218,7 +184,7 @@ function getDadosPrestador($id_prestador) {
 								<!--bootstrap buttons + classe-->
 							<p>	
 								<button type="button" class="btn btn-lg bt-detalhes btn-check" id="check-in" data-toggle="modal" data-target="#checkinModal">Check-in</button>
-								<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $dados_servico["id_servico"]; ?>" name="detalhe-and" data-toggle="modal" data-target="#detalhes-pend-modal" onclick="buscarDetalhes(this.id, <?php echo $valores['tipo_pessoa']; ?>) ">Detalhes</button>
+								<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $dados_servico["id_servico"]; ?>" name="detalhe-and" data-toggle="modal" data-target="#detalhes-pend-modal" onclick="buscarDetalhes(this.id, <?php echo $Prestador->getTipoPessoa() ?>) ">Detalhes</button>
 							</p>
 						</div>
 					</div>
@@ -237,13 +203,9 @@ function getDadosPrestador($id_prestador) {
 						while ($dados_servico= $con ->fetch_array() ){
 						
 							$id_prestador = $dados_servico["id_prestador"];
+							
+							$Prestador = buscarUsuario($id_prestador, 1);
 
-							$parametros = getDadosPrestador($id_prestador);
-
-							$valores = array();
-							$valores['nome'] = $parametros['nome'];
-							$valores['foto'] = $parametros['foto'];
-							$valores['tipo_pessoa'] = $parametros['tipo_pessoa'];
 					?>
 
 					<div class="card">
@@ -254,8 +216,8 @@ function getDadosPrestador($id_prestador) {
 								<div class="grid-item">
 		                        	<div class="img-container">
 										<?php
-											if ($valores['foto'] != NULL) {
-												$foto = $valores['foto']; 
+											if ($Prestador->getFoto() != NULL) {
+												$foto = $Prestador->getFoto();
 											} else {
 											    $foto = 'profile.png';
 											}
@@ -267,8 +229,8 @@ function getDadosPrestador($id_prestador) {
 								</div>
 
 								<div class="grid-item">
-									<input type="hidden" name="tipo_pessoa" value="<?php echo $valores['tipo_pessoa']; ?>">
-									<h3> <b> Serviço Finalizado com <?php echo $valores['nome'] ?> </b></h3> 
+									<input type="hidden" name="tipo_pessoa" value="<?php echo $Prestador->getTipoPessoa(); ?>">
+									<h3> <b> Serviço Finalizado com <?php echo $Prestador->getNome(); ?> </b></h3> 
 									<p><b> Dia: </b> <?php echo $dados_servico["data_servico"]; ?></p>
 									<p><b> Hora Entrada (Previsão): </b> <?php echo $dados_servico["hora_entrada"]; ?> - <b> Hora Saída (Previsão): </b> <?php echo $dados_servico["hora_saida"]; ?>
 									</p> 
@@ -278,7 +240,7 @@ function getDadosPrestador($id_prestador) {
 
 							<p>
 								<!-- bootstrap buttons + classe -->
-								<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $dados_servico["id_servico"]; ?>" name="detalhes-fina" data-toggle="modal" data-target="#detalhes-pend-modal" onclick="buscarDetalhes(this.id, <?php echo $valores['tipo_pessoa']; ?>)"> Detalhes </button>
+								<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $dados_servico["id_servico"]; ?>" name="detalhes-fina" data-toggle="modal" data-target="#detalhes-pend-modal" onclick="buscarDetalhes(this.id, <?php echo $Prestador->getTipoPessoa() ?>)"> Detalhes </button>
 
 								<!-- leva para pagina de avaliações -->
 								<button type="button" class="btn btn-lg bt-avaliar" id="avaliar-and" name="avaliar-fina" data-toggle="modal" data-target="#modal-avaliar" style="margin-right: 15px; font-weight:bold;"> Avaliar </button>
@@ -425,7 +387,7 @@ function getDadosPrestador($id_prestador) {
 		        </button>
 		    </div>
 
-		    <form id="editarForm" action="../controller/Servico_Controller.php?metodo=alterar" method="POST">
+		    <form id="editarForm" action="../controller/Servico_Controlador.php?metodo=alterar" method="POST">
 		     	<div class="modal-body">
 		        	
 		     		<div class="form-group row">
@@ -627,7 +589,7 @@ function getDadosPrestador($id_prestador) {
 		var id_servico = id_serv.substring(13);
 	
 
-			document.getElementById("form-pend").action= "../controller/Servico_Controller.php?metodo=buscar&id_servico="+id_servico+"&tipo_pessoa="+tipo_pessoa;
+			document.getElementById("form-pend").action= "../controller/Servico_Controlador.php?metodo=buscar&id_servico="+id_servico+"&tipo_pessoa="+tipo_pessoa;
 	 	 	document.getElementById("form-pend").method= "POST";
 		 	document.getElementById("form-pend").submit(); // Form submission
 	}
@@ -639,7 +601,7 @@ function getDadosPrestador($id_prestador) {
 				return false;
 			}	
 			else{
-				document.getElementById("form-pend").action= "../controller/Servico_Controller.php?metodo=alt_status_rep&id_servico="+id_servico+"&tipo_pessoa="+tipo_pessoa;
+				document.getElementById("form-pend").action= "../controller/Servico_Controlador.php?metodo=alt_status_rep&id_servico="+id_servico+"&tipo_pessoa="+tipo_pessoa;
 		 	 	document.getElementById("form-pend").method= "POST";
 			 	document.getElementById("form-pend").submit(); // Form submission
 	 			return true;

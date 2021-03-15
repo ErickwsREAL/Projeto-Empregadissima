@@ -88,20 +88,10 @@
 
         <!-- inicio area do filtro/busca -->
         <div class="filter-section">
-            <form action="visao-contratante.php" method="post" class="search-bar">
+            <form action="../controller/PessoaControlador.php?metodo=ListarPrestadores" method="POST" class="search-bar">
                 <input type="text" placeholder="Procure por um(a) prestador(a)..." name="search">
                 <button type="submit"><i class="fa fa-search"></i></button>
             </form>
-            <?php
-                $var_id = $_SESSION['pessoa']['id_pessoa'];
-                if (isset($_POST["search"])) {
-                    $str = $_POST["search"];
-                    $query = "SELECT id_pessoa, nome, foto FROM pessoa WHERE tipo_pessoa = 1 AND nome LIKE '%$str%'";
-                } else {
-                    $query = "SELECT id_pessoa, nome, foto FROM pessoa WHERE tipo_pessoa = 1";
-                }
-                $result = $conn->query($query) or die($conn->error);
-            ?>
             <!-- inicio botão do filtro -->
             <button onclick="change()" id="filter-button" class="filter-button btn-sm btn-primary" value="false">
                 Mostrar filtros
@@ -150,36 +140,33 @@
 
         <!-- inicio grid -->
         <div class="contractor-grid">
-         
-
-            <?php while ($dados_pessoa= $result ->fetch_array() ){
-            ?>   
+            <?php
+                echo $GET_['resultados'];
+                $resultado = $_GET['resultados'];
+                foreach($resultado as $row) {
+            ?>
             <div class="contractor-item">
                 <div class="thumbnail">
                     <?php
-                        if ($dados_pessoa["foto"] != NULL) {
-                            $foto = $dados_pessoa["foto"]; 
+                        if ($row['foto'] != NULL) {
+                            $foto = $row['foto']; 
                         } else {
                             $foto = 'profile.png';
                         }
                     ?>
-                    <input type="hidden" name="id_prestador" id="id_prestador" value="<?php echo $dados_pessoa["id_pessoa"]; ?>">                                                 
+                    <input type="hidden" name="id_prestador" id="id_prestador" value="<?php echo $row['id_prestador']; ?>">                                                 
                     <img src="./imagens/<?php echo $foto; ?>">
                     <div class="caption">
-                        <h3 style="font-size:20px; color:white"><?php echo $dados_pessoa["nome"]; ?></h3>
-                        <p><a href="./perfil-prestador-visao-contratante.php?id_prestador=<?php echo $dados_pessoa["id_pessoa"]; ?>" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
+                        <h3 style="font-size:20px; color:white"><?php echo $row['nome']; ?></h3>
+                        <p><a href="./perfil-prestador-visao-contratante.php?id_prestador=<?php echo $row['id_prestador']; ?>" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
                     </div>
                 </div>
-            </div>   
-            <?php 
-            }
-            ?>             
-
+            </div> 
+            <?php  
+                };
+            ?>
         </div>
         <!-- fim grid -->
-
-        <div id="c-solicitacoes" class="c-solicitacoes">
-        </div>
 
         <!-- inicio footer-->
         <div class="footer-page page-footer font-small ">
