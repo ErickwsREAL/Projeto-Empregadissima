@@ -53,6 +53,16 @@
 		}
 
 	}
+
+	function buscarPrestadores() {
+		if (isset($_GET['busca'])) {
+			$resultados = $PrestadorDAO->buscarPrestadores($_POST['search']);
+
+			return $resultados;
+		}
+
+	}
+
 //------------------------------------------------------------------------------------------------------------------------------------------
 	if (isset($_GET['metodo'])) {  
 		switch($_GET['metodo']){
@@ -156,6 +166,22 @@
 				}
 
 				break;
+				
+			case 'ListarPrestadores':
+				$search = $_POST['search'];
+				
+				$result = $PrestadorDAO->buscarPrestadores($search);
+				$count = $PrestadorDAO->contaPrestadores($search);
+
+				/*
+				foreach($result as $row) {
+					echo '<script>location.href="../views/visao-contratante.php?id_prestador='.$row['id_pessoa'].'&foto='.$row['foto'].'&nome='.$row['nome'].'&count='.$count.'"</script>';
+				}
+				*/
+
+				echo '<script>location.href="../views/visao-contratante.php?resultados='.$result.'"</script>';
+				
+
 		}		
 	}
 ?>

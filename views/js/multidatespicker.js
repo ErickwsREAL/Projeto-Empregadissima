@@ -10,7 +10,7 @@ var years = [];
 
 // parameters to be set for the datepicker to run accordingly
 var minYear = 2011;
-var maxYear = 2020;
+var maxYear = 2022;
 var startMonth = 0;
 var endMonth = 11;
 var highlightToday = true;
@@ -253,6 +253,7 @@ function addButtonPanel(tbl) {
     div.className = 'col-sm';
     var resetButton = document.createElement("button");
     resetButton.className = 'btn btn-reset';
+    resetButton.type = 'button';
     resetButton.value = 'Resetar';
     resetButton.onclick = function () { resetCalendar(); };
     var resetButtonText = document.createTextNode("Resetar");
@@ -264,8 +265,9 @@ function addButtonPanel(tbl) {
 
     var div2 = document.createElement("div");
     div2.className = 'col-sm';
-    var doneButton = document.createElement("button");
+    var doneButton = document.createElement("input");
     doneButton.className = 'btn btn-salvar';
+    doneButton.type = 'submit';
     doneButton.value = 'Salvar';
     doneButton.onclick = function () { endSelection(); };
     var doneButtonText = document.createTextNode("Salvar");

@@ -89,6 +89,45 @@ include_once ("../model/Pessoa.php");
 
             }
 
+            public function contaPrestadores($search) {
+                  include ("../controller/login_control/logar_bd_empregadissimas.php");
+                  $count = 0;
+                  $nome = $search;
+
+                  if (isset($nome)) {
+                        $sql = "SELECT nome, id_pessoa, foto FROM pessoa WHERE tipo_pessoa = 1 AND nome LIKE '%$nome%'";
+                  } else {
+                        $sql = "SELECT nome, id_pessoa, foto FROM pessoa WHERE tipo_pessoa = 1";
+                  }
+
+                  $resultados = $conn->query($sql);
+                  while($prestadores = $resultados->fetch_array()) {
+                        $count += 1;
+                  }
+
+                  $conn->close();
+                  return $count;
+            }
+
+            public function buscarPrestadores($search) {
+                  include ("../controller/login_control/logar_bd_empregadissimas.php");
+                  $nome = $search;
+
+                  if (isset($nome)) {
+                        $sql = "SELECT nome, id_pessoa, foto FROM pessoa WHERE tipo_pessoa = 1 AND nome LIKE '%$nome%'";
+                  } else {
+                        $sql = "SELECT nome, id_pessoa, foto FROM pessoa WHERE tipo_pessoa = 1";
+                  }
+
+                  $resultados = $conn->query($sql);
+                  while($prestadores = $resultados->fetch_array()) {
+                        $lista_prestadores[] = $prestadores;
+                  }
+
+                  $conn->close();
+                  return $lista_prestadores;
+            }
+
       }
 
 

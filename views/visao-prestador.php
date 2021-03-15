@@ -1,7 +1,10 @@
-<?php include ("../controller/login_control/logar_bd_empregadissimas.php")
-?>
+<?php 
+    include ("../controller/login_control/logar_bd_empregadissimas.php");
+    include ("../controller/login_control/verifica_login_usuario.php");
+    include ("../controller/AgendaControlador.php");
 
-<?php include ("../controller/login_control/verifica_login_usuario.php") ?>
+    $dias_disponiveis = carregar_agenda($_SESSION['pessoa']['id_pessoa']);
+?>
 
 
 <!DOCTYPE html>
@@ -16,6 +19,7 @@
         crossorigin="anonymous">
 
 <link href="css/styles.css" rel="stylesheet">
+<link href="css/cssperfil.css" rel="stylesheet">
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
         crossorigin="anonymous"></script>
@@ -73,6 +77,25 @@
         }
     }
 
+    function excluir_agenda(clicked_id){
+        /*Apartir do id do botão, pega-se uma substring de 19 posições, assim, pegando o id da agenda.
+            Ex: clicked_id = bt-excluir-servico-18, com a substring(19) temos na variavel res = 18, que é o id da agenda */
+
+        var id_agenda = clicked_id.substring(19);
+
+        if (!confirm("Deseja EXCLUIR esta data disponível da agenda?")) 
+        {
+            return false;
+        }	
+        else{
+            document.getElementById("form-agenda").action = "../controller/AgendaControlador.php?metodo=excluir_data&id_agenda=" + id_agenda;
+            document.getElementById("form-agenda").method = "POST";
+            document.getElementById("form-agenda").submit(); // Submissão do formulário
+
+            return true;
+        }
+    }
+
 </script>
 </head>
 <body>
@@ -104,8 +127,8 @@
         <div class="column4"></div>
 
         <!-- inicio grid -->
-        <div id="calendario">
-            <input style="width: 100%;" type="text" id="selectedValues" class="date-values" readonly/>
+        <form id="calendario", method="post", action="../controller/AgendaControlador.php?metodo=inserir_agenda&id_pessoa=<?php echo $_SESSION['pessoa']['id_pessoa']?>">
+            <input name="datas_selecionadas", style="width: 100%;" type="text" id="selectedValues" class="date-values" readonly/>
             <div id="parent" class="container">
                 <div class="row header-row">
                     <div class="col-xs previous">
@@ -142,12 +165,30 @@
                     <tbody id="calendarBody"></tbody>
                 </table>
             </div>
-        </div>
-        <!-- fim grid -->
+        </form>
 
-        <div id="c-solicitacoes" class="c-solicitacoes">
+        <form name="form-agenda", id="form-agenda">
+            <div style="text-align: center; margin-top: 5%" class="card-container">
+                <h4><b>Agenda</b></h4>
+                <ul class="list-group">
 
-        </div>
+                <?php foreach($dias_disponiveis as $dados_agenda) {
+                ?>
+                    <li class="list-group-item">
+                        <p class="man-desc"> <?php echo $dados_agenda->getDiaDisponivel();?> </p>
+                        <div style="float: right;">
+                            <!-- botão visivel apenas para prestadores -->
+                            <button type="button" class="btn btn-danger btn-sm spc bt-excluir-servico" 
+                                    id="bt-excluir-servico-<?php echo $dados_agenda->getId();?>" 
+                                    onClick="excluir_agenda(this.id)">
+                                    <i class="fa fa-trash"></i> Excluir </button>
+                        </div>
+                    </li>
+                <?php 
+                    }
+                ?> 
+            </div>
+        </form>
 
         <!-- inicio footer-->
         <div class="footer-page page-footer font-small ">
