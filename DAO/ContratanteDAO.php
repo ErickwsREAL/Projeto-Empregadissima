@@ -6,7 +6,7 @@ include_once ("../model/PessoaFabricador.php");
 
 	class ContratanteDAO {
 
-		public function criarContratante(){
+		public function criarContratante(){//ERICK
                   
                   $ContratanteF = new ContratanteFabricador();
                   $Contratante = $ContratanteF->criarPessoa();
@@ -14,7 +14,28 @@ include_once ("../model/PessoaFabricador.php");
                   return $Contratante;
             }
 
-            public function inserirContratanteDAO(Contratante $contratante){
+            public function buscarContratantesAtivos(){//ERICK
+                  include ("../controller/login_control/logar_bd_empregadissimas.php");      
+                  
+                  $Contratantes = array();
+
+                  $sql = "SELECT id_pessoa, nome, cpf FROM pessoa WHERE tipo_pessoa = '2' AND status_cadastro = '2'";
+
+                  $resultado = $conn->query($sql);
+
+                  while($row = $resultado->fetch_assoc()){
+                        
+                        $Contratantes[] = $row;
+                        
+                  }
+
+                  $conn->close();
+
+                  return $Contratantes;
+
+            }
+
+            public function inserirContratanteDAO(Contratante $contratante){//ERICK
 			include ("../controller/login_control/logar_bd_empregadissimas.php");
 			
       		$Nome = $contratante->getNome(); 
@@ -44,7 +65,7 @@ include_once ("../model/PessoaFabricador.php");
                   return $check = 2;
 		}
 
-		public function desativarContratanteDAO(Contratante $contratante){
+		public function desativarContratanteDAO(Contratante $contratante){//ERICK
 			include ("../controller/login_control/logar_bd_empregadissimas.php");
 
 			$idContrantrante = $contratante->getID();
@@ -65,7 +86,7 @@ include_once ("../model/PessoaFabricador.php");
       	}
 
 	
-            public function atualizarContratanteDAO(Contratante $contratante){
+            public function atualizarContratanteDAO(Contratante $contratante){//ERICK
                   include ("../controller/login_control/logar_bd_empregadissimas.php");
 
                   $idContrantrante = $contratante->getID();
@@ -91,7 +112,7 @@ include_once ("../model/PessoaFabricador.php");
             }
 
 
-            public function buscarContratanteDAO(Contratante $contratante){
+            public function buscarContratanteDAO(Contratante $contratante){//ERICK
                   include ("../controller/login_control/logar_bd_empregadissimas.php");
                   
                   $idContrantrante = $contratante->getID();
@@ -116,8 +137,15 @@ include_once ("../model/PessoaFabricador.php");
             }
 
 
-
-
+            public function admDesativarContratantes($ids){//ERICK
+                  include ("../controller/login_control/logar_bd_empregadissimas.php");
+                  foreach ($ids as $id) {
+                        
+                        $sql = "UPDATE pessoa SET status_cadastro = '3' WHERE id_pessoa = '$id' AND tipo_pessoa = '2'";
+                        $conn->query($sql);
+                  }
+                  $conn->close();
+            }
 
       }
 

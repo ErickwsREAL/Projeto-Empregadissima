@@ -8,14 +8,15 @@
 			include ("../controller/login_control/logar_bd_empregadissimas.php");
 
 			$idContratante = $id_contratante;
+			$rows = array();
 			
 			$sql = "SELECT * FROM endereco WHERE id_pessoa = '$idContratante'";
 
 			$resultado = $conn->query($sql);
 
-			while($row = $resultado->fetch_array()){
+			while($row = $resultado->fetch_assoc()){
 				$rows[] = $row;
-			}
+			}	
 			$conn->close();
 			return $rows;
 		}

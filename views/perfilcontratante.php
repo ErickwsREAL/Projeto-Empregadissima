@@ -203,7 +203,7 @@ include_once ("../controller/EnderecoControlador.php");
 					      			<button type="submit" class="btn btn-primary buttonEditar" id="buttonEditarPerfil" value="Enviar" data-toggle="tooltip" title="Esse botão é desabilitado se os campos estiverem vazios." onclick="salvar_alteracoes(<?php echo $var_id ?>,<?php echo $tipo_pessoa ?>)"> Salvar Edição </button>
 					      		</form>
 					      	</div>
-				    	</div>
+				    	</div	>
 				    </form>
 			  	</div>
 			</div>	
@@ -252,7 +252,7 @@ include_once ("../controller/EnderecoControlador.php");
 				      			<form id="formEndereco" method="POST" action="../controller/EnderecoControlador.php?metodo=Atualizar">
 									<div class="form-row">
 	    								<div class="col-md-4">
-	      									<input type="text" class="form-control" placeholder="Bairro" id="bairroUsuárioED" name="bairro" value="<?php  echo $endereco->getBairro(); ?>">
+	      									<input type="text" class="form-control" placeholder="Bairro" id="bairroUsuárioED" name="bairro" value="<?php  if(isset($_GET['bairro'])) echo $_GET['bairro'] ?>">
 	    								</div>
 	    								<div class="col-md-4">
 	      									<input type="text" class="form-control" placeholder="Rua" id="ruaUsuárioED" name="rua" value="<?php if(isset($_GET['rua'])) echo $_GET['rua']; ?>">
@@ -457,7 +457,7 @@ include_once ("../controller/EnderecoControlador.php");
 				
 				var e = document.getElementById("endereçosUsuário");
 				var id_end = e.value;
-				document.getElementById('output').innerHTML = lengthOfName;	
+					
 				
 				
 			}

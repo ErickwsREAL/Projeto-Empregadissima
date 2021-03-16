@@ -11,7 +11,7 @@
 	$Contratante = criarObjetoPC(2, $ContratanteDAO);
 	$Prestador = criarObjetoPC(1, $PrestadorDAO);
 
-	function criarObjetoPC($tipo_pessoa, $usuarioDAO){
+	function criarObjetoPC($tipo_pessoa, $usuarioDAO){//ERICK
 			
 		if ($tipo_pessoa == 2) {
 
@@ -28,7 +28,7 @@
 		}
 	}
 
-	function buscarUsuario($id_pessoa, $tipo_pessoa){
+	function buscarUsuario($id_pessoa, $tipo_pessoa){//ERICK
 	
 		if ($tipo_pessoa == 2) {
 
@@ -54,12 +54,17 @@
 
 	}
 
-	function buscarPrestadores() {
-		if (isset($_GET['busca'])) {
-			$resultados = $PrestadorDAO->buscarPrestadores($_POST['search']);
+	function buscarCadastrosAtivos(){//ERICK
 
-			return $resultados;
-		}
+		$ContratanteDAO = new ContratanteDAO();
+		$PrestadorDAO = new PrestadorDAO();
+
+		$Prestadores = $PrestadorDAO->buscarPrestadoresAtivos();
+		$Contratantes = $ContratanteDAO->buscarContratantesAtivos();
+
+		$Usuarios = array_merge($Prestadores, $Contratantes);
+
+		return $Usuarios;
 
 	}
 
@@ -68,7 +73,7 @@
 		switch($_GET['metodo']){
 
 			case 'Inserir':
-				if ($_POST['tipo_pessoa'] == 2) {
+				if ($_POST['tipo_pessoa'] == 2) {//ERICK
 
 					$Contratante->setNome($_POST['nome']);
 					$Contratante->setCPF($_POST['cpf']);
@@ -109,7 +114,7 @@
 				
 				break;
 		//--------------------------------------------------------------acima cadastro.php, abaixo perfilcontratante.php e perfil.php------------
-			case 'Desativar':
+			case 'Desativar'://ERICK
 				if ($_POST['tipo_pessoa'] == 2) {
 
 					$Contratante->setID($_POST['id_pessoa']);
@@ -134,7 +139,7 @@
 				
 				break;
 
-			case 'Atualizar':
+			case 'Atualizar'://ERICK
 				if ($_GET['tipo_pessoa'] == 2) {
 
 					$Contratante->setID($_GET['id_pessoa']);
@@ -167,6 +172,25 @@
 
 				break;
 				
+			case 'AdmDesativarCadastro'://ERICK
+				
+				if(isset($_POST['checagem'])){
+                
+                	$ids = $_POST['checagem'];
+                	$ContratanteDAO->admDesativarContratantes($ids);
+                	$PrestadorDAO->admDesativarPrestadores($ids);
+                	echo '<script>alert("Cadastro removido!")</script>';
+
+                	echo '<script>location.href="../views/adm-manter-cadastros.php"</script>';
+                
+                }else{
+					
+					echo '<script>alert("Nenhum Cadastro Selecionado!")</script>';
+					echo '<script>location.href="../views/adm-manter-cadastros.php"</script>';	                	
+                }
+				
+				break;
+
 			case 'ListarPrestadores':
 				$search = $_POST['search'];
 				
@@ -181,7 +205,7 @@
 
 				echo '<script>location.href="../views/visao-contratante.php?resultados='.$result.'"</script>';
 				
-
+				break;
 		}		
 	}
 ?>
