@@ -53,7 +53,7 @@
 			include ("../controller/login_control/logar_bd_empregadissimas.php");
 
 			$idEndereco = $endereco->getID();
-
+			
 			$sql = "SELECT * FROM endereco WHERE id_endereco = '$idEndereco'";
 
 			$resultado = $conn->query($sql);

@@ -14,6 +14,7 @@ include_once ("../controller/EnderecoControlador.php");
 	<link rel="stylesheet" type="text/css" href="./css/csscontratante.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script src="./js/jquery-3.5.1.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="./js/bootstrap.min.js"></script>
 	<script src="./js/jquery-ui.js"></script>	
 	<script src="./js/jquery.mask.min.js"></script>
@@ -228,7 +229,7 @@ include_once ("../controller/EnderecoControlador.php");
 				      		<div class="col-md-10">
 								<form id="formedit">		      
 								    <label for="endereçosUsuário">Endereços: </label>
-								    <select id="endereçosUsuário" class="form-control">
+								    <select id="endereçosUsuário" name="enderecoSelecionado" class="form-control">
 										<?php foreach ($rows as $row){ 
 									  	?>    	
 								      	
@@ -237,11 +238,13 @@ include_once ("../controller/EnderecoControlador.php");
 
 								      	<?php } ?>
 								    </select>
+						    		<button type="button" class="btn btn-dprimary buttonEditar butf" id="buttonEditarEnd"> Editar Selecionado</button>
+						    		<button type="button" class="btn btn-danger butf" onclick="excluir_end();"> Excluir Selecionado </button>
 						    	</form>
 						    </div>	
 						
-						      	<button type="button" class="btn btn-dprimary buttonEditar butf" id="buttonEditarEnd" onclick="buscar_end();"> Editar Selecionado</button>
-						      	<button type="button" class="btn btn-danger butf" onclick="excluir_end();"> Excluir Selecionado </button>
+						      		
+						      	
 				      			
 				      	</div>
 				      
@@ -252,26 +255,26 @@ include_once ("../controller/EnderecoControlador.php");
 				      			<form id="formEndereco" method="POST" action="../controller/EnderecoControlador.php?metodo=Atualizar">
 									<div class="form-row">
 	    								<div class="col-md-4">
-	      									<input type="text" class="form-control" placeholder="Bairro" id="bairroUsuárioED" name="bairro" value="<?php  if(isset($_GET['bairro'])) echo $_GET['bairro'] ?>">
+	      									<input type="text" class="form-control" placeholder="Bairro" id="bairroUsuárioED" name="bairro" value="">
 	    								</div>
 	    								<div class="col-md-4">
-	      									<input type="text" class="form-control" placeholder="Rua" id="ruaUsuárioED" name="rua" value="<?php if(isset($_GET['rua'])) echo $_GET['rua']; ?>">
+	      									<input type="text" class="form-control" placeholder="Rua" id="ruaUsuárioED" name="rua" value="">
 	    								</div>
 	  									<div class="col-md-2">
-	  										<input type="number" class="form-control" placeholder="Numero" id="numeroUsuárioED" name="numero" value="<?php if(isset($_GET['numero'])) echo $_GET['numero']; ?>">
+	  										<input type="number" class="form-control" placeholder="Numero" id="numeroUsuárioED" name="numero" value="">
 	  									</div>
 	  								</div>
 	  								<div class="form-row">
 	  									<div class="col-md-4">
-	  										<input type="text" class="form-control" name="complemento" id="complementoUsuárioED" placeholder="Complemento" value="<?php if(isset($_GET['complemento'])) echo $_GET['complemento']; ?>">
+	  										<input type="text" class="form-control" name="complemento" id="complementoUsuárioED" placeholder="Complemento" value="">
 	  									</div>
 	  									<div class="col-md-2">
-	  										<input type="text" class="form-control" name="cep" placeholder="CEP" id="cepUsuárioED" max="9" value="<?php if(isset($_GET['cep'])) echo $_GET['cep']; ?>">
+	  										<input type="text" class="form-control" name="cep" placeholder="CEP" id="cepUsuárioED" max="9" value="">
 	  									</div>
-	  										<input name="id_end" id="id_c" value="<?php echo $_GET['id_end']; ?>" style="visibility: hidden;">
+	  										<input name="id_end" id="id_c" value="" style="visibility: hidden;">
 	  								</div>
-	  								<button type="submit" class="btn btn-primary buttonEditar butf" id="buttonED" value="Enviar" disabled data-toggle="tooltip" title="Esse botão é desabilitado se os campos estiverem vazios.">Salvar</button>
-	  								<button type="button" class="btn btn-primary buttonEditar butf" id="buttonCan">Cancelar</button>
+	  								<button type="submit" class="btn btn-primary buttonEditar butf2" id="buttonED" value="Enviar" disabled data-toggle="tooltip" title="Esse botão é desabilitado se os campos estiverem vazios.">Salvar</button>
+	  								<button type="button" class="btn btn-primary buttonEditar butf2" id="buttonCan">Cancelar</button>
 								</form>
 							</div>
 						
@@ -323,43 +326,69 @@ include_once ("../controller/EnderecoControlador.php");
 	<script>	
 		$(document).ready(function(){ 
 			//document.getElementById('autoform').submit();
-			$("#new-service").hide();
-
-			$("#add-service").click(function(){
-			$("#new-service").toggle("slow");
-			});
-		});	
 			
-
-		if (window.location.search.substring(0,11) == "?descricao=") {
-			$('#editarModal').modal('show');
-		}
-
-			function abreAdicionarSolicitação() {
-				window.open("enviar-solicitacao.html","_blank");
+			if (window.location.search.substring(0,11) == "?descricao=") {
+				$('#editarModal').modal('show');
 			}
-
 			
-			$('#buttonEditarEnd').on('click', function(){
-				$('#editarEnd3').show();
-			});
+			$('#editarEnd3').hide();
+
+			//$('#buttonEditarEnd').on('click', function(){
+				//$('#editarEnd3').show();
+				//$('#editarEndereço').hide();
+				//$('#adicionarEndereço').hide();
+						
+			//});
 
 			$('#buttonCan').on('click', function(){
 				$('#editarEnd3').hide();
 				$('#editarEndereço').show();	
-			});
-
-			$( "#desativarConta" ).on( "click", function() {
-			    $( "#caixa" ).dialog( "open" );
+				$('#adicionarEndereço').show();
 			});
 
 			$( "#buttonExcluirEnd" ).on( "click", function() {
 			    $( "#enderecoModal" ).modal('hide');
 			});
 
-			$( "#buttonExcluirEnd" ).on( "click", function() {
-			    $( "#caixa2" ).dialog( "open" );
-			});
+			$('#buttonEditarEnd').on('click', function(event){
+				
+				event.preventDefault();
+				//var $form = $(this);
+				var id_end = $('#endereçosUsuário').val();
+				console.log(id_end);
+				//console.log($('#endereçosUsuário').val());
+
+				$.ajax({
+					url: '../controller/EnderecoControlador.php',
+					type: "POST",
+					dataType :"html",
+					data: {'id_endBuscar': id_end},
+					
+					success: function(value){
+			           	var data = value.split(",");
+			           	$('#bairroUsuárioED').val(data[0]);
+			           	$('#ruaUsuárioED').val(data[1]);
+			           	$('#numeroUsuárioED').val(data[2]);
+			           	$('#complementoUsuárioED').val(data[4]);
+			           	$('#cepUsuárioED').val(data[3]);
+			           	$('#id_c').val(data[5]);
+			            //$('#course_credit').val(data[1]);
+			        	$('#editarEnd3').show();
+			        	$('#editarEndereço').hide();
+						$('#adicionarEndereço').hide();
+			        }
+				});
+
+			});		
+			
+		});	
+			
+
+			function abreAdicionarSolicitação() {
+				window.open("enviar-solicitacao.html","_blank");
+			}
+
+			
 
 			var $campoTel = $("#editarTelefone");
 				$campoTel.mask('(00) 00000-0000');
@@ -452,16 +481,6 @@ include_once ("../controller/EnderecoControlador.php");
 				  return true;
 				}
     		}
-
-    		function buscar_end(){
-				
-				var e = document.getElementById("endereçosUsuário");
-				var id_end = e.value;
-					
-				
-				
-			}
-
 
     	/*salva alterações do usuário -> foto, detalhes, telefone etc*/
     	function salvar_alteracoes(id_pessoa, tipo_pessoa){
