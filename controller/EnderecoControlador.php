@@ -1,5 +1,5 @@
 <?php 
-
+	
 	include_once ("../DAO/EnderecoDAO.php");
 	include_once ("../model/Endereco.php");
 
@@ -13,17 +13,26 @@
 
 		return $rows;
 	}
+	
+	if (isset($_POST['id_endBuscar'])){
+	 	
+		$endereco->setID($_POST['id_endBuscar']);
 
-	function buscarEndereco($id_endereco){
-
-		$enderecoDAO = new EnderecoDAO();	
-		$endereco = new Endereco();
-		
-		$endereco->setID($id_endereco);
 		$endereco = $enderecoDAO->buscarEndereco($endereco);
 
-		return $endereco;
-	}
+		//var_dump($endereco);
+		
+		$bairro = $endereco->getBairro();
+		$rua = $endereco->getRua();
+		$numero = $endereco->getNumero();
+		$cep = $endereco->getCEP();
+		$complemento = $endereco->getComplemento();
+		$id = $endereco->getID(); 
+
+		echo $bairro.",".$rua.",".$numero.",".$cep.",".$complemento.",".$id;
+	}	
+		
+	
 
 	if (isset($_GET['metodo'])) {    
 		switch($_GET['metodo']){
@@ -71,16 +80,6 @@
 				echo '<script>location.href="../views/perfilcontratante.php"</script>';
 
 				break;			
-
-			case 'Buscar':
-				
-				$endereco->setID($_GET['id_end']);
-
-				$endereco = $enderecoDAO->buscarEndereco($endereco);
-
-				echo '<script>location.href="../views/perfilcontratante.php?bairro='.$endereco->getBairro().'&rua='.$endereco->getRua().'&numero='.$endereco->getNumero().'&complemento='.$endereco->getComplemento().'&cep='.$endereco->getCEP().'&id_end='.$endereco->getID().'"</script>';
-
-				break;	
 		}
 	}
 ?>
