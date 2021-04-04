@@ -11,7 +11,7 @@
 	$Contratante = criarObjetoPC(2, $ContratanteDAO);
 	$Prestador = criarObjetoPC(1, $PrestadorDAO);
 
-	function criarObjetoPC($tipo_pessoa, $usuarioDAO){//ERICK
+	function criarObjetoPC($tipo_pessoa, $usuarioDAO){
 			
 		if ($tipo_pessoa == 2) {
 
@@ -28,7 +28,7 @@
 		}
 	}
 
-	function buscarUsuario($id_pessoa, $tipo_pessoa){//ERICK
+	function buscarUsuario($id_pessoa, $tipo_pessoa){
 	
 		if ($tipo_pessoa == 2) {
 
@@ -54,18 +54,12 @@
 
 	}
 
-	function buscarCadastrosAtivos(){//ERICK
-
-		$ContratanteDAO = new ContratanteDAO();
+	function buscarPrestadores($busca) {
 		$PrestadorDAO = new PrestadorDAO();
 
-		$Prestadores = $PrestadorDAO->buscarPrestadoresAtivos();
-		$Contratantes = $ContratanteDAO->buscarContratantesAtivos();
+		$resultados = $PrestadorDAO->buscarPrestadores($busca);
 
-		$Usuarios = array_merge($Prestadores, $Contratantes);
-
-		return $Usuarios;
-
+		return $resultados;
 	}
 
 //------------------------------------------------------------------------------------------------------------------------------------------
@@ -73,7 +67,7 @@
 		switch($_GET['metodo']){
 
 			case 'Inserir':
-				if ($_POST['tipo_pessoa'] == 2) {//ERICK
+				if ($_POST['tipo_pessoa'] == 2) {
 
 					$Contratante->setNome($_POST['nome']);
 					$Contratante->setCPF($_POST['cpf']);
@@ -114,7 +108,7 @@
 				
 				break;
 		//--------------------------------------------------------------acima cadastro.php, abaixo perfilcontratante.php e perfil.php------------
-			case 'Desativar'://ERICK
+			case 'Desativar':
 				if ($_POST['tipo_pessoa'] == 2) {
 
 					$Contratante->setID($_POST['id_pessoa']);
@@ -139,7 +133,7 @@
 				
 				break;
 
-			case 'Atualizar'://ERICK
+			case 'Atualizar':
 				if ($_GET['tipo_pessoa'] == 2) {
 
 					$Contratante->setID($_GET['id_pessoa']);
@@ -172,40 +166,32 @@
 
 				break;
 				
-			case 'AdmDesativarCadastro'://ERICK
-				
-				if(isset($_POST['checagem'])){
-                
-                	$ids = $_POST['checagem'];
-                	$ContratanteDAO->admDesativarContratantes($ids);
-                	$PrestadorDAO->admDesativarPrestadores($ids);
-                	echo '<script>alert("Cadastro removido!")</script>';
-
-                	echo '<script>location.href="../views/adm-manter-cadastros.php"</script>';
-                
-                }else{
-					
-					echo '<script>alert("Nenhum Cadastro Selecionado!")</script>';
-					echo '<script>location.href="../views/adm-manter-cadastros.php"</script>';	                	
-                }
-				
-				break;
-
 			case 'ListarPrestadores':
 				$search = $_POST['search'];
 				
+				$output = '';
 				$result = $PrestadorDAO->buscarPrestadores($search);
-				$count = $PrestadorDAO->contaPrestadores($search);
-
-				/*
-				foreach($result as $row) {
-					echo '<script>location.href="../views/visao-contratante.php?id_prestador='.$row['id_pessoa'].'&foto='.$row['foto'].'&nome='.$row['nome'].'&count='.$count.'"</script>';
+				if(isset($result)) {
+					while($row = $result->fetch_array(MYSQLI_ASSOC)) {
+						if ($row['foto'] != NULL) {
+							$foto = $row['foto']; 
+						} else {
+							$foto = 'profile.png';
+						}
+						$output .= '
+						<div class="contractor-item">
+							<div class="thumbnail">
+							<input type="hidden" name="id_prestador" id="id_prestador" value="'.$row['id_pessoa'].'">                                                 
+							<img src="../views/imagens/'.$foto.'">
+							<div class="caption">
+								<h3 style="font-size:20px; color:white">'.$row['nome'].'</h3>
+								<p><a href="../views/perfil-prestador-visao-contratante.php?id_prestador='.$row['id_pessoa'].'" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
+							</div>
+						</div>
+						';
+					}
 				}
-				*/
-
-				echo '<script>location.href="../views/visao-contratante.php?resultados='.$result.'"</script>';
-				
-				break;
+				echo '<script>location.href="../views/visao-contratante.php?resultados='.$output.'"</script>';
 		}		
 	}
 ?>
