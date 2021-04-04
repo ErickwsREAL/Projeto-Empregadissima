@@ -1,4 +1,5 @@
 <?php
+include ("logar_bd_empregadissimas.php");
 
 if(session_status() === PHP_SESSION_NONE){
     session_start();
@@ -6,44 +7,61 @@ if(session_status() === PHP_SESSION_NONE){
 
 $email = $_POST['email'];
 $senha = $_POST['senha'];
+ 
+$sql = "SELECT id_pessoa, senha, tipo_pessoa, status_cadastro FROM pessoa WHERE email = '$email'";
 
-include ("logar_bd_empregadissimas.php");
+$result = $conn->query($sql);
 
-
-if(!empty($email) && !empty($senha)){ 
-
-    $sql = "SELECT * FROM pessoa WHERE email = '$email'";
-
-    $result = $conn->query($sql);
-
-    $row = $result->fetch_assoc();
-
-    if($row['senha'] === $senha && $row['status_cadastro'] == '2'){ 
-        unset($row['senha']);
-
-        $_SESSION['pessoa'] = $row;
-
-        if($row['tipo_pessoa'] == 1){ //se tipo prestador 
-            header("location: ../../views/perfil.php");
-        } elseif($row['tipo_pessoa'] == 2){                        //se tipo contratante
-            header("location: ../../views/perfilcontratante.php");
-        }
-    }
-    elseif ($row['status_cadastro'] == '2') {
-        echo '<script>alert("Seu login ainda não foi liberado, aguarde um email do Empregadíssimas liberando-o :(")</script>';
-        echo '<script>location.href="../../views/index.php"</script>';
-    }
-    elseif ($row['status_cadastro'] == '3') {
-        echo '<script>alert("Seu Cadastro foi desativado, entre em contato com os Administradores se deseja ativar novamente.")</script>';
-        echo '<script>location.href="../../views/index.php"</script>';
-    }
-    else{
-        echo '<script>alert("E-mail e/ou senha incorretos.")</script>';
-        echo '<script>location.href="../../views/index.php"</script>';
-    }
-
-} 
-else{
-    echo '<script>alert("Informe o e-mail e a senha.")</script>';
+if (mysqli_num_rows($result) == 0) {
+        
+    echo '<script>alert("E-mail e/ou senha incorretos.")</script>';
     echo '<script>location.href="../../views/index.php"</script>';
+    return;
 }
+
+$row = $result->fetch_assoc();
+
+
+if($row['senha'] != $senha){
+
+    echo '<script>alert("E-mail e/ou senha incorretos.")</script>';
+    echo '<script>location.href="../../views/index.php"</script>';
+    return; 
+}
+
+if($row['status_cadastro'] == '1') {
+    
+    echo '<script>alert("Seu login ainda não foi liberado, aguarde um email do Empregadíssimas liberando-o :(")</script>';
+    echo '<script>location.href="../../views/index.php"</script>';
+    return;
+
+}
+
+if($row['status_cadastro'] == '3') {
+    
+    echo '<script>alert("Seu cadastro foi desativado, entre em contato com os Administradores se deseja ativar novamente.")</script>';
+    echo '<script>location.href="../../views/index.php"</script>';
+    return;
+}
+
+//clausulás guardas acima//
+
+unset($row['senha']);
+unset($row['status_cadastro']);
+
+$_SESSION['pessoa'] = $row;
+
+if($row['tipo_pessoa'] == 1){ //se tipo prestador 
+    header("location: ../../views/perfil.php");
+} 
+elseif($row['tipo_pessoa'] == 2){                        //se tipo contratante
+    header("location: ../../views/perfilcontratante.php");
+}
+
+
+
+
+
+
+
+    

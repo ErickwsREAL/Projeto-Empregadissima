@@ -1,32 +1,9 @@
-<?php include ("../controller/login_control/logar_bd_empregadissimas.php")
+<?php 
+include ("../controller/login_control/logar_bd_empregadissimas.php");
+include ("../controller/login_control/verifica_login_usuario.php"); 
+include_once ("../controller/Servico_Controlador.php");
+include_once ("../controller/PessoaControlador.php");
 ?>
-
-<?php include ("../controller/login_control/verifica_login_usuario.php") ?>
-
-<?php echo $_SESSION['pessoa']['id_pessoa'];
-
-function getDadosContratante($id_contratante) {
-	include ("../controller/login_control/logar_bd_empregadissimas.php");
-
-    $sql = "SELECT nome, foto, tipo_pessoa FROM pessoa WHERE id_pessoa='$id_contratante'";
-
-    $result = $conn->query($sql);
-
-    $row = $result->fetch_assoc();
-
-    $dados_contratante = array(
-        'nome' => $row["nome"],
-        'foto' => $row["foto"],
-        'tipo_pessoa' => $row["tipo_pessoa"]
-    );
-
-    $conn->close();
-    
-    return $dados_contratante;
-}
-
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -80,6 +57,8 @@ function getDadosContratante($id_contratante) {
 
 				<div id="tabs-1">
 					<form name="form-pend" id="form-pend">
+					
+					<input type="hidden" name="metodo" id="metodo" value="">
 						<?php
 							$var_id = $_SESSION['pessoa']['id_pessoa'];
 
@@ -92,12 +71,7 @@ function getDadosContratante($id_contratante) {
 				  			while ($dados_servico= $con ->fetch_array() ){
 								$id_contratante = $dados_servico["id_contratante"];
 
-								$parametros = getDadosContratante($id_contratante);
-
-					            $valores = array();
-					            $valores['nome'] = $parametros['nome'];
-					            $valores['foto'] = $parametros['foto'];
-					            $valores['tipo_pessoa'] = $parametros['tipo_pessoa'];
+								$Contratante = buscarUsuario($id_contratante, 2);
 				  		?>
 
 						<div class="card">
@@ -109,8 +83,8 @@ function getDadosContratante($id_contratante) {
 			                        	<div class="img-container">
 
 											<?php
-												if ($valores['foto'] != NULL) {
-													$foto = $valores['foto']; 
+												if ($Contratante->getFoto() != NULL) {
+													$foto = $Contratante->getFoto();
 												} else {
 												    $foto = 'profile.png';
 												}
@@ -122,10 +96,11 @@ function getDadosContratante($id_contratante) {
 									</div>
 
 									<div class="grid-item">
-										<input type="hidden" name="tipo_pessoa" value="<?php echo $valores['tipo_pessoa']; ?>">
-										<h3> <b> Solicitação de Serviço de <?php echo $valores['nome'] ?> </b></h3> 
-										<p><b> Dia:</b> <?php echo $dados_servico["data_servico"]; ?> 	&nbsp;  <b>Hora: </b> 
-										</p> 
+										<input type="hidden" name="tipo_pessoa" value="<?php echo $Contratante->getTipoPessoa(); ?>">
+										<h3> <b> Solicitação de Serviço de <?php echo $Contratante->getNome(); ?> </b></h3> 
+										<p><b> Dia:</b> <?php echo $dados_servico["data_servico"]; ?></p> 
+										<p><b> Hora Entrada (Previsão): </b> <?php echo $dados_servico["hora_entrada"]; ?> - <b> Hora Saída (Previsão): </b> <?php echo $dados_servico["hora_saida"]; ?> 
+									</p> 										
 									</div>
 								</div>
 								<!-- -->
@@ -135,8 +110,8 @@ function getDadosContratante($id_contratante) {
 									<button type="button" class="btn btn-lg bt-aprovar" id="aprovar-pend-<?php echo $dados_servico["id_servico"]; ?>" 
 											name="aprovar-pend" onclick="aprovarServico(this.id);">Aceitar</button>
 									<button type="button" class="btn btn-lg bt-reprovar" id="reprovar-pend-<?php echo $dados_servico["id_servico"]; ?>" name="reprovar-pend"
-											onclick="reprovarServico(this.id);">Rejeitar</button>
-									<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $dados_servico["id_servico"]; ?>" name="detalhe-pend" onclick="buscarDetalhes(this.id, <?php echo $valores['tipo_pessoa']; ?>)" data-toggle="modal" data-target="#exampleModalCenter">Detalhes</button>
+											onclick="reprovarServico(this.id, <?php echo $Contratante->getTipoPessoa(); ?>);">Rejeitar</button>
+									<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $dados_servico["id_servico"]; ?>" name="detalhe-pend" onclick="buscarDetalhes(this.id, <?php echo $Contratante->getTipoPessoa(); ?>)" data-toggle="modal" data-target="#exampleModalCenter">Detalhes</button>
 								</p>
 							</div>
 						</div>
@@ -156,11 +131,7 @@ function getDadosContratante($id_contratante) {
 		  			while ($dados_servico= $con ->fetch_array() ){
 						$id_contratante = $dados_servico["id_contratante"];
 
-						$parametros = getDadosContratante($id_contratante);
-			            $valores = array();
-			            $valores['nome'] = $parametros['nome'];
-			            $valores['foto'] = $parametros['foto'];
-			            $valores['tipo_pessoa'] = $parametros['tipo_pessoa'];
+						$Contratante = buscarUsuario($id_contratante, 2);
 
 		  		?>
 					<div class="card">
@@ -171,8 +142,8 @@ function getDadosContratante($id_contratante) {
 									<div class="grid-item">
 			                        	<div class="img-container">
 										<?php
-											if ($valores['foto'] != NULL) {
-												$foto = $valores['foto']; 
+											if ($Contratante->getFoto() != NULL) {
+												$foto = $Contratante->getFoto();
 											} else {
 											    $foto = 'profile.png';
 											}
@@ -183,10 +154,11 @@ function getDadosContratante($id_contratante) {
 									</div>
 
 									<div class="grid-item">
-										<input type="hidden" name="tipo_pessoa" value="<?php echo $valores['tipo_pessoa']; ?>">
-										<h3> <b>Você possui um serviço em andamento com <?php echo $valores['nome'] ?> </b></h3> 
-									<p><b> Dia:</b> <?php echo $dados_servico["data_servico"]; ?> 	&nbsp;	 <b>Hora: </b> 
-										</p> 
+										<input type="hidden" name="tipo_pessoa" value="<?php echo $Contratante->getTipoPessoa(); ?>">
+										<h3> <b>Você possui um serviço em andamento com <?php echo $Contratante->getNome(); ?> </b></h3> 
+									<p><b> Dia:</b> <?php echo $dados_servico["data_servico"]; ?></p> 
+									<p><b> Hora Entrada (Previsão): </b> <?php echo $dados_servico["hora_entrada"]; ?> - <b> Hora Saída (Previsão): </b> <?php echo $dados_servico["hora_saida"]; ?> 
+									</p> 									
 									</div>
 								</div>
 								<!-- -->
@@ -194,7 +166,7 @@ function getDadosContratante($id_contratante) {
 								<!--bootstrap buttons + classe-->
 								<button type="button" class="btn btn-lg bt-detalhes btn-check" id="check-out" data-toggle="modal" data-target="#checkoutModal">Check-out</button>
 								<button type="button" class="btn btn-lg bt-detalhes btn-check" id="check-in" data-toggle="modal" data-target="#checkinModal">Check-in</button>
-								<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $dados_servico["id_servico"]; ?>" name="detalhe-pend" onclick="buscarDetalhes(this.id, <?php echo $valores['tipo_pessoa']; ?>)" data-toggle="modal" data-target="#exampleModalCenter">Detalhes</button>
+								<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $dados_servico["id_servico"]; ?>" name="detalhe-pend" onclick="buscarDetalhes(this.id, <?php echo $Contratante->getTipoPessoa(); ?>)" data-toggle="modal" data-target="#exampleModalCenter">Detalhes</button>
 							</p>
 						</div>
 					</div>
@@ -210,14 +182,7 @@ function getDadosContratante($id_contratante) {
 
 		  			while ($dados_servico= $con ->fetch_array() ){
 					
-						$id_contratante = $dados_servico["id_contratante"];
-
-						$parametros = getDadosContratante($id_contratante);
-
-			            $valores = array();
-			            $valores['nome'] = $parametros['nome'];
-			            $valores['foto'] = $parametros['foto'];
-			            $valores['tipo_pessoa'] = $parametros['tipo_pessoa'];
+						$Contratante = buscarUsuario($dados_servico["id_contratante"], 2);
 
 		  		?>
 					<div class="card">
@@ -232,9 +197,10 @@ function getDadosContratante($id_contratante) {
 								</div>
 
 								<div class="grid-item">
-									<input type="hidden" name="tipo_pessoa" value="<?php echo $valores['tipo_pessoa']; ?>">
-									<h3> <b> Serviço Finalizado com <?php echo $valores['nome'] ?> </b></h3> 
-									<p><b> Dia: </b> <?php echo $dados_servico["data_servico"]; ?> 	&nbsp;	 <b>Hora: </b> 
+									<input type="hidden" name="tipo_pessoa" value="<?php echo $Contratante->getTipoPessoa(); ?>">
+									<h3> <b> Serviço Finalizado com <?php echo $Contratante->getNome() ?> </b></h3> 
+									<p><b> Dia: </b> <?php echo $dados_servico["data_servico"]; ?> </p> 
+									<p><b> Hora Entrada (Previsão): </b> <?php echo $dados_servico["hora_entrada"]; ?> - <b> Hora Saída (Previsão): </b> <?php echo $dados_servico["hora_saida"]; ?> 
 									</p> 
 								</div>
 							</div>
@@ -242,7 +208,7 @@ function getDadosContratante($id_contratante) {
 
 							<p>
 								<!-- bootstrap buttons + classe -->
-								<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $dados_servico["id_servico"]; ?>" name="detalhe-pend" onclick="buscarDetalhes(this.id, <?php echo $valores['tipo_pessoa']; ?>)" data-toggle="modal" data-target="#exampleModalCenter" > Detalhes </button>
+								<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $dados_servico["id_servico"]; ?>" name="detalhe-pend" onclick="buscarDetalhes(this.id, <?php echo $Contratante->getTipoPessoa(); ?>)" data-toggle="modal" data-target="#exampleModalCenter" > Detalhes </button>
 
 								<!-- leva para pagina de avaliações -->
 								<button type="button" class="btn btn-lg bt-avaliar" id="avaliar-and" name="avaliar-fina" data-toggle="modal" data-target="#modal-avaliar" style="margin-right: 15px; font-weight: bold;"> Avaliar </button>
@@ -313,7 +279,9 @@ function getDadosContratante($id_contratante) {
 
 	     	<div class="modal-body">
 	        	<p><b> Data: </b>  <?php if(isset($_GET['data_servico']))echo $_GET['data_servico'];?>   &nbsp; 
-	        	   <b> Hora: </b>   
+
+		        <p><b> Hora Entrada (Previsão): </b> <?php if(isset($_GET['hora_entrada']))echo $_GET['hora_entrada']; ?> </p>
+				<p><b> Hora Saída (Previsão): </b> <?php if(isset($_GET['hora_saida']))echo $_GET['hora_saida'];?> </p>
 	        	</p>
 
 					<?php
@@ -366,9 +334,6 @@ function getDadosContratante($id_contratante) {
 	  </div>
 	</div>
 
-	<div class="dialog-reprovar" id="dialog-reprovar" title="Alerta">
-	  <p> Deseja <b>Rejeitar</b> esta Solicitação? </p>
-	</div>
 	<div id="dialog-cancelar" title="Alerta">
 	  <p> Deseja realmente <b>cancelar</b> o serviço?<br> O cancelamento implica no não pagamento ao prestador. </p>
 	</div>	
@@ -443,29 +408,6 @@ function getDadosContratante($id_contratante) {
   		$('#myInput').trigger('focus')
 	});
 
-	/*dialogo Deseja Rejeitar esta Solicitação?*/
-	$( function() {
-	    $( "#dialog-reprovar" ).dialog({
-	    	autoOpen: false,
-	     	resizable: true,
-	      	height: "auto",
-	      	width: 400,
-	      	modal: true,
-	      	buttons: {
-	        "Sim": function() {
-	          $( this ).dialog( "close" );
-	        },
-	        Sair: function() {
-	          $( this ).dialog( "close" );
-	        }
-	      }
-	    });
-	} );
-
-    $( ".bt-reprovar" ).on( "click", function() {
-	    $( "#dialog-reprovar" ).dialog( "open" );
-	});
-
 	$( "#cancelarServiço" ).on( "click", function() {
 	    if($('#cancelarServiço').is(':checked')){
        		$( "#dialog-cancelar" ).dialog( "open" );
@@ -529,21 +471,21 @@ function getDadosContratante($id_contratante) {
 				return false;
 			}	
 			else{
-					document.getElementById("form-pend").action= "../controller/Servico_Controller.php?metodo=alt_status_apv&id_servico="+id_servico;
+					document.getElementById("form-pend").action= "../controller/Servico_Controlador.php?metodo=alt_status_apv&id_servico="+id_servico;
 			 	 	document.getElementById("form-pend").method= "POST";
 				 	document.getElementById("form-pend").submit(); // Form submission
 				return true;
 			}
 	}
 
-	function reprovarServico(id_serv){
+	function reprovarServico(id_serv, tipo_pessoa){
 		var id_servico = id_serv.substring(14);
 
 			if (!confirm("Deseja REJEITAR esta solicitação?")) {
 				return false;
 			}	
 			else{
-				document.getElementById("form-pend").action= "../controller/Servico_Controller.php?metodo=alt_status_rep&id_servico="+id_servico;
+				document.getElementById("form-pend").action= "../controller/Servico_Controlador.php?metodo=alt_status_rep&id_servico="+id_servico+"&tipo_pessoa="+tipo_pessoa;
 		 	 	document.getElementById("form-pend").method= "POST";
 			 	document.getElementById("form-pend").submit(); // Form submission
 	 			return true;
@@ -553,7 +495,7 @@ function getDadosContratante($id_contratante) {
 	function buscarDetalhes(id_serv, tipo_pessoa){
 		var id_servico = id_serv.substring(13);
 			
-			document.getElementById("form-pend").action= "../controller/Servico_Controller.php?metodo=buscar&id_servico="+id_servico+"&tipo_pessoa="+tipo_pessoa;
+			document.getElementById("form-pend").action= "../controller/Servico_Controlador.php?metodo=buscar&id_servico="+id_servico+"&tipo_pessoa="+tipo_pessoa;
 	 	 	document.getElementById("form-pend").method= "POST";
 		 	document.getElementById("form-pend").submit(); // Form submission
 	}

@@ -1,12 +1,11 @@
 <?php 
     include ("../controller/login_control/logar_bd_empregadissimas.php");
     include ("../controller/login_control/verifica_login_usuario.php");
-    include ("../model/Agenda.php");
+    include ("../controller/AgendaControlador.php");
 
-    $dias_disponiveis = Agenda::select($_SESSION['pessoa']['id_pessoa']);
+    $dias_disponiveis = carregar_agenda($_SESSION['pessoa']['id_pessoa']);
 ?>
 
-<?php echo $_SESSION['pessoa']['id_pessoa']?>
 
 <!DOCTYPE html>
 <html>
@@ -34,9 +33,69 @@
 <link rel="stylesheet" href="./css/buscarContratante.css">
 <link rel="stylesheet" href="./css/telaAgenda.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<title> Empregadíssima | Agenda </title>
+<title> Empregadíssima | Buscar prestador </title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+    $(document).ready(function(){
+        $("#swap-solic").click(function(){
+            $(".filter-section").hide();
+            $(".contractor-grid").hide();
+            $(".c-solicitacoes").show();
+        });
+
+        $("#swap-busca").click(function(){
+            $(".c-solicitacoes").hide();
+            $(".filter-section").show();
+            $(".contractor-grid").show();
+        });
+
+        $(".cancel-button").click(function(){
+           $(".price-range").hide();
+           $(".filter-text").show();
+        });
+
+        $(".apply-button").click(function(){
+           $(".price-range").hide();
+           $(".filter-text").show();
+        });
+
+        $("#filter-button").click(function(){
+           $(".price-range").toggle();
+           $(".filter-text").toggle();
+        });
+    });
+
+    function change() {
+        var btn = document.getElementById('filter-button');
+        if (btn.value == "false") {
+            btn.value = "true";
+            btn.innerHTML = "Esconder filtros";
+        }
+        else {
+            btn.value = "false";
+            btn.innerHTML = "Mostrar filtros";
+        }
+    }
+
+    function excluir_agenda(clicked_id){
+        /*Apartir do id do botão, pega-se uma substring de 19 posições, assim, pegando o id da agenda.
+            Ex: clicked_id = bt-excluir-servico-18, com a substring(19) temos na variavel res = 18, que é o id da agenda */
+
+        var id_agenda = clicked_id.substring(19);
+
+        if (!confirm("Deseja EXCLUIR esta data disponível da agenda?")) 
+        {
+            return false;
+        }	
+        else{
+            document.getElementById("form-agenda").action = "../controller/AgendaControlador.php?metodo=excluir_data&id_agenda=" + id_agenda;
+            document.getElementById("form-agenda").method = "POST";
+            document.getElementById("form-agenda").submit(); // Submissão do formulário
+
+            return true;
+        }
+    }
+
 </script>
 </head>
 <body>
@@ -68,7 +127,7 @@
         <div class="column4"></div>
 
         <!-- inicio grid -->
-        <form id="calendario", method="post", action="../controller/Agenda_Controller.php?metodo=inserir_agenda&id_prestador=<?php echo $_SESSION['pessoa']['id_pessoa']?>">
+        <form id="calendario", method="post", action="../controller/AgendaControlador.php?metodo=inserir_agenda&id_pessoa=<?php echo $_SESSION['pessoa']['id_pessoa']?>">
             <input name="datas_selecionadas", style="width: 100%;" type="text" id="selectedValues" class="date-values" readonly/>
             <div id="parent" class="container">
                 <div class="row header-row">
@@ -109,18 +168,18 @@
         </form>
 
         <form name="form-agenda", id="form-agenda">
-            <div style="text-align: center" class="card-container">
+            <div style="text-align: center; margin-top: 5%" class="card-container">
                 <h4><b>Agenda</b></h4>
                 <ul class="list-group">
 
                 <?php foreach($dias_disponiveis as $dados_agenda) {
                 ?>
                     <li class="list-group-item">
-                        <p class="man-desc"> <?php echo $dados_agenda["dia_disponivel"];?> </p>
+                        <p class="man-desc"> <?php echo $dados_agenda->getDiaDisponivel();?> </p>
                         <div style="float: right;">
                             <!-- botão visivel apenas para prestadores -->
                             <button type="button" class="btn btn-danger btn-sm spc bt-excluir-servico" 
-                                    id="bt-excluir-servico-<?php echo $dados_agenda["id"];?>" 
+                                    id="bt-excluir-servico-<?php echo $dados_agenda->getId();?>" 
                                     onClick="excluir_agenda(this.id)">
                                     <i class="fa fa-trash"></i> Excluir </button>
                         </div>
@@ -130,7 +189,6 @@
                 ?> 
             </div>
         </form>
-        <!-- fim grid -->
 
         <!-- inicio footer-->
         <div class="footer-page page-footer font-small ">
@@ -142,24 +200,4 @@
     </div>
     <!-- fim grid contrainer -->
 </body>
-<script>
-    function excluir_agenda(clicked_id){
-        /*Apartir do id do botão, pega-se uma substring de 19 posições, assim, pegando o id da agenda.
-            Ex: clicked_id = bt-excluir-servico-18, com a substring(19) temos na variavel res = 18, que é o id da agenda */
-
-        var id_agenda = clicked_id.substring(19);
-
-        if (!confirm("Deseja EXCLUIR esta data disponível da agenda?")) 
-        {
-            return false;
-        }	
-        else{
-            document.getElementById("form-agenda").action = "../controller/Agenda_Controller.php?metodo=deletar_agenda&id_agenda=" + id_agenda;
-            document.getElementById("form-agenda").method = "POST";
-            document.getElementById("form-agenda").submit(); // Submissão do formulário
-
-            return true;
-        }
-    }
-</script>
 </html>

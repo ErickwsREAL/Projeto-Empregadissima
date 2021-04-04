@@ -151,7 +151,7 @@ $id_prestador=$_GET["id_prestador"];
 					?>  
 
 
-					  	<h5> &nbsp; - Selecione no calendário abaixo o dia que deseja solicitar a diária, preencha os dados do cartão ao lado e envie sua solicitação</h5>
+					  	<h5> &nbsp; - Selecione no calendário abaixo o dia que deseja solicitar a diária, preencha os dados do cartão ao lado e envie sua solicitação! &#128521;</h5>
 						<div class="agenda-prestador" id="calendar_u">
 							<div id="v-cal" style="width: 46%;height: 50%; float: left; ">
 								<div class="vcal-header" >
@@ -184,7 +184,7 @@ $id_prestador=$_GET["id_prestador"];
 						    		<div class="col card" style="background:white">
 						    			
 
-										<p style="visibility: ;">	<b> 0 .Dia Selecionado:</b> 
+										<p style="visibility: hidden;">	<b> 0 .Dia Selecionado:</b> 
 										<input type="hidden" name="id_prestador" value="<?php echo $id_prestador; ?>">
 										<input type="hidden" name="id_contratante" value="<?php echo $var_id; ?>"> 
 
@@ -192,19 +192,19 @@ $id_prestador=$_GET["id_prestador"];
 										</p>
 										<div class="input-group mb-3">
 										  	<div class="input-group-prepend">
-										    	<label for="inputGroupSelect01">1. Selecione um <b>horário</b> disponível: &nbsp; </label>
+										    	<label for="inputGroupSelect01">1. Horário <b>Entrada</b> (Previsão): &nbsp; </label>
 										  	</div>
-										  	<select class="custom-select" id="inputGroupSelect01">
-										    	<option value="" selected>Escolha...</option>
-										    	<option value="1">8:00 às 15:00</option>
-										    	<option value="2">15:00 às 19:00</option>
-										    	<option value="3">Dia Inteiro</option>
-										  	</select>
+											  <input class="form-control form-control-sm" type="time" name="hora_entrada" id="hora_entrada" value="">
 										</div>
-
 										<div class="input-group mb-3">
 										  	<div class="input-group-prepend">
-										    	<label for="id_diaria">2. Selecione o <b>tipo de Serviço</b>/Diária: &nbsp; </label>
+										    	<label for="inputGroupSelect01">2. Horário <b>Saída</b> (Previsão): &nbsp; </label>
+										  	</div>
+											  <input class="form-control form-control-sm" type="time" name="hora_saida" id="hora_saida" value="">
+										</div>
+										<div class="input-group mb-3">
+										  	<div class="input-group-prepend">
+										    	<label for="id_diaria">3. Selecione o <b>tipo de Serviço</b>/Diária: &nbsp; </label>
 										  	</div>
 										  	<select class="custom-select" name="id_diaria">
 										    	<option name="id_diaria" value="0" selected>Escolha...</option>
@@ -224,7 +224,7 @@ $id_prestador=$_GET["id_prestador"];
 										</div>
 										<div class="input-group mb-3">
 										  	<div class="input-group-prepend">
-										    	<label  for="id_endereco">3. Selecione o <b>Endereço</b> que ocorrerá o serviço: &nbsp; </label>
+										    	<label  for="id_endereco">4. Selecione o <b>Endereço</b> que ocorrerá o serviço: &nbsp; </label>
 										  	</div>
 										  	<select class="custom-select" id="id_endereco" name="id_endereco">
 										    	<option selected>Escolha...</option>
@@ -242,7 +242,7 @@ $id_prestador=$_GET["id_prestador"];
 										  	</select>
 										</div>
 
-								    	<label>4. Selecione a forma de pagamento: </label>
+								    	<label>5. Selecione a forma de pagamento: </label>
 									    <div class="row">
 										    <div class="col card">
 												<div class="custom-control custom-radio">
@@ -326,18 +326,21 @@ $id_prestador=$_GET["id_prestador"];
 		var ano = data_inteira_van.substring(11, 15);
 
 		var data_servico= ano+"/"+mes+"/"+dia;
-		//alert(data_servico);
+		
+		if (data_servico == "/NaN/"){
+			alert("Selecione no calendario uma data para solicitação do serviço!");
 
-		if (!confirm("Deseja Enviar esta solicitação de serviço?")) {
-			return false;
 		}	
 		else{
-				  
-		 document.getElementById("form-ins-servico").action= "../controller/Servico_Controller.php?metodo=inserir&data_servico="+data_servico;
-	 	 document.getElementById("form-ins-servico").method= "POST";
-		 document.getElementById("form-ins-servico").submit();// Form submission
-
-		  return true;
+				if (!confirm("Deseja Enviar esta solicitação de serviço?")) {
+				return false;
+			}	
+			else{
+					document.getElementById("form-ins-servico").action= "../controller/Servico_Controlador.php?metodo=inserir&data_servico="+data_servico;
+					document.getElementById("form-ins-servico").method= "POST";
+					document.getElementById("form-ins-servico").submit();// Form submission
+			return true;
+			}
 		}
 	}
 

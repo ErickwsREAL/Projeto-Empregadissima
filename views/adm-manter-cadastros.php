@@ -1,10 +1,13 @@
-<?php include ("../controller/login_control/logar_bd_empregadissimas.php")
+<?php 
+
+include ("../controller/login_control/logar_bd_empregadissimas.php");
+include ("../controller/login_control/verifica_login_adm.php");
+include_once ("../controller/PessoaControlador.php");
+
 ?>
 
-<?php include ("../controller/login_control/verifica_login_adm.php")
-?>
-
-<?php $_SESSION['administrador']['id_adm']
+<?php 
+$_SESSION['administrador']['id_adm']
 ?>
 
 <!DOCTYPE html>
@@ -34,20 +37,11 @@
 			<?php
 				$var_id = $_SESSION['administrador']['id_adm'];
 
-				$consulta = "SELECT * FROM administrador WHERE id_adm = $var_id";
-				$con = $conn -> query($consulta) or die($conn-> error);
-			?>
-
-	  		<?php while ($dados_adm= $con ->fetch_array() ){
-
 	  		?>
 			<div class="info-adm" style="">
-			    <h4>Sessão:&nbsp; <?php echo $dados_adm["sessao"]; ?> &nbsp;&nbsp;&nbsp; <a class="nav-link" href="../controller/login_control/sair.php" id="btn-sair" style="color:black;font-size:1em;"> Sair </a></h4>
+			    <h4>ID:&nbsp; <?php echo $var_id ?> &nbsp;&nbsp;&nbsp; <a class="nav-link" href="../controller/login_control/sair.php" id="btn-sair" style="color:black;font-size:1em;"> Sair </a></h4>
 			</div>
-	  		<?php 
-		  	}	
-	  		?>
-
+	  
 			<div class="lista-abas animacao-flip">
 				<div id="tabs">    	
 				    <!--table-->
@@ -119,8 +113,6 @@
 								<p>
 
 									<button type="button" class="btn btn-lg bt-aprovar" id="bt-aprovar" name="bt-aprovar" onclick="aprovarCadastrosF();">Aprovar</button>								
-									<!--bootstrap buttons + id
-									<button type="button" class="btn btn-lg bt-aprovar" id="bt-aprovar" name="bt-aprovar" onclick="aprovarCadastrosF();">Aprovar</button>-->
 
 									<button type="button" class="btn btn-lg bt-reprovar" id="bt-reprovar" onclick="reprovarCadastrosF();">Reprovar</button>
 								</p>
@@ -131,14 +123,14 @@
 				    <!-- fim aba Cadastros Pendentes-->
 
 						<!-- aba 2 - Exclusao de Conta -->
-						<form method="POST" action="../controller/Usuario_Controller.php?metodo=excluir_cadastro">
+						<form method="POST" action="../controller/PessoaControlador.php?metodo=AdmDesativarCadastro">
 							<div id="tabs-2">
 								<div class="cadast-pend">
 				    		    	<h2>Excluir Contas</h2>
 				    			</div>
-						   	
-						    	
-									
+						   		<?php 	
+						    	$Usuarios = buscarCadastrosAtivos();
+								?>	
 									<table id="tabledata">
 										<tr>
 											<th>
@@ -153,13 +145,7 @@
 											<th>CPF</th>								
 										</tr>
 										
-										<?php
-										 	$stmt = $conn->prepare("SELECT * FROM pessoa WHERE status_cadastro != '1'");
-										 	$stmt->execute();
-										 	$result = $stmt->get_result();	
-
-										?>
-										<?php while($row = $result->fetch_array()){ ?>
+										<?php foreach ($Usuarios as $row) { ?>
 										<tr>
 											<td>
 												<!-- bootstrap check-box + classe checkMargin-->

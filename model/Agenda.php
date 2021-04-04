@@ -1,47 +1,36 @@
 <?php
-    include("../DAO/AgendaDAO.php");
-
-    function formatar_datas($datas_selecionadas) {
-        $results = array();
-        $lista_datas = explode(" ", $datas_selecionadas);
-
-        foreach($lista_datas as $data) {
-            $results[] = date('Y-m-d', strtotime($data));
-        }
-
-        if (isset($results)) {
-            return $results;
-        } else {
-            return False;
-        }
-    }
 
     class Agenda {
-        public static function insert($id_prestador, $datas_selecionadas) {
-            $datas_formatadas = formatar_datas($datas_selecionadas);
-            $response = AgendaDAO::inserir_data($id_prestador, $datas_formatadas);
-                
-            return $response;
+        private $id;
+        private $id_prestador;
+        private $dia_disponivel;
+
+        /* Getters */
+
+        function getId() {
+            return $this->id;
         }
 
-        public static function modify() {
-            echo "oi";
+        function getIdPrestador() {
+            return $this->id_prestador;
         }
 
-        public static function delete($id_agenda) {
-            $response = AgendaDAO::remover_data($id_agenda);
-
-            if ($response === TRUE) {
-                return "Data disponível excluída com sucesso!";
-            } else {
-                return "Não foi possível excluir a data selecionada!";
-            }
+        function getDiaDisponivel() {
+            return $this->dia_disponivel;
         }
 
-        public static function select($id_prestador) {
-            $datas_disponiveis = AgendaDAO::selecionar_datas($id_prestador);
+        /* Setters */
 
-            return $datas_disponiveis;
+        function setId($ID) {
+            $this->id = $ID;
+        }
+
+        function setIdPrestador($prestador_id) {
+            $this->id_prestador = $prestador_id;
+        }
+
+        function setDiaDisponivel($data) {
+            $this->dia_disponivel = $data;
         }
     }
 ?>

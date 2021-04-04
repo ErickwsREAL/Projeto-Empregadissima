@@ -1,5 +1,3 @@
-<?php include ("../controller/login_control/logar_bd_empregadissimas.php")
-?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -28,9 +26,8 @@
 		</div>
 
 		<div class="container" id="formCadastro">
-			
 			<!-- formulário cadastro de usuário -->
-			<form action="../controller/Usuario_Controller.php?metodo=inserir" method="POST">
+			<form action="../controller/PessoaControlador.php?metodo=Inserir" method="POST">
   				<div id="radios">
 	  				<div class="form-check form-check-inline">
 	  					<!-- prestador valor=1 -->
@@ -49,7 +46,7 @@
 						<label class="form-check-label" for="sexoUsuarioA">Outro</label>	
 					</div>	
 		  		</div>	
-		  		
+
 	  			<div class="form-group">
 					<br><label for="nomeUsuario">Nome</label>
 					<input type="text" class="form-control" id="NomeUsuario" name="nome" maxlength="50" placeholder="Máximo 50 caractéres..." required>
@@ -97,22 +94,6 @@
 			$( "#buttonVoltar" ).on( "click", function() {
 		    	$( "#caixa" ).dialog( "open" );
 		    });
-
-			$('#tipo_pessoa_p').on('click', function(){           
-       			if($(this).is(':checked')){
-           			$('.endereco').attr('disabled', true);
-       			} else {
-           			$('.endereco').attr('disabled', false);
-      	 		}
-   			});
-
-			$('#tipo_pessoa_c').on('click', function(){           
-       			if($(this).is(':checked')){
-           			$('.endereco').attr('disabled', false);
-       			} else {
-           			$('.endereco').attr('disabled', false);
-      	 		}
-   			});
 
 			$("#caixa").dialog({
 				autoOpen: false,
