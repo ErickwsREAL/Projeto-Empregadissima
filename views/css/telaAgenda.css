@@ -645,4 +645,10 @@ a:hover {
     border-top: 2px solid lightgray;
 }
 
+.btn-excluir {
+    float: right;
+    background-color: #FF508A;
+    color: white;
+    font-weight: 730;
+}
 
