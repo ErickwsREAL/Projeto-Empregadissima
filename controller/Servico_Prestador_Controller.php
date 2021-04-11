@@ -4,11 +4,21 @@
     require_once ('../model/Servico_Prestador.php');
     require_once ('../DAO/ServicoPrestadorDAO.php');
 
-    $desc_servico = $_POST['desc_servico'];
-    $preco_servico = $_POST['preco_servico'];
-    $id_pessoa = $_POST['id_pessoa'];
-  
+	function buscarDiarias($id_prestador){
+
+		$servico_prestador = new ServicoPrestadorDAO();
+		$rows = $servico_prestador->buscarDiarias($id_prestador);
+        
+		return $rows;
+	}  
+ 
     if (isset($_GET['metodo'])) {
+
+
+        $desc_servico = $_POST['desc_servico'];
+        $preco_servico = $_POST['preco_servico'];
+        $id_pessoa = $_POST['id_pessoa'];
+
         switch($_GET['metodo']){
             
             case 'inserir':

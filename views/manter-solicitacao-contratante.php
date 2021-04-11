@@ -3,6 +3,8 @@ include ("../controller/login_control/logar_bd_empregadissimas.php");
 include ("../controller/login_control/verifica_login_usuario.php"); 
 include_once ("../controller/Servico_Controlador.php");
 include_once ("../controller/PessoaControlador.php");
+include_once ("../controller/EnderecoControlador.php");
+include_once ("../controller/Servico_Prestador_Controller.php");
 ?>
 
 <!DOCTYPE html>
@@ -59,7 +61,18 @@ include_once ("../controller/PessoaControlador.php");
 
     <div class="main">
 		<div class="card-tit">
-			<h2 id="titulo-pag"> Minhas Solicitações </h2>
+			<h2 id="titulo-pag"> Minhas Solicitações 
+			<!--Help da Aplicação -->
+			<button type="button" class="btn bt-detalhes" data-toggle="popover" title=" Minhas Solicitações" data-content="
+																					<b>1. Pendentes: </b>Solicitações que ainda não foram respondidas pelo prestador
+																					(é possivel alterar dados da solicitação em 'Alterar', cancelar a solicitação enviada em 'Cancelar' 
+																					ou visualizar os detalhes dela em 'Detalhes')<br>
+																					<b> 2. Em Andamento: </b>Solicitações ACEITAS pelo prestador, havendo um servico em andamento. 
+																					No dia da prestação do servico no momento que o prestador chegar à residencia é necessário clicar no botão Check-in e avisar que o serviço está ocorrendo,
+																					caso o prestador em questão não chegou é necessário cancelar esse serviço no mesmo botão Check-In, tendo assim a interrupção do pagamento.<br>
+																					<b> 3. Finalizadas: </b> Serviços finalizados, aonde já ocorreu o Check-In.
+																					<i class="fa fa-question-circle"></i> Ajuda </button>
+			</h2>
 		</div>
 
 		<div class="lista-abas animacao-flip">
@@ -76,18 +89,13 @@ include_once ("../controller/PessoaControlador.php");
 
 						<?php
 							$var_id = $_SESSION['pessoa']['id_pessoa'];
-
-							$consulta = "SELECT * FROM servico WHERE id_contratante = $var_id AND status_servico = 1 ";
-							$con = $conn -> query($consulta) or die($conn-> error);
+							$rows = buscarServicosContratante($var_id, 1); #Solicitações Pendentes
 						?>
 
 						<?php 
-							while ($dados_servico= $con ->fetch_array() ){
-
-								$Prestador = buscarUsuario($dados_servico["id_prestador"], 1);
-
+							foreach ($rows as $row){ 
+								$Prestador = buscarUsuario($row["id_prestador"], 1);
 						?>	
-		
 
 						<div class="card">
 							<div class="card-container">
@@ -110,8 +118,9 @@ include_once ("../controller/PessoaControlador.php");
 									<div class="grid-item">
 										<input type="hidden" name="tipo_pessoa" value="<?php echo $Prestador->getTipoPessoa(); ?>">
 										<h3> <b> Solicitação de Serviço com <?php echo $Prestador->getNome(); ?> </b></h3> 
-										<p><b> Dia: </b> <?php echo $dados_servico["data_servico"]; ?> </p>
-										<p><b> Hora Entrada (Previsão): </b> <?php echo $dados_servico["hora_entrada"]; ?> - <b> Hora Saída (Previsão): </b> <?php echo $dados_servico["hora_saida"]; ?> 
+										<p><b> Dia: </b> <?php echo $row["data_servico"]; ?> </p>
+										<p><b> Hora Entrada (Previsão): </b> <?php echo $row["hora_entrada"]; ?> - <b> Hora Saída (Previsão): </b> <?php echo $row["hora_saida"]; ?> 
+										<input type="hidden" name="id_prestador_teste" id="id_prestador_teste" value="<?php echo $Prestador->getID();?>">
 										</p> 
 									</div>
 								</div>
@@ -119,9 +128,9 @@ include_once ("../controller/PessoaControlador.php");
 
 								<p class="center">
 									<!--bootstrap buttons + classe-->
-									<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $dados_servico["id_servico"]; ?>" name="detalhe-pend" data-toggle="modal" data-target="#detalhes-pend-modal" onclick="buscarDetalhes(this.id, <?php echo $Prestador->getTipoPessoa() ?>)"> Detalhes </button>
-									<button type="button" class="btn btn-lg bt-alterar"  id="alterar-pend"  name="alterar-pend" data-toggle="modal" data-target="#alterar-pend-modal" style="margin-right: 15px; font-weight: bold;"> Alterar </button>
-									<button type="button" class="btn btn-lg bt-cancelar" id="cancelar-pend-<?php echo $dados_servico["id_servico"]; ?>" name="cancelar-pend" style="margin-right: 15px; font-weight: bold;"
+									<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $row["id_servico"]; ?>" name="detalhe-pend" data-toggle="modal" data-target="#detalhes-pend-modal" onclick="buscarDetalhes(this.id, <?php echo $Prestador->getTipoPessoa() ?>)"> Detalhes </button>
+									<button type="button" class="btn btn-lg bt-alterar"  id="alterar-pend-<?php echo $row["id_servico"]; ?>"  name="alterar-pend" data-toggle="modal" data-target="#alterar-pend-modal" style="margin-right: 15px; font-weight: bold;" onclick="BuscarIdPrestadorServico(this.id)"> Alterar </button>
+									<button type="button" class="btn btn-lg bt-cancelar" id="cancelar-pend-<?php echo $row["id_servico"]; ?>" name="cancelar-pend" style="margin-right: 15px; font-weight: bold;"
 											onclick="reprovarServico(this.id, <?php echo $Prestador->getTipoPessoa(); ?>);"> Cancelar </button>	
 								</p>
 							</div>
@@ -136,20 +145,12 @@ include_once ("../controller/PessoaControlador.php");
 
 				<div id="tabs-2">
 					<?php
+						$rows = buscarServicosContratante($var_id, 2);
 
-						$consulta = "SELECT * FROM servico WHERE id_contratante = $var_id AND status_servico = 2 ";
-						$con = $conn -> query($consulta) or die($conn-> error);
-					?>
+						foreach ($rows as $row){ 
 
-					<?php 
-
-						while ($dados_servico= $con ->fetch_array() ){
-						
-							$id_prestador = $dados_servico["id_prestador"];
-
+							$id_prestador = $row["id_prestador"];
 							$Prestador = buscarUsuario($id_prestador, 1);
-
-
 					?>
 
 					<div class="card">
@@ -174,8 +175,8 @@ include_once ("../controller/PessoaControlador.php");
 									<div class="grid-item">
 										<input type="hidden" name="tipo_pessoa" value="<?php echo $Prestador->getTipoPessoa(); ?>">
 										<h3> <b> Você possui um serviço em andamento com <?php echo $Prestador->getNome() ?> </b></h3> 
-										<p><b> Dia: </b> <?php echo $dados_servico["data_servico"]; ?></p> 
-										<p><b> Hora Entrada (Previsão): </b> <?php echo $dados_servico["hora_entrada"]; ?> - <b> Hora Saída (Previsão): </b> <?php echo $dados_servico["hora_saida"]; ?>
+										<p><b> Dia: </b> <?php echo $row["data_servico"]; ?></p> 
+										<p><b> Hora Entrada (Previsão): </b> <?php echo $row["hora_entrada"]; ?> - <b> Hora Saída (Previsão): </b> <?php echo $row["hora_saida"]; ?>
 										</p>
 									</div>
 								</div>
@@ -184,7 +185,7 @@ include_once ("../controller/PessoaControlador.php");
 								<!--bootstrap buttons + classe-->
 							<p>	
 								<button type="button" class="btn btn-lg bt-detalhes btn-check" id="check-in" data-toggle="modal" data-target="#checkinModal">Check-in</button>
-								<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $dados_servico["id_servico"]; ?>" name="detalhe-and" data-toggle="modal" data-target="#detalhes-pend-modal" onclick="buscarDetalhes(this.id, <?php echo $Prestador->getTipoPessoa() ?>) ">Detalhes</button>
+								<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $row["id_servico"]; ?>" name="detalhe-and" data-toggle="modal" data-target="#detalhes-pend-modal" onclick="buscarDetalhes(this.id, <?php echo $Prestador->getTipoPessoa() ?>) ">Detalhes</button>
 							</p>
 						</div>
 					</div>
@@ -195,17 +196,13 @@ include_once ("../controller/PessoaControlador.php");
 				</div>
 
 				<div id="tabs-3">
-
 					<?php
-						$consulta = "SELECT * FROM servico WHERE id_contratante = $var_id AND status_servico = 3 ";
-						$con = $conn -> query($consulta) or die($conn-> error);
+						$rows = buscarServicosContratante($var_id, 3);
 
-						while ($dados_servico= $con ->fetch_array() ){
-						
-							$id_prestador = $dados_servico["id_prestador"];
-							
-							$Prestador = buscarUsuario($id_prestador, 1);
+						foreach ($rows as $row){ 
 
+							$id_prestador = $row["id_prestador"];
+							$Prestador = buscarUsuario($id_prestador, 1);	
 					?>
 
 					<div class="card">
@@ -231,8 +228,8 @@ include_once ("../controller/PessoaControlador.php");
 								<div class="grid-item">
 									<input type="hidden" name="tipo_pessoa" value="<?php echo $Prestador->getTipoPessoa(); ?>">
 									<h3> <b> Serviço Finalizado com <?php echo $Prestador->getNome(); ?> </b></h3> 
-									<p><b> Dia: </b> <?php echo $dados_servico["data_servico"]; ?></p>
-									<p><b> Hora Entrada (Previsão): </b> <?php echo $dados_servico["hora_entrada"]; ?> - <b> Hora Saída (Previsão): </b> <?php echo $dados_servico["hora_saida"]; ?>
+									<p><b> Dia: </b> <?php echo $row["data_servico"]; ?></p>
+									<p><b> Hora Entrada (Previsão): </b> <?php echo $row["hora_entrada"]; ?> - <b> Hora Saída (Previsão): </b> <?php echo $row["hora_saida"]; ?>
 									</p> 
 								</div>
 							</div>
@@ -240,7 +237,7 @@ include_once ("../controller/PessoaControlador.php");
 
 							<p>
 								<!-- bootstrap buttons + classe -->
-								<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $dados_servico["id_servico"]; ?>" name="detalhes-fina" data-toggle="modal" data-target="#detalhes-pend-modal" onclick="buscarDetalhes(this.id, <?php echo $Prestador->getTipoPessoa() ?>)"> Detalhes </button>
+								<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $row["id_servico"]; ?>" name="detalhes-fina" data-toggle="modal" data-target="#detalhes-pend-modal" onclick="buscarDetalhes(this.id, <?php echo $Prestador->getTipoPessoa() ?>)"> Detalhes </button>
 
 								<!-- leva para pagina de avaliações -->
 								<button type="button" class="btn btn-lg bt-avaliar" id="avaliar-and" name="avaliar-fina" data-toggle="modal" data-target="#modal-avaliar" style="margin-right: 15px; font-weight:bold;"> Avaliar </button>
@@ -322,6 +319,8 @@ include_once ("../controller/PessoaControlador.php");
 					<?php
 						$consulta = "SELECT * FROM diaria_prestador WHERE id_diaria = '".$_GET['id_diaria']."'";
 						$con = $conn -> query($consulta) or die($conn-> error);
+						
+						#$rows = buscarServicosContratante($var_id, 3);
 
 			  			while ($dados_diaria= $con ->fetch_array() ){
 			  		?>
@@ -380,79 +379,93 @@ include_once ("../controller/PessoaControlador.php");
 	     <div class="modal-content modal-color">
 	
 			<div class="modal-header">
-		        <h5 class="modal-title" id="exampleModalLongTitle"> Alterar Solicitação com Rita Prestadora </h5>
+		        <h5 class="modal-title" id="exampleModalLongTitle"> Alterar Solicitação </h5>
 		    
 		    	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		    	    <span style="color: white" aria-hidden="true">&times;</span>
 		        </button>
 		    </div>
 
-		    <form id="editarForm" action="../controller/Servico_Controlador.php?metodo=alterar" method="POST">
+		    <form id="editarForm" action="../controller/Servico_Controlador.php?metodo=atualizar" method="POST">
 		     	<div class="modal-body">
 		        	
 		     		<div class="form-group row">
-						<label for="data-solicitacao" class="col-2 col-form-label">1. Data</label>
+						<label for="data_servico" class="col-2 col-form-label">1. Data</label>
 					 	<div class="col-10">
-					    	<input class="form-control" type="date" value="2020-11-22" id="data-solicitacao" name='data-solicitacao'>
+					    	<input class="form-control" type="date" name="data_servico" value="<?php if(isset($_GET['data_servico']))echo $_GET['data_servico'];?>">
 					  	</div>
 					</div>
+					<div class="form-group row">
+						<label for="hora_entrada" class="col-2 col-form-label">2. Hora Início:</label>
+					 	<div class="col-10">
+					    	<input class="form-control" type="time" name="hora_entrada" value="<?php if(isset($_GET['hora_entrada']))echo $_GET['hora_entrada'];?>" >
+					  	</div>
+					</div>
+					<div class="form-group row">
+						<label for="hora_saida" class="col-2 col-form-label">3. Hora Saída: </label>
+					 	<div class="col-10">
+					    	<input class="form-control" type="time" name="hora_saida"  value="<?php if(isset($_GET['hora_saida']))echo $_GET['hora_saida'];?>">
+					  	</div>
+					</div>
+					<div class="input-group mb-3" size="1" >
 
-					<div class="input-group mb-3">
 						<div class="input-group-prepend">
-							<label for="id_diaria">2. Tipo de Serviço/Diária: &nbsp; </label>
+							<label for="id_diaria">4. Tipo de Serviço/Diária: &nbsp; </label>
 						</div>
 						<select class="custom-select" name="id_diaria">
 							<option name="id_diaria" value="0" selected>Escolha...</option>
 								<?php
 
-									$consulta = "SELECT * FROM diaria_prestador WHERE id_pessoa = $id_prestador ORDER BY descricao_diaria";
-									$con = $conn -> query($consulta) or die($conn-> error);
+								$id_prestador=$_GET['id_prestador'];
+								$rows = buscarDiarias($id_prestador);
 								?>
-
-								<?php while ($diaria_prestador= $con ->fetch_array() ){
+								<?php foreach ($rows as $row){ 
 								?>	
-										<option name="id_diaria" value="<?php echo $diaria_prestador["id_diaria"]; ?>"><?php echo $diaria_prestador["descricao_diaria"]; ?> R$<?php echo $diaria_prestador["valor"]; ?></option>
+										<option name="id_diaria" value="<?php echo $row["id_diaria"]; ?>" <?php if($_GET['id_diaria'] == $row["id_diaria"]){ ?> selected <?php } ?>>
+											<?php echo $row["descricao_diaria"]; ?> R$<?php echo $row["valor"]; ?>
+										</option>
 								<?php
-										}
+									 }
 								?>
 						</select>
 					</div>
-					<input name="id_servico" id="id_servico" size="1" style="visibility: hidden;" value="<?php echo $var_id; ?>">
+					<input name="id_servico" id="id_servico" size="1" style="visibility: hidden;" value="<?php if(isset($_GET['id_servico']))echo $_GET['id_servico']; ?>">
 					<div class="input-group mb-3">
 						<div class="input-group-prepend">
-							<label  for="id_endereco">3. Endereço que ocorrerá o serviço: &nbsp; </label>
+							<label  for="id_endereco">5. Endereço que ocorrerá o serviço: &nbsp; </label>
 						</div>
 						<select class="custom-select" id="id_endereco" name="id_endereco">
 							<option selected>Escolha...</option>
 								<?php
-									$consulta = "SELECT * FROM endereco WHERE id_pessoa = $var_id ORDER BY bairro";
-									$con = $conn -> query($consulta) or die($conn-> error);
+									$rows = buscarTEnd($var_id);
 								?>
 
-								<?php while ($endereco_contr= $con ->fetch_array() ){
+								<?php foreach ($rows as $row){ 
 								?>	
-									<option  name="id_endereco" value="<?php echo $endereco_contr["id_endereco"]; ?>"><?php echo $endereco_contr["bairro"];?> <?php echo $endereco_contr["rua"];?> - <?php echo $endereco_contr["numero"];  ?> </option>
+									<option name="id_endereco" value="<?php echo $row["id_endereco"]; ?>" <?php if($_GET['id_endereco'] == $row["id_endereco"]){ ?> selected <?php } ?>>
+										<?php echo $row["bairro"];?> <?php echo $row["rua"];?> - <?php echo $row["numero"];  ?> 
+									</option>
 								<?php
-										}
+									 }
 								?>
 						</select>
 					</div>
 
 					<div class="input-group mb-3">
 					  	<div class="input-group-prepend">
-					    	<label  for="forma_pagamento"> Forma de Pagamento: &nbsp; </label>
+					    	<label  for="forma_pagamento">6. Forma de Pagamento: &nbsp; </label>
 					  	</div>
-					  	<select class="custom-select" id="forma_pagamento">
-					    	<option selected>Escolha...</option>
-					    	<option value="1" id="forma_pagamento_dinheiro" name="forma_pagamento">Dinheiro</option>
-					    	<option value="2" id="forma_pagamento_cartao" name="forma_pagamento">Cartão</option>
-					    	<option value="3" id="forma_pagamento_boleto" name="forma_pagamento">Boleto</option>
+					  	<select class="custom-select" id="forma_pagamento" name="forma_pagamento">
+					    	<option >Escolha...</option>
+					    	<option value="1" id="forma_pagamento_dinheiro" name="forma_pagamento" <?php if($_GET['forma_pagamento'] == 1){ ?> selected <?php } ?> >Dinheiro</option>
+					    	<option value="2" id="forma_pagamento_cartao" name="forma_pagamento" <?php if($_GET['forma_pagamento'] == 2){ ?> selected <?php } ?>>Cartão</option>
+					    	<option value="3" id="forma_pagamento_boleto" name="forma_pagamento" <?php if($_GET['forma_pagamento'] == 3){ ?> selected <?php } ?>>Boleto</option>
 					  	</select>
 					</div>
 
-		        	<p><b> Visite o perfil aqui: </b> <a href="./perfil-prestador-visao-contratante.html" target="_blank"> Visite o perfil do prestador/ solicitante </a> </p>
+		        	<p><b> Visite o perfil aqui: </b> <a href="./perfil-prestador-visao-contratante.php?id_prestador=<?php echo $id_prestador ?>" target="_blank"> Visite o perfil do prestador/ solicitante </a> </p>
 
-		        	<p style="text-align: center"><button type="submit" class="btn btSalvar" id="salvar-alt-pend" onclick="salvaAlteracoesPend(<?php echo $var_id; ?>)">Salvar</button></p>
+		        	<p style="text-align: center"><button type="submit" class="btn btSalvar" id="salvar-alt-pend">Salvar Alterações</button></p>
 		      	</div>
 	      	</form>
 	    </div>
@@ -518,6 +531,12 @@ include_once ("../controller/PessoaControlador.php");
 		if (window.location.search.substring(0,14) == "?data_servico=") {
 			$('#detalhes-pend-modal').modal('show');
 		}
+		else if (window.location.search.substring(0,14) == "?id_prestador=") {
+			$('#alterar-pend-modal').modal('show');
+		}
+
+	    $('[data-toggle="popover"]').popover({html: true, 
+	    });		
 	});
 
 	$( function() {
@@ -588,16 +607,24 @@ include_once ("../controller/PessoaControlador.php");
 	function buscarDetalhes(id_serv, tipo_pessoa){
 		var id_servico = id_serv.substring(13);
 	
-
-			document.getElementById("form-pend").action= "../controller/Servico_Controlador.php?metodo=buscar&id_servico="+id_servico+"&tipo_pessoa="+tipo_pessoa;
-	 	 	document.getElementById("form-pend").method= "POST";
-		 	document.getElementById("form-pend").submit(); // Form submission
+		document.getElementById("form-pend").action= "../controller/Servico_Controlador.php?metodo=buscar&id_servico="+id_servico+"&tipo_pessoa="+tipo_pessoa;
+		document.getElementById("form-pend").method= "POST";
+		document.getElementById("form-pend").submit(); // Form submission
 	}
+
+	function BuscarIdPrestadorServico(id_serv){
+		var id_servico = id_serv.substring(13);
+		
+		document.getElementById("form-pend").action= "../controller/Servico_Controlador.php?metodo=buscar_id_prestador_servico&id_servico="+id_servico;
+		document.getElementById("form-pend").method= "POST";
+		document.getElementById("form-pend").submit();
+	}
+
 
 	function reprovarServico(id_serv, tipo_pessoa){
 		var id_servico = id_serv.substring(14);
 
-			if (!confirm("Deseja REJEITAR esta solicitação?")) {
+			if (!confirm("Deseja CANCELAR esta solicitação (O cancelamento EXCLUI a solicitação)?")) {
 				return false;
 			}	
 			else{
