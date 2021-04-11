@@ -1,5 +1,26 @@
 <?php
     class ServicoPrestadorDAO{    
+
+		public function buscarDiarias($id_prestador){
+			include ("../controller/login_control/logar_bd_empregadissimas.php");
+
+			$rows = array();
+			$idPrestador = $id_prestador;
+			
+			$sql = "SELECT descricao_diaria, valor, id_diaria FROM diaria_prestador WHERE id_pessoa = '$idPrestador'";  
+
+			$resultado = $conn->query($sql);
+
+			while($row = $resultado->fetch_assoc()){
+				$rows[] = $row;
+			}	
+            
+            echo "row: " . $row . "<br>";
+
+			$conn->close();
+			return $rows;
+		}
+
         public static function insert(Servico_Prestador $dadosServico){
            include ("../controller/login_control/logar_bd_empregadissimas.php");
 

@@ -1,7 +1,11 @@
-<?php include ("../controller/login_control/logar_bd_empregadissimas.php")
-?>
+<?php
 
-<?php include ("../controller/login_control/verifica_login_usuario.php") ?>
+include ("../controller/login_control/logar_bd_empregadissimas.php");
+include ("../controller/login_control/verifica_login_usuario.php");
+include_once ("../controller/EnderecoControlador.php");
+include_once ("../controller/Servico_Prestador_Controller.php");
+include_once ("../controller/PessoaControlador.php");
+?>
 
 <?php $_SESSION['pessoa']['id_pessoa'];
 
@@ -34,17 +38,6 @@ $id_prestador=$_GET["id_prestador"];
 </head>
 <body class="rosa-bg" style="padding:0px">
 
-<!--
-	<nav style="margin-top: ">
-	  <ul>
-	    <li><a href=""> 1. Selecione os dias deseja solicitar </a></li>
-	    <li><a href=""> 2. Selecione o Tipo de Serviço/Diária </a></li>
-	    <li><a href=""> 3. Selecione o Endereço que ocorrerá o serviço </a></li>
-	    <li><a href=""> 4. Selecione a forma de pagamento </a></li>
-	  </ul>
-	</nav>
--->
-
 <div class="alert alert-success alert-dismissible fade show" id="envia-solicitacao-alert"  role="alert">
   <strong>Solicitação Enviada com Sucesso!</strong> Aguarde o retorno do prestador :)
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -58,12 +51,14 @@ $id_prestador=$_GET["id_prestador"];
 			Solicitar Agendamento de Diária  
 			<!--Help da Aplicação -->
 				<button type="button" class="btn bt-detalhes" data-toggle="popover" title=" Como Enviar Solicitação? " data-content="
-																								               1. Selecione o <b>dia</b> que deseja solicitar a diária<br>
-																											   2. Selecione um <b>horário</b> do dia selecionado <br>
-																											   3. Selecione o <b>tipo</b> de Serviço/Diária <br>
-																											   4. Selecione o <b>endereço</b> que ocorrerá o serviço <br>
-																											   5. Selecione a <b>forma de pagamento</b> <br>
-																											   6. Clique no botão 'Enviar Solicitação' "> 
+																								               1. Selecione o <b>dia</b> que deseja solicitar a diária no calendário
+																											   (os dias desabilitados não estão disponíveis para agendamento)<br>
+																											   2. Selecione um <b>horário de entrada</b> do dia selecionado <br>
+																											   3. Selecione um <b>horário de saída</b> do dia selecionado <br>
+																											   4. Selecione o <b>tipo</b> de Serviço/Diária oferecidos <br>
+																											   5. Selecione o <b>qual endereço</b> que ocorrerá o serviço <br>
+																											   6. Selecione a <b>forma de pagamento</b> <br>
+																											   7. Clique no botão 'Enviar Solicitação' "> 
 																											  <i class="fa fa-question-circle"></i> Ajuda </button>
 		</h1>		
 
@@ -79,6 +74,8 @@ $id_prestador=$_GET["id_prestador"];
 
 						$consulta = "SELECT * FROM pessoa WHERE id_pessoa = $id_prestador";
 						$con = $conn -> query($consulta) or die($conn-> error);
+						
+						
 					?>
 
 			  		<?php while ($dados_prestador= $con ->fetch_array() ){
@@ -138,7 +135,7 @@ $id_prestador=$_GET["id_prestador"];
 											    $foto = 'profile.png';
 											}
 										?>
-		                        		<img src="./imagens/<?php echo $foto; ?>" class="rounded img-thumbnail" title="avatar">
+		                        		<img style="width:320px" src="./imagens/<?php echo $foto; ?>" class="rounded img-thumbnail" title="avatar">
 		                        	</div>
 		                        </div>
 		                    </div>
@@ -209,14 +206,12 @@ $id_prestador=$_GET["id_prestador"];
 										  	<select class="custom-select" name="id_diaria">
 										    	<option name="id_diaria" value="0" selected>Escolha...</option>
 													<?php
-
-														$consulta = "SELECT * FROM diaria_prestador WHERE id_pessoa = $id_prestador ORDER BY descricao_diaria";
-														$con = $conn -> query($consulta) or die($conn-> error);
+														$rows = buscarDiarias($id_prestador);
 													?>
 
-											  		<?php while ($diaria_prestador= $con ->fetch_array() ){
+											  		<?php foreach ($rows as $row){ 
 											  		?>	
-					                                        <option name="id_diaria" value="<?php echo $diaria_prestador["id_diaria"]; ?>"><?php echo $diaria_prestador["descricao_diaria"]; ?> R$<?php echo $diaria_prestador["valor"]; ?></option>
+					                                        <option name="id_diaria" value="<?php echo $row['id_diaria']; ?>"><?php echo $row['descricao_diaria']; ?> R$<?php echo $row['valor']; ?></option>
 						                            <?php
 						                                  }
 						                            ?>
@@ -229,13 +224,12 @@ $id_prestador=$_GET["id_prestador"];
 										  	<select class="custom-select" id="id_endereco" name="id_endereco">
 										    	<option selected>Escolha...</option>
 													<?php
-														$consulta = "SELECT * FROM endereco WHERE id_pessoa = $var_id ORDER BY bairro";
-														$con = $conn -> query($consulta) or die($conn-> error);
+														$rows = buscarTEnd($var_id);
 													?>
 
-											  		<?php while ($endereco_contr= $con ->fetch_array() ){
+													<?php foreach ($rows as $row){ 
 											  		?>	
-														<option  name="id_endereco" value="<?php echo $endereco_contr["id_endereco"]; ?>"><?php echo $endereco_contr["bairro"];?> <?php echo $endereco_contr["rua"];?> - <?php echo $endereco_contr["numero"];  ?> </option>
+														<option  name="id_endereco" value="<?php echo $row['id_endereco']; ?>"><?php echo $row['bairro'];?> <?php echo $row['rua'];?> - <?php echo $row['numero'];  ?> </option>
 						                            <?php
 						                                  }
 						                            ?>
@@ -302,10 +296,10 @@ $id_prestador=$_GET["id_prestador"];
 	});
 
 	$(document).ready(function(){
-		 $('#envia-solicitacao-alert').hide();
-
-	    $('[data-toggle="popover"]').popover({html: false
+	    $('[data-toggle="popover"]').popover({html: true, 
 	    });
+
+		 $('#envia-solicitacao-alert').hide();
 
 	});
 

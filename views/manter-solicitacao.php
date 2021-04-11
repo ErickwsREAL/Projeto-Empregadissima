@@ -44,7 +44,18 @@ include_once ("../controller/PessoaControlador.php");
 
     <div class="main">
 		<div class="card-tit">
-			<h2 id="titulo-pag"> Minhas Solicitações </h2>
+			<h2 id="titulo-pag"> Minhas Solicitações 
+				<!--Help da Aplicação -->
+				<button type="button" class="btn bt-detalhes" data-toggle="popover" title=" Minhas Solicitações" data-content="
+																			<b>1. Pendentes: </b>Solicitações que ainda não foram respondidas pelo prestador
+																			(é possivel alterar dados da solicitação em 'Alterar', cancelar a solicitação enviada em 'Cancelar' 
+																			ou visualizar os detalhes dela em 'Detalhes')<br>
+																			<b> 2. Em Andamento: </b>Solicitações ACEITAS pelo prestador, havendo um servico em andamento. 
+																			No dia da prestação do servico no momento que o prestador chegar à residencia é necessário clicar no botão Check-in e avisar que o serviço está ocorrendo,
+																			caso o prestador em questão não chegou é necessário cancelar esse serviço no mesmo botão Check-In, tendo assim a interrupção do pagamento.<br>
+																			<b> 3. Finalizadas: </b> Serviços finalizados, aonde já ocorreu o Check-In.
+																			<i class="fa fa-question-circle"></i> Ajuda </button>
+			</h2>
 		</div>
 
 		<div class="lista-abas animacao-flip">
@@ -389,11 +400,15 @@ include_once ("../controller/PessoaControlador.php");
 
 <div class="item footer"> Copyright @EmpregadíssimaOwners </div>
 
-<script >
+<script>
 	$(document).ready(function(){ 
 		if (window.location.search.substring(0,14) == "?data_servico=") {
 			$('#exampleModalCenter').modal('show');
 		}
+
+	    $('[data-toggle="popover"]').popover({html: true, 
+	    });	
+
 	});
 
 	$( function() {
