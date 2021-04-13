@@ -123,7 +123,7 @@ $_SESSION['administrador']['id_adm']
 				    <!-- fim aba Cadastros Pendentes-->
 
 						<!-- aba 2 - Exclusao de Conta -->
-						<form method="POST" action="../controller/PessoaControlador.php?metodo=AdmDesativarCadastro">
+						<form id="formExcluirIDs">
 							<div id="tabs-2">
 								<div class="cadast-pend">
 				    		    	<h2>Excluir Contas</h2>
@@ -165,7 +165,7 @@ $_SESSION['administrador']['id_adm']
 									<div class="buttons-classe">
 										<p>
 											<!--bootstrap buttons + id-->
-											<button type="submit" name="submit" class="btn btn-lg" id="bt-excluir">Excluir</button>
+											<button onclick="ExcluirCadastros()" class="btn btn-lg" id="bt-excluir">Excluir</button>
 										</p>
 									</div>
 								</div>	
@@ -760,6 +760,19 @@ $_SESSION['administrador']['id_adm']
 	 	  	$( "#dialog-checkbox-nao-checado2" ).dialog( "open" );
 	 	}
 	});
+
+	function ExcluirCadastros(){
+		if (!confirm("Deseja DESATIVAR este(s) cadastro(s)?")) {
+			return false; 
+		}	
+		else{
+	 		document.getElementById("formExcluirIDs").action= "../controller/PessoaControlador.php?metodo=AdmDesativarCadastro"
+			document.getElementById("formExcluirIDs").method= "POST";
+			document.getElementById("formExcluirIDs").submit();
+
+			return true;
+		}
+    }
 
 	$("#person-report").hide();
 	$("#list-tabs").hide();

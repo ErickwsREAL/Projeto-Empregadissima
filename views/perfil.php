@@ -254,10 +254,10 @@ include_once ("../controller/PessoaControlador.php");
 				  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#editarModal" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="buscaInfoPessoa(<?php echo $var_id; ?>, <?php echo $tipo_pessoa; ?>)"><i class="fa fa-cog"></i>&nbsp; Editar Perfil &nbsp;</button>
 				  		<!--<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="abreAdicionarSolicitação()"><i class="fa fa-envelope"></i>&nbsp; Solicitar Serviço &nbsp;</button>-->
 			  		</form>
-				  	<form method="POST" action="../controller/PessoaControlador.php?metodo=Desativar">
-				  		<input name="id_pessoa" value="<?php echo $var_id ?>" style="display: none;">
-				  		<input name="tipo_pessoa" value="<?php echo $tipo_pessoa?>" style="display: none;">
-				  		<button type="submit" class="btn btn-lg btn-block btManter" id="desativarConta" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-trash-o"></i>&nbsp; Desativar Conta &nbsp;</button>
+				  	<form id="desativaForm">
+				  		<input name="id_pessoa" id="id_pessoaDesativa" value="<?php echo $var_id ?>" style="display: none;">
+				  		<input name="tipo_pessoa" id="tipo_pessoaDesativa" value="<?php echo $tipo_pessoa?>" style="display: none;">
+				  		<button type="submit" class="btn btn-lg btn-block btManter" id="desativarConta" onclick="DesativarPessoa()" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-trash-o"></i>&nbsp; Desativar Conta &nbsp;</button>
 				  	</form>
 			  	</div>
 			</div>
@@ -452,6 +452,25 @@ include_once ("../controller/PessoaControlador.php");
 			  document.getElementById("form-lista-servicos").submit(); // Form submission
 
 			  return true;
+			}
+    	}
+
+
+		function DesativarPessoa(){
+			if (!confirm("Deseja EXCLUIR este endereço?")) {
+					return false; 
+			}	
+			else{
+	 			var e = document.getElementById("id_pessoaDesativa");
+				var a = document.getElementById("tipo_pessoaDesativa");
+				var id_pessoa = e.value;
+				var tipo_pessoa = a.value;
+
+	 			 document.getElementById("desativaForm").action= "../controller/PessoaControlador.php?metodo=Desativar&id_pessoa="+id_pessoa+"&tipo_pessoa="+tipo_pessoa;
+			 	 document.getElementById("desativaForm").method= "POST";
+				 document.getElementById("desativaForm").submit();
+
+				 return true;
 			}
     	}
     	/*Fim CRUD Serviços Prestador*/	
