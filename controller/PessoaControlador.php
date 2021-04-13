@@ -11,7 +11,7 @@
 	$Contratante = criarObjetoPC(2, $ContratanteDAO);
 	$Prestador = criarObjetoPC(1, $PrestadorDAO);
 
-	function criarObjetoPC($tipo_pessoa, $usuarioDAO){
+	function criarObjetoPC($tipo_pessoa, $usuarioDAO){//ERICK
 			
 		if ($tipo_pessoa == 2) {
 
@@ -28,7 +28,7 @@
 		}
 	}
 
-	function buscarUsuario($id_pessoa, $tipo_pessoa){
+	function buscarUsuario($id_pessoa, $tipo_pessoa){//ERICK
 	
 		if ($tipo_pessoa == 2) {
 
@@ -54,6 +54,20 @@
 
 	}
 
+	function buscarCadastrosAtivos(){//ERICK
+
+		$ContratanteDAO = new ContratanteDAO();
+		$PrestadorDAO = new PrestadorDAO();
+
+		$Prestadores = $PrestadorDAO->buscarPrestadoresAtivos();
+		$Contratantes = $ContratanteDAO->buscarContratantesAtivos();
+
+		$Usuarios = array_merge($Prestadores, $Contratantes);
+
+		return $Usuarios;
+
+	}
+
 	function buscarPrestadores($busca) {
 		$PrestadorDAO = new PrestadorDAO();
 
@@ -66,7 +80,7 @@
 	if (isset($_GET['metodo'])) {  
 		switch($_GET['metodo']){
 
-			case 'Inserir':
+			case 'Inserir'://ERICK
 				if ($_POST['tipo_pessoa'] == 2) {
 
 					$Contratante->setNome($_POST['nome']);
@@ -108,10 +122,10 @@
 				
 				break;
 		//--------------------------------------------------------------acima cadastro.php, abaixo perfilcontratante.php e perfil.php------------
-			case 'Desativar':
-				if ($_POST['tipo_pessoa'] == 2) {
+			case 'Desativar'://ERICK
+				if ($_GET['tipo_pessoa'] == 2) {
 
-					$Contratante->setID($_POST['id_pessoa']);
+					$Contratante->setID($_GET['id_pessoa']);
 
 					$ContratanteDAO->desativarContratanteDAO($Contratante);
 
@@ -120,11 +134,11 @@
 								
 				}
 
-				if ($_POST['tipo_pessoa'] == 1) {
+				if ($_GET['tipo_pessoa'] == 1) {
 
-					$Prestador->setID($_POST['id_pessoa']);
+					$Prestador->setID($_GET['id_pessoa']);
 
-					$PrestadorDAOb->desativarPrestadorDAO($Prestador);
+					$PrestadorDAO->desativarPrestadorDAO($Prestador);
 						
 					echo '<script>alert("Cadastro desativado! Para reativar contate algum administrador.")</script>';
 					echo '<script>location.href="../views/index.php"</script>';
@@ -133,7 +147,7 @@
 				
 				break;
 
-			case 'Atualizar':
+			case 'Atualizar'://ERICK
 				if ($_GET['tipo_pessoa'] == 2) {
 
 					$Contratante->setID($_GET['id_pessoa']);
@@ -164,6 +178,25 @@
 								
 				}
 
+				break;
+
+			case 'AdmDesativarCadastro'://ERICK
+				
+				if(isset($_POST['checagem'])){
+                
+                	$ids = $_POST['checagem'];
+                	$ContratanteDAO->admDesativarContratantes($ids);
+                	$PrestadorDAO->admDesativarPrestadores($ids);
+                	echo '<script>alert("Cadastro(s) removido(s)!")</script>';
+
+                	echo '<script>location.href="../views/adm-manter-cadastros.php"</script>';
+                
+                }else{
+					
+					echo '<script>alert("Nenhum Cadastro Selecionado!")</script>';
+					echo '<script>location.href="../views/adm-manter-cadastros.php"</script>';	                	
+                }
+				
 				break;
 				
 			case 'ListarPrestadores':

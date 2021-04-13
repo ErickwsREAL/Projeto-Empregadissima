@@ -4,7 +4,7 @@ include_once ("../model/Pessoa.php");
 
 	class PrestadorDAO {
 
-		public function criarprestador(){
+		public function criarprestador(){//ERICK
                   
                   $prestadorF = new prestadorFabricador();
                   $prestador = $prestadorF->criarPessoa();
@@ -12,7 +12,28 @@ include_once ("../model/Pessoa.php");
                   return $prestador;
             }
 
-            public function inserirPrestadorDAO(Prestador $prestador){
+             public function buscarPrestadoresAtivos(){//ERICK
+                  include ("../controller/login_control/logar_bd_empregadissimas.php");      
+                  
+                  $Prestadores = array();
+
+                  $sql = "SELECT id_pessoa, nome, cpf FROM pessoa WHERE tipo_pessoa = '1' AND status_cadastro = '2'";
+
+                  $resultado = $conn->query($sql);
+
+                  while($row = $resultado->fetch_assoc()){
+                        
+                        $Prestadores[] = $row;
+                        
+                  }
+
+                  $conn->close();
+
+                  return $Prestadores;
+
+            }
+
+            public function inserirPrestadorDAO(Prestador $prestador){//ERICK
 		    include ("../controller/login_control/logar_bd_empregadissimas.php");
 			
       		$Nome = $prestador->getNome(); 
@@ -34,7 +55,7 @@ include_once ("../model/Pessoa.php");
                   $conn->close();
 		}
 
-            public function desativarPrestadorDAO(Prestador $prestador){
+            public function desativarPrestadorDAO(Prestador $prestador){//ERICK
                   include ("../controller/login_control/logar_bd_empregadissimas.php");
 
                   $idPrestador = $prestador->getID();
@@ -47,7 +68,7 @@ include_once ("../model/Pessoa.php");
                   
             }
 
-	      public function atualizarPrestadorDAO(Prestador $prestador){
+	      public function atualizarPrestadorDAO(Prestador $prestador){//ERICK
                   include ("../controller/login_control/logar_bd_empregadissimas.php");
 
                   $idPrestador = $prestador->getID();
@@ -64,7 +85,7 @@ include_once ("../model/Pessoa.php");
 
             }     
 
-            public function buscarPrestadorDAO(Prestador $prestador){
+            public function buscarPrestadorDAO(Prestador $prestador){//ERICK
                   include ("../controller/login_control/logar_bd_empregadissimas.php");
                   
                   $idPrestador = $prestador->getID();
@@ -87,6 +108,16 @@ include_once ("../model/Pessoa.php");
                   
                   return $prestador;
 
+            }
+
+            public function admDesativarPrestadores($ids){//ERICK
+                  include ("../controller/login_control/logar_bd_empregadissimas.php");
+                  foreach ($ids as $id) {
+                        
+                        $sql = "UPDATE pessoa SET status_cadastro = '3' WHERE id_pessoa = '$id' AND tipo_pessoa = '1'";
+                        $conn->query($sql);
+                  }
+                  $conn->close();
             }
 
             public function buscarPrestadores($search) {
