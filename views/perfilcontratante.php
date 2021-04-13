@@ -175,7 +175,7 @@ include_once ("../controller/EnderecoControlador.php");
         	<!--modal editar perfil -->
         	<div class="modal fade modal-lg" id="editarModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 			  	<div class="modal-dialog modal-lg">
-			  		<form id="form-altera-pessoa-modal" name="form-altera-pessoa-modal">
+			  		<form id="form-altera-pessoa-modal" name="form-altera-pessoa-modal" method="POST" action="../controller/PessoaControlador.php?metodo=Atualizar">
 				    	<div class="modal-content">
 					      	<div class="modal-header">
 					        	<h5 class="modal-title" id="editarModalTitle">Editar Perfil</h5>
@@ -191,20 +191,23 @@ include_once ("../controller/EnderecoControlador.php");
 									</div>
 					      			<div class="form-group labelPeq">
 										<label for="editarNome">Nome:</label>		
-										<input class="form-control form-control-sm" type="text" name="nome" id="editarNome" placeholder="Novo nome.." maxlength="50" value="<?php echo $Contratante->getNome() ?>">
+										<input class="form-control form-control-sm" type="text" name="nome" id="editarNome" placeholder="Novo nome.." maxlength="50" required value="<?php echo $Contratante->getNome() ?>">
 									</div>
 					      			<div class="form-group labelPeq">
 										<label for="editarTelefone">Telefone:</label>		
-										<input class="form-control form-control-sm" type="tel" name="telefone" id="editarTelefone" placeholder="(00) 98855-7711" minlength="11" value="<?php echo $Contratante->getTelefone() ?>">
+										<input class="form-control form-control-sm" type="tel" name="telefone" id="editarTelefone" placeholder="(00) 98855-7711" minlength="11" required value="<?php echo $Contratante->getTelefone() ?>">
 									</div>
 					      			<div class="form-group labelPeq">
 										<label for="foto">Foto de Perfil:</label>		
 										<input type="file" id="foto" name="foto" value="<?php echo $Contratante->getFoto(); ?>">
-									</div>								
-					      			<button type="submit" class="btn btn-primary buttonEditar" id="buttonEditarPerfil" value="Enviar" data-toggle="tooltip" title="Esse botão é desabilitado se os campos estiverem vazios." onclick="salvar_alteracoes(<?php echo $var_id ?>,<?php echo $tipo_pessoa ?>)"> Salvar Edição </button>
+									</div>	
+									<button type="submit" class="btn btn-primary buttonEditar" id="buttonEditarPerfil" style=""> Salvar Edição </button>
+
+									<input name="id_pessoa" value="<?php echo $var_id ?>" style="visibility: hidden;">
+									<input name="tipo_pessoa"  value="<?php echo $tipo_pessoa ?>" style="visibility: hidden;">							
 					      		</form>
 					      	</div>
-				    	</div	>
+				    	</div>
 				    </form>
 			  	</div>
 			</div>	
@@ -241,11 +244,7 @@ include_once ("../controller/EnderecoControlador.php");
 						    		<button type="button" class="btn btn-dprimary buttonEditar butf" id="buttonEditarEnd"> Editar Selecionado</button>
 						    		<button type="button" class="btn btn-danger butf" onclick="excluir_end();"> Excluir Selecionado </button>
 						    	</form>
-						    </div>	
-						
-						      		
-						      	
-				      			
+						    </div>				
 				      	</div>
 				      
 
@@ -255,25 +254,25 @@ include_once ("../controller/EnderecoControlador.php");
 				      			<form id="formEndereco" method="POST" action="../controller/EnderecoControlador.php?metodo=Atualizar">
 									<div class="form-row">
 	    								<div class="col-md-4">
-	      									<input type="text" class="form-control" placeholder="Bairro" id="bairroUsuárioED" name="bairro" value="">
+	      									<input type="text" class="form-control" placeholder="Bairro" id="bairroUsuárioED" name="bairro" required value="">
 	    								</div>
 	    								<div class="col-md-4">
-	      									<input type="text" class="form-control" placeholder="Rua" id="ruaUsuárioED" name="rua" value="">
+	      									<input type="text" class="form-control" placeholder="Rua" id="ruaUsuárioED" name="rua" required value="">
 	    								</div>
 	  									<div class="col-md-2">
-	  										<input type="number" class="form-control" placeholder="Numero" id="numeroUsuárioED" name="numero" value="">
+	  										<input type="number" class="form-control" placeholder="Numero" id="numeroUsuárioED" name="numero" required value="">
 	  									</div>
 	  								</div>
 	  								<div class="form-row">
 	  									<div class="col-md-4">
-	  										<input type="text" class="form-control" name="complemento" id="complementoUsuárioED" placeholder="Complemento" value="">
+	  										<input type="text" class="form-control" name="complemento" id="complementoUsuárioED" placeholder="Complemento" required value="">
 	  									</div>
 	  									<div class="col-md-2">
-	  										<input type="text" class="form-control" name="cep" placeholder="CEP" id="cepUsuárioED" max="9" value="">
+	  										<input type="text" class="form-control" name="cep" placeholder="CEP" id="cepUsuárioED" max="9" required="" value="">
 	  									</div>
 	  										<input name="id_end" id="id_c" value="" style="visibility: hidden;">
 	  								</div>
-	  								<button type="submit" class="btn btn-primary buttonEditar butf2" id="buttonED" value="Enviar" disabled data-toggle="tooltip" title="Esse botão é desabilitado se os campos estiverem vazios.">Salvar</button>
+	  								<button type="submit" class="btn btn-primary buttonEditar butf2" id="buttonED">Salvar</button>
 	  								<button type="button" class="btn btn-primary buttonEditar butf2" id="buttonCan">Cancelar</button>
 								</form>
 							</div>
@@ -399,7 +398,7 @@ include_once ("../controller/EnderecoControlador.php");
 				$campoCep2.mask('00000-000');
 			
 			//restrição de botão submit editar perfil provisório
-			$('#editarForm input').blur(function(){
+			/*$('#editarForm input').blur(function(){
 			    if(!$(this).val() && !$('#editarForm #editarDescricao').val() && !$('#editarForm #editarNome').val() && !$('#editarForm #editarTelefone').val()) {
 				        $('#buttonEditarPerfil').prop("disabled",true);
 			    }
@@ -421,9 +420,9 @@ include_once ("../controller/EnderecoControlador.php");
 			    if($(this).val() ) {
 			        $('#buttonEditarPerfil').prop("disabled",false);
 			    }
-			});
+			});*/
 			//restrição de botão submit editar endereço provisório	
-			$('#formEndereco #bairroUsuárioED').blur(function(){
+			/*$('#formEndereco #bairroUsuárioED').blur(function(){
 			    if(!$(this).val() && !$('#formEndereco #ruaUsuárioED').val() && !$('#formEndereco #numeroUsuárioED').val() && !$('#formEndereco #cepUsuárioED').val() && !$('#formEndereco #complementoUsuárioED').val()) {
 			        $('#buttonED').prop("disabled",true);
 			    } else {
@@ -462,7 +461,7 @@ include_once ("../controller/EnderecoControlador.php");
 			    } else {
 			    	$('#buttonED').prop("disabled",false);
 			    }
-			});
+			});*/
 			
 			function DesativarPessoa(){
 				if (!confirm("Deseja EXCLUIR este cadastro?")) {
@@ -501,10 +500,10 @@ include_once ("../controller/EnderecoControlador.php");
     		}
 
     	/*salva alterações do usuário -> foto, detalhes, telefone etc*/
-    	function salvar_alteracoes(id_pessoa, tipo_pessoa){
+    	/*function salvar_alteracoes(id_pessoa, tipo_pessoa){
  			document.getElementById("form-altera-pessoa-modal").action= "../controller/PessoaControlador.php?metodo=Atualizar&id_pessoa="+id_pessoa+"&tipo_pessoa="+tipo_pessoa;
 		 	document.getElementById("form-altera-pessoa-modal").method= "POST";
 			document.getElementById("form-altera-pessoa-modal").submit(); // Form submission
-    	}					
+    	}*/					
 	</script>
 </html>

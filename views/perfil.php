@@ -251,7 +251,7 @@ include_once ("../controller/PessoaControlador.php");
 			  		<form name="form-altera-pessoa" id="form-altera-pessoa">
 				  		 <a class="nav-link btn btn-lg btn-block btManter" href="./visao-prestador.php" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-calendar"></i>&nbsp; Agenda &nbsp;</a>
 				  		<!--<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-calendar"></i>&nbsp; Agenda &nbsp;</button>-->
-				  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#editarModal" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="buscaInfoPessoa(<?php echo $var_id; ?>, <?php echo $tipo_pessoa; ?>)"><i class="fa fa-cog"></i>&nbsp; Editar Perfil &nbsp;</button>
+				  		<button type="button" class="btn btn-lg btn-block btManter" data-toggle="modal" data-target="#editarModal" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-cog"></i>&nbsp; Editar Perfil &nbsp;</button>
 				  		<!--<button type="button" class="btn btn-lg btn-block btManter" style="margin:0px;margin-top: 50px;margin-right:0px;" onclick="abreAdicionarSolicitação()"><i class="fa fa-envelope"></i>&nbsp; Solicitar Serviço &nbsp;</button>-->
 			  		</form>
 				  	<form id="desativaForm">
@@ -266,12 +266,10 @@ include_once ("../controller/PessoaControlador.php");
         	<!--editarPerfil -->
         	<div class="modal fade modal-lg" id="editarModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 			  	<div class="modal-dialog modal-lg">
-			  		<form id="form-altera-pessoa-modal" name="form-altera-pessoa-modal">
+			  		<form id="form-altera-pessoa-modal" name="form-altera-pessoa-modal" method="POST" action="../controller/PessoaControlador.php?metodo=Atualizar">
 			    	<div class="modal-content">
 				      	<div class="modal-header">
-				        	
 				        	<h5 class="modal-title" id="editarModalTitle">Editar Perfil</h5>
-
 				        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				          	<span aria-hidden="true">&times;</span>
 				        	</button>
@@ -284,17 +282,20 @@ include_once ("../controller/PessoaControlador.php");
 								</div>
 				      			<div class="form-group labelPeq">
 									<label for="editarNome">Nome:</label>		
-									<input class="form-control form-control-sm" type="text" name="nome" id="editarNome" placeholder="Novo nome.." maxlength="50" value="<?php echo $Prestador->getNome(); ?>">
+									<input class="form-control form-control-sm" type="text" name="nome" id="editarNome" placeholder="Novo nome.." maxlength="50" required value="<?php echo $Prestador->getNome(); ?>">
 								</div>
 				      			<div class="form-group labelPeq">
 									<label for="editarTelefone">Telefone:</label>		
-									<input class="form-control form-control-sm" type="tel" name="telefone" id="editarTelefone"  placeholder="(00) 98855-7711" minlength="11" value="<?php echo $Prestador->getTelefone(); ?>">
+									<input class="form-control form-control-sm" type="tel" name="telefone" id="editarTelefone"  placeholder="(00) 98855-7711" minlength="11" required value="<?php echo $Prestador->getTelefone(); ?>">
 								</div>
 				      			<div class="form-group labelPeq">
 									<label for="foto">Foto de Perfil:</label>		
 									<input type="file" id="foto" name="foto" value="<?php echo $Prestador->getFoto(); ?>">
 								</div>							
-				      			<button type="button" class="btn btn-primary buttonEditar" id="buttonEditarPerfil" value="Enviar" data-toggle="tooltip" title="Esse botão é desabilitado se os campos estiverem vazios." onclick="salvar_alteracoes(<?php echo $var_id; ?>,<?php echo $tipo_pessoa; ?>)"> Salvar Edição </button>
+				      			<button type="submit" class="btn btn-primary buttonEditar" id="buttonEditarPerfil"> Salvar Edição </button>
+				      			
+				      			<input name="id_pessoa" value="<?php echo $var_id ?>" style="visibility: hidden;">
+								<input name="tipo_pessoa"  value="<?php echo $tipo_pessoa ?>" style="visibility: hidden;">	
 				      		</form>
 				      	</div>
 			    	</div>
@@ -360,16 +361,12 @@ include_once ("../controller/PessoaControlador.php");
 				//document.getElementById("salvar-service").style.width = "0px";
 				//document.getElementById("salvar-service").style.height = "1px";
 			});
-
-			$( "#desativarConta" ).on( "click", function() {
-		    	$( "#caixa" ).dialog( "open" );
-			});
 			
 			$(".bt-excluir-servico").on( "click", function() {
 		    	$( "#caixa-excluir-servico" ).dialog( "open" );
 			});
 
-			$('#editarForm input').blur(function(){
+			/*$('#editarForm input').blur(function(){
 			    if(!$(this).val() && !$('#editarForm #editarDescricao').val() && !$('#editarForm #editarNome').val() && !$('#editarForm #editarTelefone').val()) {
 			        $('#buttonEditarPerfil').prop("disabled",true);
 			    }
@@ -391,7 +388,7 @@ include_once ("../controller/PessoaControlador.php");
 			    if($(this).val() ) {
 			        $('#buttonEditarPerfil').prop("disabled",false);
 			    }
-			});	
+			});*/	
 
 			var $campoTel = $("#editarTelefone");
 			$campoTel.mask('(00) 00000-0000');
@@ -476,10 +473,10 @@ include_once ("../controller/PessoaControlador.php");
     	/*Fim CRUD Serviços Prestador*/	
 
     	/*salva alterações do usuário -> foto, detalhes, telefone etc*/
-    	function salvar_alteracoes(id_pessoa, tipo_pessoa){
+    	/*function salvar_alteracoes(id_pessoa, tipo_pessoa){
  		 	document.getElementById("form-altera-pessoa-modal").action= "../controller/PessoaControlador.php?metodo=Atualizar&id_pessoa="+id_pessoa+"&tipo_pessoa="+tipo_pessoa;
 		 	document.getElementById("form-altera-pessoa-modal").method= "POST";
 			document.getElementById("form-altera-pessoa-modal").submit(); // Form submission
-    	}
+    	}*/
 	</script>
 </html>
