@@ -148,9 +148,9 @@
 				break;
 
 			case 'Atualizar'://ERICK
-				if ($_GET['tipo_pessoa'] == 2) {
+				if ($_POST['tipo_pessoa'] == 2) {
 
-					$Contratante->setID($_GET['id_pessoa']);
+					$Contratante->setID($_POST['id_pessoa']);
 					$Contratante->setDescricao($_POST['descricao']);
 					$Contratante->setNome($_POST['nome']);
 					$Contratante->setTelefone($_POST['telefone']);
@@ -163,9 +163,9 @@
 								
 				}
 
-				if ($_GET['tipo_pessoa'] == 1) {
+				if ($_POST['tipo_pessoa'] == 1) {
 
-					$Prestador->setID($_GET['id_pessoa']);
+					$Prestador->setID($_POST['id_pessoa']);
 					$Prestador->setDescricao($_POST['descricao']);
 					$Prestador->setNome($_POST['nome']);
 					$Prestador->setTelefone($_POST['telefone']);

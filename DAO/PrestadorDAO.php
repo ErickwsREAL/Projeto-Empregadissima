@@ -1,15 +1,17 @@
 <?php
 	
 include_once ("../model/Pessoa.php");
+include_once ("../model/PessoaFabricador.php");
+
 
 	class PrestadorDAO {
 
-		public function criarprestador(){//ERICK
+		public function criarPrestador(){//ERICK
                   
-                  $prestadorF = new prestadorFabricador();
-                  $prestador = $prestadorF->criarPessoa();
+                  $PrestadorF = new PrestadorFabricador();
+                  $Prestador = $PrestadorF->criarPessoa();
 
-                  return $prestador;
+                  return $Prestador;
             }
 
              public function buscarPrestadoresAtivos(){//ERICK
