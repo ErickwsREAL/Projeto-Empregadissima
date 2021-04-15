@@ -135,7 +135,10 @@ include_once ("../controller/PessoaControlador.php");
 
 				<div id="tabs-2">
 				<?php
-						$rows = buscarServicosPrestador($var_id, 2);
+						$rows1 = buscarServicosPrestador($var_id, 2);
+						$rows2 = buscarServicosPrestador($var_id, 3);
+
+						$rows = array_merge($rows1, $rows2);
 
 						foreach ($rows as $row){ 
 
@@ -168,21 +171,24 @@ include_once ("../controller/PessoaControlador.php");
 									<p><b> Dia:</b> <?php echo $row["data_servico"]; ?></p> 
 									<p><b> Hora Entrada (Previsão): </b> <?php echo $row["hora_entrada"]; ?> - <b> Hora Saída (Previsão): </b> <?php echo $row["hora_saida"]; ?> 
 									</p>
-									<p><b> Status: </b> <?php if (isset($_GET['status_servico'])) {
-																		echo $_GET['status_servico'];
-																	}else {
-																		echo "Aguardando inicio do serviço";
-																	} 
-
-															?></p> 									
+									<p><b> Status: </b> <?php if ($row["status_servico"] == 2 and $row["check_inP"] == 0) {
+																		echo "Aguardando o Check-in";
+																	}
+																	if ($row["status_servico"] == 2 and $row["check_inP"] == 1) {
+																		echo "Aguardando Check-in do Contratante";
+																	}
+																	if ($row["status_servico"] == 3 ) {
+																		echo "Serviço Iniciado";
+																	}  
+															?></p>							
 									</div>
 								</div>
 								<!-- -->
 
 								<!--bootstrap buttons + classe-->
-								<button type="button" class="btn btn-lg bt-detalhes btn-check" id="check-out" data-toggle="modal" data-target="#checkoutModal" disabled>Check-out</button>
+								<button type="button" class="btn btn-lg bt-detalhes btn-check" id="check-out-<?php echo $row["id_servico"]; ?>" data-toggle="modal" data-target="#checkoutModal" disabled>Check-out</button>
 								
-								<button type="button" class="btn btn-lg bt-detalhes btn-check" id="check-in" data-toggle="modal" data-target="#checkinModal" onclick="enviarID_Tipo(<?php echo $row["id_servico"]?> , <?php echo $tipo_pessoa ?>)">Check-in</button>
+								<button type="button" class="btn btn-lg bt-detalhes btn-check" id="check-in-<?php echo $row["id_servico"]; ?>" data-toggle="modal" data-target="#checkinModal" onclick="enviarID_Tipo(<?php echo $row["id_servico"]?> , <?php echo $tipo_pessoa ?>)">Check-in</button>
 								
 								<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $row["id_servico"]; ?>" name="detalhe-pend" onclick="buscarDetalhes(this.id, <?php echo $Contratante->getTipoPessoa(); ?>)" data-toggle="modal" data-target="#exampleModalCenter">Detalhes</button>
 							</p>
@@ -427,23 +433,43 @@ include_once ("../controller/PessoaControlador.php");
 	});
 
 //---------------------------------------------------------------------
+	
+
 	var globalIDservico;
 	var globaltipo_pessoa;
 
-	function enviarID_Tipo(id_servicotab, tipo_pessoatab) {
+	function enviarID_Tipo(id_servicotab, tipo_pessoatab) {//ERICK
 		globalIDservico = id_servicotab;
 		globaltipo_pessoa = tipo_pessoatab;
 		
 		console.log(globalIDservico, globaltipo_pessoa);
 	}
 
-	function fazCheckin(){
+	function fazCheckin(){//ERICK
 
-		document.getElementById("checkinForm").action= "../controller/Servico_Controlador.php?metodo=fazerCheckin&id_servico="+globalIDservico+"&tipo_pessoa="+globaltipo_pessoa;
+		var radioCheckin = $('input[name="check-in"]:checked').val();
+
+		if (radioCheckin == "cancelado") {
+			
+			if (!confirm("Deseja realmente cancelar o serviço? Está ação resulta no não pagamento do serviço.")) {
+				return false;
+			}
+		}
+
+		if (radioCheckin == null) {
+			
+			alert("Nenhuma opção selecionada!");
+			return false;		
+		}
+
+		document.getElementById("checkinForm").action= "../controller/Servico_Controlador.php?metodo=fazerCheckin&id_servicoCheckin="+globalIDservico+"&tipo_pessoaCheckin="+globaltipo_pessoa;
 		document.getElementById("checkinForm").method= "POST";
 		document.getElementById("checkinForm").submit();
 	}
 
+
+
+//-----------------------------------------------------------------------------
 	function aprovarServico(id_serv){
 		var id_servico = id_serv.substring(13);
 
