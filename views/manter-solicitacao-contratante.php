@@ -71,7 +71,7 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 																					No dia da prestação do servico no momento que o prestador chegar à residencia é necessário clicar no botão Check-in e avisar que o serviço está ocorrendo,
 																					caso o prestador em questão não chegou é necessário cancelar esse serviço no mesmo botão Check-In, tendo assim a interrupção do pagamento.<br>
 																					<b> 3. Finalizadas: </b> Serviços finalizados, aonde já ocorreu o Check-In.
-																					<i class="fa fa-question-circle"></i> Ajuda </button>
+																					<i class="fa fa-question-circle></i> Ajuda </button>
 			</h2>
 		</div>
 
@@ -89,6 +89,7 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 
 						<?php
 							$var_id = $_SESSION['pessoa']['id_pessoa'];
+							$tipo_pessoa = $_SESSION['pessoa']['tipo_pessoa'];
 							$rows = buscarServicosContratante($var_id, 1); #Solicitações Pendentes
 						?>
 
@@ -178,13 +179,23 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 										<p><b> Dia: </b> <?php echo $row["data_servico"]; ?></p> 
 										<p><b> Hora Entrada (Previsão): </b> <?php echo $row["hora_entrada"]; ?> - <b> Hora Saída (Previsão): </b> <?php echo $row["hora_saida"]; ?>
 										</p>
+										<p><b> Status: </b> <?php if (isset($_GET["status_servico"])) {
+																		echo $_GET["status_servico"];
+																	}else {
+																		echo "Aguardando inicio do serviço";
+																	} 
+
+															?></p>
 									</div>
 								</div>
 								<!-- -->
 
 								<!--bootstrap buttons + classe-->
 							<p>	
-								<button type="button" class="btn btn-lg bt-detalhes btn-check" id="check-in" data-toggle="modal" data-target="#checkinModal">Check-in</button>
+								<button type="button" class="btn btn-lg bt-detalhes btn-check" id="check-out" data-toggle="modal" data-target="#checkoutModal" disabled>Check-out</button>
+								
+								<button type="button" class="btn btn-lg bt-detalhes btn-check" id="check-in" data-toggle="modal" data-target="#checkinModal" onclick="enviarID_Tipo(<?php echo $row["id_servico"]?> , <?php echo $tipo_pessoa ?>)">Check-in</button>
+								
 								<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $row["id_servico"]; ?>" name="detalhe-and" data-toggle="modal" data-target="#detalhes-pend-modal" onclick="buscarDetalhes(this.id, <?php echo $Prestador->getTipoPessoa() ?>) ">Detalhes</button>
 							</p>
 						</div>
@@ -197,7 +208,7 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 
 				<div id="tabs-3">
 					<?php
-						$rows = buscarServicosContratante($var_id, 3);
+						$rows = buscarServicosContratante($var_id, 4);
 
 						foreach ($rows as $row){ 
 
@@ -368,10 +379,6 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 	  </div>
 	</div>
 
-	<div id="dialog-cancelar" title="Alerta">
-	  <p> Deseja realmente <b>cancelar</b> o serviço?<br> O cancelamento implica no não pagamento ao prestador. </p>
-	</div>	
-
 	<!--Altera a Dados da solicitação -->
 	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="alterar-pend-modal" id="alterar-pend-modal" aria-hidden="true">
 	  <div class="modal-dialog modal-lg">
@@ -483,14 +490,14 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 			</button>
 		</div>
 		<div class="modal-body" id="editarBody">
-			<form>
+			<form id="checkinForm">
 			    <div class="form-check form-check-inline">
 					<input class="form-check-input" type="radio" name="check-in" id="iniciarServiço" value="iniciado">
 					<label class="form-check-label" for="iniciarServiço">Iniciar Serviço</label>
 					<input class="form-check-input" type="radio" name="check-in" id="cancelarServiço" value="cancelado">
 					<label class="form-check-label" for=cancelarServiço>Cancelar Check-in</label>
 				</div>
-			    <br><button type="submit" class="btn btn-primary" id="buttonCheckin" value="Enviar"> Confirmar </button>
+			    <br><button type="button" class="btn btn-primary" id="buttonCheckin" onclick="fazCheckin()"> Confirmar </button>
 			</form>
 		</div>
 		</div>
@@ -507,14 +514,14 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 			</button>
 		</div>
 		<div class="modal-body" id="editarBody">
-			<form>
+			<form id="checkoutForm">
 			    <div class="form-check form-check-inline">
 					<input class="form-check-input" type="radio" name="check-out" id="finalizarServiço" value="finalizado">
 					<label class="form-check-label" for="finalizarServiço">Finalizar Serviço</label>
 					<input class="form-check-input" type="radio" name="check-out" id="cancelarServiçout" value="cancelado">
 					<label class="form-check-label" for="cancelarServiçout">Cancelar Check-out</label>
 				</div>
-			    <br><button type="submit" class="btn btn-primary" id="buttonCheckin" value="Enviar"> Confirmar </button>
+			    <br><button type="button" class="btn btn-primary" id="buttonCheckout" value="Enviar"> Confirmar </button>
 			</form>
 		</div>
 		</div>
@@ -528,6 +535,7 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 <script >
 
 	$(document).ready(function(){ 
+
 		if (window.location.search.substring(0,14) == "?data_servico=") {
 			$('#detalhes-pend-modal').modal('show');
 		}
@@ -549,60 +557,27 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 
 	$('#detalhes-pend-modal').on('shown.bs.modal', function () {
   		$('#myInput').trigger('focus')
-	})	
+	});	
 
-	$( "#cancelarServiço" ).on( "click", function() {
-	    if($('#cancelarServiço').is(':checked')){
-       		$( "#dialog-cancelar" ).dialog( "open" );
-       		$('#checkinModal').modal('hide');
-       	}
-	    
-	});
+//------------------------------------------------------------------------------	
 
-	$( "#cancelarServiçout" ).on( "click", function() {
-	    if($('#cancelarServiçout').is(':checked')){
-       		$( "#dialog-cancelar" ).dialog( "open" );
-       		$('#checkoutModal').modal('hide');
-       	}
-	    
-	});
+//---------------------------------------------------------------------------------
+	var globalIDservico;
+	var globaltipo_pessoa;
 
-	$("#dialog-cancelar").dialog({
-		autoOpen: false,
-		modal: true,
-		resizable: false,
-		draggable: false,
-		height: "auto",
-		width: 350,
-		buttons: {
-	        "Sim": function() {
-	        	if($('#cancelarServiçout').is(':checked')){
-	          		$('#checkoutModal').modal('show');
-	          		$( this ).dialog( "close" );
-	        	}
+	function enviarID_Tipo(id_servicotab, tipo_pessoatab) {
+		globalIDservico = id_servicotab;
+		globaltipo_pessoa = tipo_pessoatab;
+		
+		console.log(globalIDservico, globaltipo_pessoa);
+	}
+	
+	function fazCheckin(){
 
-	        	if($('#cancelarServiço').is(':checked')){
-	          		$('#checkinModal').modal('show');
-	          		$( this ).dialog( "close" );	
-	        	}
-	        		 
-	        },
-	        "Não": function() {
-	          	if($('#cancelarServiçout').is(':checked')){
-	          		$( this ).dialog( "close" );
-	          		$('#checkoutModal').modal('show');
-	          		$( '#cancelarServiçout' ).prop("checked", false);		
-	        	}
-				
-				
-	          	if($('#cancelarServiço').is(':checked')){
-	          		$( this ).dialog( "close" );
-	          		$('#checkinModal').modal('show');
-	          		$( '#cancelarServiço' ).prop("checked", false);		
-	        	}
-	        }
-      	}
-	});
+		document.getElementById("checkinForm").action= "../controller/Servico_Controlador.php?metodo=fazerCheckin&id_servico="+globalIDservico+"&tipo_pessoa="+globaltipo_pessoa;
+		document.getElementById("checkinForm").method= "POST";
+		document.getElementById("checkinForm").submit();
+	}
 
 	function buscarDetalhes(id_serv, tipo_pessoa){
 		var id_servico = id_serv.substring(13);

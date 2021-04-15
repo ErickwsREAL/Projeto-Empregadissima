@@ -4,7 +4,6 @@
     require_once ('../model/Servico.php');
     require_once ('../DAO/ServicoDAO.php');   
 
-
 	function buscarServicosContratante($id_contratante, $status){
 
 		$servico = new ServicoDAO();
