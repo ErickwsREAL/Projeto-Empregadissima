@@ -4,7 +4,7 @@
     require_once ('../model/Servico.php');
     require_once ('../DAO/ServicoDAO.php');   
 
-	function buscarServicosContratante($id_contratante, $status){
+    function buscarServicosContratante($id_contratante, $status){
 
 		$servico = new ServicoDAO();
 		$rows = $servico->buscarServicos($id_contratante, $status, "C");
@@ -39,9 +39,11 @@
 
                 if ($check == 2) {
                     echo '<script>alert("Seu cadastro não foi efetuado! Tente novamente.")</script>';
-                }
+                    echo '<script>location.href="../views/manter-solicitacao-contratante.php"</script>';
+                }else{
                 echo '<script>alert("Solicitação de Serviço enviada com sucesso!")</script>';
                 echo '<script>location.href="../views/manter-solicitacao-contratante.php"</script>';
+                }
                 break;
             case 'deletar':
 
@@ -123,6 +125,24 @@
                     echo '<script>location.href="../views/manter-solicitacao-contratante.php?id_prestador='.$valores['id_prestador'].'&data_servico='.$valores['data_servico'].'&id_endereco='.$valores['id_endereco'].'&forma_pagamento='.$valores['forma_pagamento'].'&id_diaria='.$valores['id_diaria'].'&hora_entrada='.$valores['hora_entrada'].'&hora_saida='.$valores['hora_saida'].'&id_servico='.$valores['id_servico'].'"</script>';
 
                 break; 
+            
+            
+            case 'fazerCheckin'://ERICK      
+                $tipo_pessoaCheckin = $_GET['tipo_pessoaCheckin'];
+                $id_servicoCheckin = $_GET['id_servicoCheckin'];
+
+                if ($_POST['check-in'] == "iniciado") {
+        
+
+                }
+
+                if ($_POST['check-in'] == "cancelado") {
+                    
+                    
+                }
+
+                break;
+
         }
     }
 ?>
