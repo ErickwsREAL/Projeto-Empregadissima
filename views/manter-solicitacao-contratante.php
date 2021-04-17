@@ -199,9 +199,9 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 
 								<!--bootstrap buttons + classe-->
 							<p>	
-								<button type="button" class="btn btn-lg bt-detalhes btn-check" id="check-out-<?php echo $row["id_servico"]; ?>" data-toggle="modal" data-target="#checkoutModal" disabled>Check-out</button>
+								<button type="button" style="margin-left: 10px" class="btn btn-lg bt-detalhes btn-check" id="check-out-<?php echo $row["id_servico"]; ?>" data-toggle="modal" data-target="#checkoutModal" disabled>Check-out</button>
 								
-								<button type="button" class="btn btn-lg bt-detalhes btn-check" id="check-in-<?php echo $row["id_servico"]; ?>" data-toggle="modal" data-target="#checkinModal" onclick="enviarID_Tipo(<?php echo $row["id_servico"]?> , <?php echo $tipo_pessoa ?>)">Check-in</button>
+								<button type="button" style="margin-left: 10px" class="btn btn-lg bt-detalhes btn-check" id="check-in-<?php echo $row["id_servico"]; ?>" data-toggle="modal" data-target="#checkinModal" onclick="enviarID_Tipo(<?php echo $row["id_servico"]?> , <?php echo $tipo_pessoa ?>)">Check-in</button>
 								
 								<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $row["id_servico"]; ?>" name="detalhe-and" data-toggle="modal" data-target="#detalhes-pend-modal" onclick="buscarDetalhes(this.id, <?php echo $Prestador->getTipoPessoa() ?>) ">Detalhes</button>
 							</p>
@@ -542,7 +542,26 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 <script >
 
 	$(document).ready(function(){ 
+		//localStorage.removeItem("buttonID");
+		//localStorage.removeItem("check-inStorage"); ----Não retirar essas 3 funções
+		//localStorage.removeItem("check-outStorage");
+		
+		if (localStorage.getItem("check-inStorage") == "true") {//ERICK
+			
+			var auxButton =  localStorage.getItem("buttonID");
+			$("#check-in-"+auxButton).prop('disabled', true);
+			$("#check-out-"+auxButton).prop('disabled', false);
+		
+		}
 
+		if (localStorage.getItem("check-outStorage") == "true") {//ERICK
+			
+			var auxButton =  localStorage.getItem("buttonID");
+			$("#check-in-"+auxButton).prop('disabled', true);
+			$("#check-out-"+auxButton).prop('disabled', true);
+		
+		}
+		
 		if (window.location.search.substring(0,14) == "?data_servico=") {
 			$('#detalhes-pend-modal').modal('show');
 		}
@@ -570,15 +589,13 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 
 //---------------------------------------------------------------------------------
 	
-
 	var globalIDservico;
 	var globaltipo_pessoa;
 
 	function enviarID_Tipo(id_servicotab, tipo_pessoatab) {//ERICK
 		globalIDservico = id_servicotab;
 		globaltipo_pessoa = tipo_pessoatab;
-		
-		console.log(globalIDservico, globaltipo_pessoa);
+		//console.log(globalIDservico, globaltipo_pessoa, localStorage.getItem("buttonID"));
 	}
 	
 	function fazCheckin(){//ERICK
@@ -589,6 +606,13 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 			
 			if (!confirm("Deseja realmente cancelar o serviço? Está ação resulta no não pagamento do serviço.")) {
 				return false;
+			}else{
+				
+				document.getElementById("checkinForm").action= "../controller/Servico_Controlador.php?metodo=fazerCheckin&id_servicoCheckin="+globalIDservico+"&tipo_pessoaCheckin="+globaltipo_pessoa;
+				document.getElementById("checkinForm").method= "POST";
+				document.getElementById("checkinForm").submit();
+			
+				return true;
 			}
 		}
 		
@@ -601,7 +625,10 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 		document.getElementById("checkinForm").action= "../controller/Servico_Controlador.php?metodo=fazerCheckin&id_servicoCheckin="+globalIDservico+"&tipo_pessoaCheckin="+globaltipo_pessoa;
 		document.getElementById("checkinForm").method= "POST";
 		document.getElementById("checkinForm").submit();
-
+		
+		localStorage.setItem("buttonID", globalIDservico);
+		localStorage.setItem("check-inStorage", "true");
+		localStorage.removeItem("check-outStorage");
 	}
 
 

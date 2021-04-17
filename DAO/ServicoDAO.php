@@ -1,6 +1,103 @@
 <?php
     class ServicoDAO{    
 
+        public function fazerCheckinDAO($id_servico, $tipo_pessoa){
+          include ("../controller/login_control/logar_bd_empregadissimas.php");
+
+          if ($tipo_pessoa == 1) {
+            
+            $sqlP = "SELECT check_inC FROM servico WHERE id_servico = '$id_servico'";
+
+            $resultadoP = $conn->query($sqlP);
+            $rowP = $resultadoP->fetch_assoc();
+            
+
+            if ($rowP["check_inC"] == 0) {
+              
+              $sql = "UPDATE servico SET check_inP = 1 WHERE id_servico = '$id_servico'";   
+            
+              $checkB = $conn->query($sql);
+
+              if ($checkB == false) {
+                $conn->close();
+                
+                return false;
+              }
+              
+              $conn->close();
+
+              return true;
+
+            }else {
+
+              $sql = "UPDATE servico SET check_inP = 1, status_servico = 3 WHERE id_servico = '$id_servico'";
+
+              $checkB = $conn->query($sql);
+
+              if ($checkB == false) {
+                $conn->close();
+                
+                return false;
+              }
+              
+              $conn->close();
+
+              return true;
+            }
+           
+          }
+
+
+          if ($tipo_pessoa == 2) {
+            
+            $sqlC = "SELECT check_inP FROM servico WHERE id_servico = '$id_servico'";
+
+            $resultadoC = $conn->query($sqlC);
+            $rowC = $resultadoC->fetch_assoc();
+            
+
+            if ($rowC["check_inP"] == 0) {
+              
+              $sql = "UPDATE servico SET check_inC = 1 WHERE id_servico = '$id_servico'";   
+            
+              $checkB = $conn->query($sql);
+
+              if ($checkB == false) {
+                $conn->close();
+                
+                return false;
+              }
+              
+              $conn->close();
+
+              return true;
+
+            }else {
+
+              $sql = "UPDATE servico SET check_inC = 1, status_servico = 3 WHERE id_servico = '$id_servico'";
+
+              $checkB = $conn->query($sql);
+
+              if ($checkB == false) {
+                $conn->close();
+                
+                return false;
+              }
+              
+              $conn->close();
+
+              return true;
+            }
+           
+          }
+
+        }
+
+        public function cancelarCheckin_out($id_servico, $tipo_pessoa){
+
+        }
+
+
         public function buscarServicos($id_pessoa, $status, $tipo){
           include ("../controller/login_control/logar_bd_empregadissimas.php");
     
