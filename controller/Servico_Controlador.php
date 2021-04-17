@@ -4,6 +4,8 @@
     require_once ('../model/Servico.php');
     require_once ('../DAO/ServicoDAO.php');   
 
+    
+
     function buscarServicosContratante($id_contratante, $status){
 
 		$servico = new ServicoDAO();
@@ -130,15 +132,46 @@
             case 'fazerCheckin'://ERICK      
                 $tipo_pessoaCheckin = $_GET['tipo_pessoaCheckin'];
                 $id_servicoCheckin = $_GET['id_servicoCheckin'];
+                $servicoDAO = new ServicoDAO();
 
                 if ($_POST['check-in'] == "iniciado") {
-        
+                    
+                    $checkBD = $servicoDAO->fazerCheckinDAO($id_servicoCheckin, $tipo_pessoaCheckin);
+
+                    if ($tipo_pessoaCheckin == 1 and $checkBD == true) {
+                        
+                        echo '<script>alert("Check-in foi realizado com sucesso.")</script>';
+                        echo '<script>location.href="../views/manter-solicitacao.php#tabs-2"</script>';
+                            
+                    }
+
+                    if ($tipo_pessoaCheckin == 1 and $checkBD == false) {
+                        
+                        echo '<script>alert("Check-in não foi realizado com sucesso. Tente novamente.")</script>';
+                        echo '<script>location.href="../views/manter-solicitacao.php#tabs-2"</script>';
+                                               
+                    }
+
+
+                    if ($tipo_pessoaCheckin == 2 and $checkBD == true) {
+                        
+                        echo '<script>alert("Check-in foi realizado com sucesso.")</script>';
+                        echo '<script>location.href="../views/manter-solicitacao-contratante.php#tabs-2"</script>';       
+                       
+                    }
+
+                    if ($tipo_pessoaCheckin == 2 and $checkBD == false) {
+                        
+                        echo '<script>alert("Check-in não foi realizado com sucesso. Tente novamente.")</script>';
+                        echo '<script>location.href="../views/manter-solicitacao-contratante.php#tabs-2"</script>';                        
+                   
+                    }
 
                 }
 
                 if ($_POST['check-in'] == "cancelado") {
-                    
-                    
+                   
+                   
                 }
 
                 break;
