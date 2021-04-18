@@ -1,7 +1,7 @@
 <?php
     class ServicoDAO{    
 
-        public function fazerCheckinDAO($id_servico, $tipo_pessoa){
+        public function fazerCheckinDAO($id_servico, $tipo_pessoa){//ERICK
           include ("../controller/login_control/logar_bd_empregadissimas.php");
 
           if ($tipo_pessoa == 1) {
@@ -93,11 +93,121 @@
 
         }
 
-        public function cancelarCheckin_out($id_servico, $tipo_pessoa){
+        public function cancelarCheckin_out($id_servico){//ERICK
+          include ("../controller/login_control/logar_bd_empregadissimas.php");
+             
+          $sql = "UPDATE servico SET status_servico = 5 WHERE id_servico = '$id_servico'";
+
+          $checkB = $conn->query($sql);
+
+          if ($checkB == false) {
+                
+            $conn->close();
+                
+            return false;
+          }
+              
+          $conn->close();
+
+          return true;
+        
+        }
+
+        public function fazerCheckoutDAO($id_servico, $tipo_pessoa){//ERICK
+          include ("../controller/login_control/logar_bd_empregadissimas.php");
+
+          if ($tipo_pessoa == 1) {
+            
+            $sqlP = "SELECT check_outC FROM servico WHERE id_servico = '$id_servico'";
+
+            $resultadoP = $conn->query($sqlP);
+            $rowP = $resultadoP->fetch_assoc();
+            
+            
+            if ($rowP["check_outC"] == 0) {
+              
+              $sql = "UPDATE servico SET check_outP = 1 WHERE id_servico = '$id_servico'";   
+            
+              $checkB = $conn->query($sql);
+
+              if ($checkB == false) {
+                $conn->close();
+                
+                return false;
+              }
+              
+              $conn->close();
+
+              return 1;
+
+            }
+            if ($rowP["check_outC"] == 1) {
+
+              $sql = "UPDATE servico SET check_outP = 1, status_servico = 4 WHERE id_servico = '$id_servico'";
+
+              $checkB = $conn->query($sql);
+
+              if ($checkB == false) {
+                $conn->close();
+                
+                return false;
+              }
+              
+              $conn->close();
+
+              return 2;
+            }
+           
+          }
+
+
+          if ($tipo_pessoa == 2) {
+            
+            $sqlC = "SELECT check_outP FROM servico WHERE id_servico = '$id_servico'";
+
+            $resultadoC = $conn->query($sqlC);
+            $rowC = $resultadoC->fetch_assoc();
+
+            if ($rowC["check_outP"] == 0) {
+              
+              $sql = "UPDATE servico SET check_outC = 1 WHERE id_servico = '$id_servico'";   
+            
+              $checkB = $conn->query($sql);
+
+              if ($checkB == false) {
+                $conn->close();
+                
+                return false;
+              }
+              
+              $conn->close();
+
+              return 1;
+
+            }
+            
+            if ($rowC["check_outP"] == 1) {
+            
+              $sql = "UPDATE servico SET check_outC = 1, status_servico = 4 WHERE id_servico = '$id_servico'";
+
+              $checkB = $conn->query($sql);
+
+              if ($checkB == false) {
+                $conn->close();
+                
+                return false;
+              }
+              
+              $conn->close();
+
+              return 2;
+            }
+           
+          }
 
         }
 
-
+//--------------------------------------------------------------------------------------------------------
         public function buscarServicos($id_pessoa, $status, $tipo){
           include ("../controller/login_control/logar_bd_empregadissimas.php");
     

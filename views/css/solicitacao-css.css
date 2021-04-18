@@ -375,6 +375,25 @@ nav li {
   border-color: black;
 }
 
+#buttonCheckout {
+  background-color: #FF71A0;
+  border-color: #4f2f67;  
+  box-shadow: 1px 1px 2px black;
+  margin-top: 20px;
+  margin-left: 10px;
+}
+
+#buttonCheckout:hover {
+  background-color: #FF508A;
+  border-color: #FF508A;
+  color: white;
+}
+
+#buttonCheckout:active {
+  border-color: black;
+}
+
+
 #editarBody input[type="radio"]{
   margin-left: 10px;
 }

@@ -129,49 +129,170 @@
                 break; 
             
             
-            case 'fazerCheckin'://ERICK      
-                $tipo_pessoaCheckin = $_GET['tipo_pessoaCheckin'];
-                $id_servicoCheckin = $_GET['id_servicoCheckin'];
+            case 'fazerCheckin_out'://ERICK      
+                $tipo_pessoaCheck = $_GET['tipo_pessoaCheck'];
+                $id_servicoCheck = $_GET['id_servicoCheck'];
                 $servicoDAO = new ServicoDAO();
 
-                if ($_POST['check-in'] == "iniciado") {
+                if (isset($_POST['check-in'])) {
+
+                    if ($_POST['check-in'] == "iniciado") {
                     
-                    $checkBD = $servicoDAO->fazerCheckinDAO($id_servicoCheckin, $tipo_pessoaCheckin);
+                        $checkBD = $servicoDAO->fazerCheckinDAO($id_servicoCheck, $tipo_pessoaCheck);
 
-                    if ($tipo_pessoaCheckin == 1 and $checkBD == true) {
-                        
-                        echo '<script>alert("Check-in foi realizado com sucesso.")</script>';
-                        echo '<script>location.href="../views/manter-solicitacao.php#tabs-2"</script>';
+                        if ($tipo_pessoaCheck == 1 and $checkBD == true) {
                             
-                    }
+                            echo '<script>alert("Check-in foi realizado com sucesso.")</script>';
+                            echo '<script>location.href="../views/manter-solicitacao.php#tabs-2"</script>';
+                                
+                        }
 
-                    if ($tipo_pessoaCheckin == 1 and $checkBD == false) {
-                        
-                        echo '<script>alert("Check-in não foi realizado com sucesso. Tente novamente.")</script>';
-                        echo '<script>location.href="../views/manter-solicitacao.php#tabs-2"</script>';
-                                               
-                    }
+                        if ($tipo_pessoaCheck == 1 and $checkBD == false) {
+                            
+                            echo '<script>alert("Check-in não foi realizado com sucesso. Tente novamente.")</script>';
+                            echo '<script>location.href="../views/manter-solicitacao.php#tabs-2"</script>';
+                                                   
+                        }
 
 
-                    if ($tipo_pessoaCheckin == 2 and $checkBD == true) {
-                        
-                        echo '<script>alert("Check-in foi realizado com sucesso.")</script>';
-                        echo '<script>location.href="../views/manter-solicitacao-contratante.php#tabs-2"</script>';       
+                        if ($tipo_pessoaCheck == 2 and $checkBD == true) {
+                            
+                            echo '<script>alert("Check-in foi realizado com sucesso.")</script>';
+                            echo '<script>location.href="../views/manter-solicitacao-contratante.php#tabs-2"</script>';       
+                           
+                        }
+
+                        if ($tipo_pessoaCheck == 2 and $checkBD == false) {
+                            
+                            echo '<script>alert("Check-in não foi realizado com sucesso. Tente novamente.")</script>';
+                            echo '<script>location.href="../views/manter-solicitacao-contratante.php#tabs-2"</script>';                        
                        
+                        }
+
                     }
 
-                    if ($tipo_pessoaCheckin == 2 and $checkBD == false) {
-                        
-                        echo '<script>alert("Check-in não foi realizado com sucesso. Tente novamente.")</script>';
-                        echo '<script>location.href="../views/manter-solicitacao-contratante.php#tabs-2"</script>';                        
-                   
+                    if ($_POST['check-in'] == "cancelado") {
+                       
+                       $checkBD = $servicoDAO->cancelarCheckin_out($id_servicoCheck);
+
+                       if ($tipo_pessoaCheck == 1 and $checkBD == true) {
+                            
+                            echo '<script>alert("Seu serviço foi cancelado.")</script>';
+                            echo '<script>location.href="../views/manter-solicitacao.php#tabs-4"</script>';
+                                
+                        }
+
+                        if ($tipo_pessoaCheck == 1 and $checkBD == false) {
+                            
+                            echo '<script>alert("Cancelamento do serviço não foi realizado com sucesso.")</script>';
+                            echo '<script>location.href="../views/manter-solicitacao.php#tabs-2"</script>';
+                                                   
+                        }
+
+
+                        if ($tipo_pessoaCheck == 2 and $checkBD == true) {
+                            
+                            echo '<script>alert("Seu serviço foi cancelado.")</script>';
+                            echo '<script>location.href="../views/manter-solicitacao-contratante.php#tabs-4"</script>';       
+                           
+                        }
+
+                        if ($tipo_pessoaCheck == 2 and $checkBD == false) {
+                            
+                            echo '<script>alert("Cancelamento do serviço não foi realizado com sucesso.")</script>';
+                            echo '<script>location.href="../views/manter-solicitacao-contratante.php#tabs-2"</script>';                        
+                       
+                        }
+              
                     }
 
                 }
 
-                if ($_POST['check-in'] == "cancelado") {
-                   
-                   
+                 if (isset($_POST['check-out'])) {
+
+                    if ($_POST['check-out'] == "finalizado") {
+                    
+                        $checkBD = $servicoDAO->fazerCheckoutDAO($id_servicoCheck, $tipo_pessoaCheck);
+
+                        if ($tipo_pessoaCheck == 1 and $checkBD == 1) {
+                            
+                            echo '<script>alert("Check-out foi realizado com sucesso.")</script>';
+                            echo '<script>location.href="../views/manter-solicitacao.php#tabs-2"</script>';
+                                
+                        }
+
+                        if ($tipo_pessoaCheck == 1 and $checkBD == 2) {
+                            
+                            echo '<script>alert("Check-out foi realizado com sucesso.")</script>';
+                            echo '<script>location.href="../views/manter-solicitacao.php#tabs-3"</script>';
+                                
+                        }
+
+                        if ($tipo_pessoaCheck == 1 and $checkBD == false) {
+                            
+                            echo '<script>alert("Check-out não foi realizado com sucesso. Tente novamente.")</script>';
+                            echo '<script>location.href="../views/manter-solicitacao.php#tabs-2"</script>';
+                                                   
+                        }
+//---------------------------------------------------------------------------------------------------------------------------------
+
+                        if ($tipo_pessoaCheck == 2 and $checkBD == 1) {
+                            
+                            echo '<script>alert("Check-out foi realizado com sucesso.")</script>';
+                            echo '<script>location.href="../views/manter-solicitacao-contratante.php#tabs-2"</script>';       
+                           
+                        }
+
+                        if ($tipo_pessoaCheck == 2 and $checkBD == 2) {
+                            
+                            echo '<script>alert("Check-out foi realizado com sucesso.")</script>';
+                            echo '<script>location.href="../views/manter-solicitacao-contratante.php#tabs-3"</script>';       
+                           
+                        }
+
+                        if ($tipo_pessoaCheck == 2 and $checkBD == false) {
+                            
+                            echo '<script>alert("Check-out não foi realizado com sucesso. Tente novamente.")</script>';
+                            echo '<script>location.href="../views/manter-solicitacao-contratante.php#tabs-2"</script>';                        
+                       
+                        }
+
+                    }
+
+                    if ($_POST['check-out'] == "cancelado") {
+                       
+                       $checkBD = $servicoDAO->cancelarCheckin_out($id_servicoCheck);
+
+                       if ($tipo_pessoaCheck == 1 and $checkBD == true) {
+                            
+                            echo '<script>alert("Seu serviço foi cancelado.")</script>';
+                            echo '<script>location.href="../views/manter-solicitacao.php#tabs-4"</script>';
+                                
+                        }
+
+                        if ($tipo_pessoaCheck == 1 and $checkBD == false) {
+                            
+                            echo '<script>alert("Cancelamento do serviço não foi realizado com sucesso.")</script>';
+                            echo '<script>location.href="../views/manter-solicitacao.php#tabs-2"</script>';
+                                                   
+                        }
+
+                        if ($tipo_pessoaCheck == 2 and $checkBD == true) {
+                            
+                            echo '<script>alert("Seu serviço foi cancelado.")</script>';
+                            echo '<script>location.href="../views/manter-solicitacao-contratante.php#tabs-4"</script>';       
+                           
+                        }
+
+                        if ($tipo_pessoaCheck == 2 and $checkBD == false) {
+                            
+                            echo '<script>alert("Cancelamento do serviço não foi realizado com sucesso.")</script>';
+                            echo '<script>location.href="../views/manter-solicitacao-contratante.php#tabs-2"</script>';                        
+                       
+                        }
+              
+                    }
+
                 }
 
                 break;
