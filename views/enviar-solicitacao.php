@@ -5,6 +5,7 @@ include ("../controller/login_control/verifica_login_usuario.php");
 include_once ("../controller/EnderecoControlador.php");
 include_once ("../controller/Servico_Prestador_Controller.php");
 include_once ("../controller/PessoaControlador.php");
+include_once ("../controller/AgendaControlador.php");
 ?>
 
 <?php $_SESSION['pessoa']['id_pessoa'];
@@ -33,7 +34,7 @@ $id_prestador=$_GET["id_prestador"];
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 	<!-- calendario -->
-	<link rel="stylesheet" type="text/css" href="vanilla-calendar-master/src/vanillaCalendar.css">
+	<link rel="stylesheet" type="text/css" href="vanilla-calendar-master/src/css/vanilla-calendar.css">
 
 </head>
 <body class="rosa-bg" style="padding:0px">
@@ -150,30 +151,19 @@ $id_prestador=$_GET["id_prestador"];
 
 					  	<h5> &nbsp; - Selecione no calendário abaixo o dia que deseja solicitar a diária, preencha os dados do cartão ao lado e envie sua solicitação! &#128521;</h5>
 						<div class="agenda-prestador" id="calendar_u">
-							<div id="v-cal" style="width: 46%;height: 50%; float: left; ">
-								<div class="vcal-header" >
-									<button class="vcal-btn" data-calendar-toggle="previous">
-										<svg height="24" version="1.1" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-											<path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"></path>
-										</svg>
-									</button>
-									<div class="vcal-header__label" data-calendar-label="month"> </div>
-									<button class="vcal-btn" data-calendar-toggle="next">
-										<svg height="24" version="1.1" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-											<path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"></path>
-										</svg>
-									</button>
-								</div>
-								<div class="vcal-week">
-									<span>S</span>
-									<span>T</span>
-									<span>Q</span>
-									<span>Q</span>
-									<span>S</span>
-									<span>S</span>
-									<span>D</span>
-								</div>
-								<div class="vcal-body" data-calendar-area="month"></div>
+							<!-- <div id="v-cal" style="width: 46%;height: 50%; float: left; "> -->
+						<p style="visibility: hidden;" id="date_var" name="date_var">
+<?php
+$rows = carregar_agenda($id_prestador);
+foreach ($rows as $key=>$row){
+echo " ";
+${"date_var" . $key} = $row->getDiaDisponivel();
+
+echo date($row->getDiaDisponivel());
+}
+?>
+</p>
+							<div id="myCalendar" class="vanilla-calendar" style="width: 46%;height: 50%; float: left; ">
 							</div>
 
 							<form id="form-ins-servico" name="form-ins-servico">
@@ -279,7 +269,7 @@ $id_prestador=$_GET["id_prestador"];
 	    <!-- --> 
 	</div>
 
-<script src="vanilla-calendar-master/src/vanillaCalendar.js"></script>
+<script src="vanilla-calendar-master/src/js/vanilla-calendar.js"></script>
 <script type="text/javascript">
 
 	jQuery(function ($) {
@@ -290,9 +280,21 @@ $id_prestador=$_GET["id_prestador"];
 	});
 
 	window.addEventListener('load', function () {
-		vanillaCalendar.init({
-			disablePastDays: true
-		});
+		
+		var str = document.getElementById("date_var").innerHTML;
+        var res = str.split(" ");
+
+		let calendar = new VanillaCalendar({
+			selector: "#myCalendar",
+		    onSelect: (data, elem) => {	document.getElementById("data_servico").innerHTML = data.date }
+		})
+		calendar.set({pastDates: false})
+		calendar.set({
+			availableDates: [
+				{date: '2000-04-17'}
+			], 
+			datesFilter: true
+		})
 	});
 
 	$(document).ready(function(){
