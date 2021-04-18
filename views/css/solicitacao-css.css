@@ -429,3 +429,10 @@ transition      : opacity 0.2s linear;
 .star-rating:not(:hover) > :checked ~ label:before{
 opacity : 1;
 }
+
+.vanilla-calendar-date {
+    color: lightgray;
+}
+.vanilla-calendar-date.vanilla-calendar-date--active {
+    color: black !important;
+}
