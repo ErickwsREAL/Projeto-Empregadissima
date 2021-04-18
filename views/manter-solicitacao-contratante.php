@@ -82,6 +82,7 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 					<li><a href="#tabs-1"> Pendentes </a></li>
 					<li><a href="#tabs-2"> Em Andamento </a></li>
 					<li><a href="#tabs-3"> Finalizadas </a></li>
+					<li><a href="#tabs-4"> Cancelados </a></li>
 				</ul>
 
 				<div id="tabs-1">
@@ -179,6 +180,7 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 
 									<div class="grid-item">
 										<input type="hidden" name="tipo_pessoa" value="<?php echo $Prestador->getTipoPessoa(); ?>">
+										<input type="hidden" id="status_servico_aux-<?php echo $row["id_servico"] ?>" value="<?php echo $row["status_servico"] ?>">
 										<h3> <b> Você possui um serviço em andamento com <?php echo $Prestador->getNome() ?> </b></h3> 
 										<p><b> Dia: </b> <?php echo $row["data_servico"]; ?></p> 
 										<p><b> Hora Entrada (Previsão): </b> <?php echo $row["hora_entrada"]; ?> - <b> Hora Saída (Previsão): </b> <?php echo $row["hora_saida"]; ?>
@@ -189,9 +191,16 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 																	if ($row["status_servico"] == 2 and $row["check_inC"] == 1) {
 																		echo "Aguardando Check-in do Prestador";
 																	}
-																	if ($row["status_servico"] == 3 ) {
+																	if ($row["status_servico"] == 3	and $row["check_outC"] == 0 and $row["check_outP"] == 0) {
 																		echo "Serviço Iniciado";
+																	}
+																	if ($row["status_servico"] == 3	and $row["check_outP"] == 1) {
+																		echo "Aguardando o Check-out";
 																	}  
+																	
+																	if ($row["status_servico"] == 3 and	$row["check_outC"] == 1) {
+																		echo "Aguardando o Check-out do Prestador";
+																	}
 															?></p>
 									</div>
 								</div>
@@ -199,9 +208,9 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 
 								<!--bootstrap buttons + classe-->
 							<p>	
-								<button type="button" style="margin-left: 10px" class="btn btn-lg bt-detalhes btn-check" id="check-out-<?php echo $row["id_servico"]; ?>" data-toggle="modal" data-target="#checkoutModal" disabled>Check-out</button>
+								<button type="button" style="margin-left: 10px" class="btn btn-lg bt-detalhes btn-check" id="check-outC-<?php echo $row["id_servico"]; ?>" data-toggle="modal" data-target="#checkoutModal" disabled onclick="enviarID_Tipo(<?php echo $row["id_servico"]?> , <?php echo $tipo_pessoa ?>)">Check-out</button>
 								
-								<button type="button" style="margin-left: 10px" class="btn btn-lg bt-detalhes btn-check" id="check-in-<?php echo $row["id_servico"]; ?>" data-toggle="modal" data-target="#checkinModal" onclick="enviarID_Tipo(<?php echo $row["id_servico"]?> , <?php echo $tipo_pessoa ?>)">Check-in</button>
+								<button type="button" style="margin-left: 10px" class="btn btn-lg bt-detalhes btn-check" id="check-inC-<?php echo $row["id_servico"]; ?>" data-toggle="modal" data-target="#checkinModal" onclick="enviarID_Tipo(<?php echo $row["id_servico"]?> , <?php echo $tipo_pessoa ?>)">Check-in</button>
 								
 								<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $row["id_servico"]; ?>" name="detalhe-and" data-toggle="modal" data-target="#detalhes-pend-modal" onclick="buscarDetalhes(this.id, <?php echo $Prestador->getTipoPessoa() ?>) ">Detalhes</button>
 							</p>
@@ -306,7 +315,60 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 					</div>
 					<!-- fim avaliação do contratante -->
 				</div>
+				<!----------------- -->
+				<div id="tabs-4">
+				<?php
+						$rows = buscarServicosContratante($var_id, 5);
 
+						foreach ($rows as $row){ 
+
+							$id_prestador = $row["id_prestador"];
+							$Prestador = buscarUsuario($id_prestador, 1);
+					?>
+
+					<div class="card">
+						<div class="card-container" id="card-container-<?php echo $row["id_servico"] ?>">
+
+								<!-- -->
+								<div class="grid-container">
+									<div class="grid-item">
+			                        	<div class="img-container">
+										<?php
+											if ($Prestador->getFoto() != NULL) {
+												$foto = $Prestador->getFoto();
+											} else {
+											    $foto = 'profile.png';
+											}
+										?>
+
+		                        		<img src="./imagens/<?php echo $foto; ?>" id="profile-img" title="Imagem de Perfil">
+			                        	</div>
+									</div>
+
+									<div class="grid-item">
+										<input type="hidden" name="tipo_pessoa" value="<?php echo $Prestador->getTipoPessoa(); ?>">
+										<h3> <b>Seu serviço com <?php echo $Prestador->getNome(); ?> foi cancelado.</b></h3> 
+									<p><b> Dia:</b> <?php echo $row["data_servico"]; ?></p> 
+									<p><b> Hora Entrada (Previsão): </b> <?php echo $row["hora_entrada"]; ?> - <b> Hora Saída (Previsão): </b> <?php echo $row["hora_saida"]; ?> 
+									</p>
+									<p><b> Status: </b> Cancelado </p>							
+									</div>
+								</div>
+								<!-- -->
+
+								<!--bootstrap buttons + classe-->
+							
+									<button type="button" class="btn btn-lg bt-detalhes" id="detalhe-pend-<?php echo $row["id_servico"]; ?>" name="detalhe-pend" onclick="buscarDetalhes(this.id, <?php echo $Prestador->getTipoPessoa(); ?>)" data-toggle="modal" data-target="#exampleModalCenter">Detalhes</button>
+	
+							</p>
+						</div>
+					</div>
+
+					<?php 
+						}
+					?>					
+				</div>
+				<!----------------- -->
 			</div>
 		</div>
 
@@ -528,7 +590,7 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 					<input class="form-check-input" type="radio" name="check-out" id="cancelarServiçout" value="cancelado">
 					<label class="form-check-label" for="cancelarServiçout">Cancelar Check-out</label>
 				</div>
-			    <br><button type="button" class="btn btn-primary" id="buttonCheckout" value="Enviar"> Confirmar </button>
+			    <br><button type="button" class="btn btn-primary" id="buttonCheckout" onclick="fazCheckout()" value="Enviar"> Confirmar </button>
 			</form>
 		</div>
 		</div>
@@ -542,23 +604,33 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 <script >
 
 	$(document).ready(function(){ 
-		//localStorage.removeItem("buttonID");
-		//localStorage.removeItem("check-inStorage"); ----Não retirar essas 3 funções
-		//localStorage.removeItem("check-outStorage");
+		//localStorage.removeItem("buttonIDC");
+		//localStorage.removeItem("check-inCStorage"); //----Não retirar essas 3 funções
+		//localStorage.removeItem("check-outCStorage");
+		var statusServico;
+
+		statusServico = enviarID_Tipo(localStorage.getItem("buttonIDC"), 2);
 		
-		if (localStorage.getItem("check-inStorage") == "true") {//ERICK
+		if (localStorage.getItem("check-inCStorage") == "true" && statusServico == 2) {//ERICK
 			
-			var auxButton =  localStorage.getItem("buttonID");
-			$("#check-in-"+auxButton).prop('disabled', true);
-			$("#check-out-"+auxButton).prop('disabled', false);
+			var auxButton =  localStorage.getItem("buttonIDC");
+			$("#check-inC-"+auxButton).prop('disabled', true);
 		
 		}
 
-		if (localStorage.getItem("check-outStorage") == "true") {//ERICK
+		if (localStorage.getItem("check-inCStorage") == "true" && statusServico == 3) {//ERICK
 			
-			var auxButton =  localStorage.getItem("buttonID");
-			$("#check-in-"+auxButton).prop('disabled', true);
-			$("#check-out-"+auxButton).prop('disabled', true);
+			var auxButton =  localStorage.getItem("buttonIDC");
+			$("#check-inC-"+auxButton).prop('disabled', true);
+			$("#check-outC-"+auxButton).prop('disabled', false);
+		
+		}
+
+		if (localStorage.getItem("check-outCStorage") == "true") {//ERICK
+			
+			var auxButton =  localStorage.getItem("buttonIDC");
+			$("#check-inC-"+auxButton).prop('disabled', true);
+			$("#check-outC-"+auxButton).prop('disabled', true);
 		
 		}
 		
@@ -595,7 +667,9 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 	function enviarID_Tipo(id_servicotab, tipo_pessoatab) {//ERICK
 		globalIDservico = id_servicotab;
 		globaltipo_pessoa = tipo_pessoatab;
-		//console.log(globalIDservico, globaltipo_pessoa, localStorage.getItem("buttonID"));
+		statusServico = $('#status_servico_aux-'+id_servicotab).val();
+		//console.log(statusServico);
+		return statusServico;
 	}
 	
 	function fazCheckin(){//ERICK
@@ -608,8 +682,8 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 				return false;
 			}else{
 				
-				document.getElementById("checkinForm").action= "../controller/Servico_Controlador.php?metodo=fazerCheckin&id_servicoCheckin="+globalIDservico+"&tipo_pessoaCheckin="+globaltipo_pessoa;
-				document.getElementById("checkinForm").method= "POST";
+				document.getElementById("checkinForm").action= "../controller/Servico_Controlador.php?metodo=fazerCheckin_out&id_servicoCheck="+globalIDservico+"&tipo_pessoaCheck="+globaltipo_pessoa;
+				document.getElementById("checkinForm").method= 	"POST";
 				document.getElementById("checkinForm").submit();
 			
 				return true;
@@ -622,17 +696,52 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 			return false;		
 		}
 
-		document.getElementById("checkinForm").action= "../controller/Servico_Controlador.php?metodo=fazerCheckin&id_servicoCheckin="+globalIDservico+"&tipo_pessoaCheckin="+globaltipo_pessoa;
+
+		document.getElementById("checkinForm").action= "../controller/Servico_Controlador.php?metodo=fazerCheckin_out&id_servicoCheck="+globalIDservico+"&tipo_pessoaCheck="+globaltipo_pessoa;
 		document.getElementById("checkinForm").method= "POST";
 		document.getElementById("checkinForm").submit();
 		
-		localStorage.setItem("buttonID", globalIDservico);
-		localStorage.setItem("check-inStorage", "true");
-		localStorage.removeItem("check-outStorage");
+		localStorage.setItem("buttonIDC", globalIDservico);
+		localStorage.setItem("check-inCStorage", "true");
+		localStorage.removeItem("check-outCStorage");
+	}
+
+	function fazCheckout(){//ERICK
+
+		var radioCheckout = $('input[name="check-out"]:checked').val();
+
+		if (radioCheckout == "cancelado") {
+			
+			if (!confirm("Deseja realmente cancelar o serviço? Está ação resulta no não recebimento do pagamento.")) {
+				return false;
+			}else{
+				
+				document.getElementById("checkoutForm").action= "../controller/Servico_Controlador.php?metodo=fazerCheckin_out&id_servicoCheck="+globalIDservico+"&tipo_pessoaCheck="+globaltipo_pessoa;
+				document.getElementById("checkoutForm").method= "POST";
+				document.getElementById("checkoutForm").submit();
+			
+				return true;
+			}
+		}
+
+		if (radioCheckout == null) {
+			
+			alert("Nenhuma opção selecionada!");
+			return false;		
+		}
+
+		document.getElementById("checkoutForm").action= "../controller/Servico_Controlador.php?metodo=fazerCheckin_out&id_servicoCheck="+globalIDservico+"&tipo_pessoaCheck="+globaltipo_pessoa;
+		document.getElementById("checkoutForm").method= "POST";
+		document.getElementById("checkoutForm").submit();
+
+		localStorage.setItem("buttonIDC", globalIDservico);
+		localStorage.setItem("check-outCStorage", "true");
+		localStorage.removeItem("check-inCStorage");
+	
 	}
 
 
-//---------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------
 	function buscarDetalhes(id_serv, tipo_pessoa){
 		var id_servico = id_serv.substring(13);
 	
