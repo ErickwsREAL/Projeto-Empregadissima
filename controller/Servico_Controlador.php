@@ -201,34 +201,31 @@
                             
                             echo '<script>alert("Cancelamento do serviço não foi realizado com sucesso.")</script>';
                             echo '<script>location.href="../views/manter-solicitacao-contratante.php#tabs-2"</script>';                        
-                       
                         }
-              
                     }
-
                 }
 
-                 if (isset($_POST['check-out'])) {
+                if (isset($_POST['check-out'])) {
 
                     if ($_POST['check-out'] == "finalizado") {
                     
                         $checkBD = $servicoDAO->fazerCheckoutDAO($id_servicoCheck, $tipo_pessoaCheck);
 
-                        if ($tipo_pessoaCheck == 1 and $checkBD == 1) {
+                        if ($tipo_pessoaCheck == 1 and $checkBD == "1") {
                             
                             echo '<script>alert("Check-out foi realizado com sucesso.")</script>';
                             echo '<script>location.href="../views/manter-solicitacao.php#tabs-2"</script>';
                                 
                         }
 
-                        if ($tipo_pessoaCheck == 1 and $checkBD == 2) {
+                        if ($tipo_pessoaCheck == 1 and $checkBD == "2") {
                             
-                            echo '<script>alert("Check-out foi realizado com sucesso.")</script>';
+                            echo '<script>alert("Serviço foi finalizado com sucesso.")</script>';
                             echo '<script>location.href="../views/manter-solicitacao.php#tabs-3"</script>';
                                 
                         }
 
-                        if ($tipo_pessoaCheck == 1 and $checkBD == false) {
+                        if ($tipo_pessoaCheck == 1 and $checkBD == "false") {
                             
                             echo '<script>alert("Check-out não foi realizado com sucesso. Tente novamente.")</script>';
                             echo '<script>location.href="../views/manter-solicitacao.php#tabs-2"</script>';
@@ -236,21 +233,21 @@
                         }
 //---------------------------------------------------------------------------------------------------------------------------------
 
-                        if ($tipo_pessoaCheck == 2 and $checkBD == 1) {
+                        if ($tipo_pessoaCheck == 2 and $checkBD == "1") {
                             
                             echo '<script>alert("Check-out foi realizado com sucesso.")</script>';
                             echo '<script>location.href="../views/manter-solicitacao-contratante.php#tabs-2"</script>';       
                            
                         }
 
-                        if ($tipo_pessoaCheck == 2 and $checkBD == 2) {
+                        if ($tipo_pessoaCheck == 2 and $checkBD == "2") {
                             
-                            echo '<script>alert("Check-out foi realizado com sucesso.")</script>';
+                            echo '<script>alert("Serviço foi finalizado com sucesso.")</script>';
                             echo '<script>location.href="../views/manter-solicitacao-contratante.php#tabs-3"</script>';       
                            
                         }
 
-                        if ($tipo_pessoaCheck == 2 and $checkBD == false) {
+                        if ($tipo_pessoaCheck == 2 and $checkBD == "false") {
                             
                             echo '<script>alert("Check-out não foi realizado com sucesso. Tente novamente.")</script>';
                             echo '<script>location.href="../views/manter-solicitacao-contratante.php#tabs-2"</script>';                        
@@ -288,11 +285,8 @@
                             
                             echo '<script>alert("Cancelamento do serviço não foi realizado com sucesso.")</script>';
                             echo '<script>location.href="../views/manter-solicitacao-contratante.php#tabs-2"</script>';                        
-                       
                         }
-              
                     }
-
                 }
 
                 break;

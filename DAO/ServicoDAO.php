@@ -133,12 +133,12 @@
               if ($checkB == false) {
                 $conn->close();
                 
-                return false;
+                return "false";
               }
               
               $conn->close();
 
-              return 1;
+              return "1";
 
             }
             if ($rowP["check_outC"] == 1) {
@@ -150,12 +150,12 @@
               if ($checkB == false) {
                 $conn->close();
                 
-                return false;
+                return "false";
               }
               
               $conn->close();
 
-              return 2;
+              return "2";
             }
            
           }
@@ -177,12 +177,12 @@
               if ($checkB == false) {
                 $conn->close();
                 
-                return false;
+                return "false";
               }
               
               $conn->close();
 
-              return 1;
+              return "1";
 
             }
             
@@ -195,12 +195,12 @@
               if ($checkB == false) {
                 $conn->close();
                 
-                return false;
+                return "false";
               }
               
               $conn->close();
 
-              return 2;
+              return "2";
             }
            
           }

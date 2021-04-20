@@ -123,7 +123,7 @@ $_SESSION['administrador']['id_adm']
 				    <!-- fim aba Cadastros Pendentes-->
 
 						<!-- aba 2 - Exclusao de Conta -->
-						<form id="formExcluirIDs">
+						
 							<div id="tabs-2">
 								<div class="cadast-pend">
 				    		    	<h2>Excluir Contas</h2>
@@ -135,30 +135,36 @@ $_SESSION['administrador']['id_adm']
 										<tr>
 											<th>
 												<!-- bootstrap check-box + classe checkMargin-->
-												<div class="form-check checkMargin">
-													<input class="form-check-input" type="checkbox" value="" id="checkAll2">
-													<label class="form-check-label" for="checkAll2"> </label>
-												</div>
+												
 											</th>
-											<th>Codigo do Cadastro</th>
+											<th>Codigo do <br>Cadastro</th>
 											<th>Nome</th> 
 											<th>CPF</th>								
 										</tr>
-										
-										<?php foreach ($Usuarios as $row) { ?>
+										<form id="formExcluirIDs">
+										<?php if ($Usuarios == false) {
+											
+											echo ' <p style="margin-left: 330px"> <b>Não existe cadastros ativos</b> </p> ';
+										}else{ 
+
+												foreach ($Usuarios as $row) { ?>
 										<tr>
 											<td>
 												<!-- bootstrap check-box + classe checkMargin-->
+												
 												<div class="form-check checkMargin">
-													<input class="form-check-input check" name="checagem[]" type="checkbox" value="<?php echo $row['id_pessoa'] ?>" id="defaultCheck4">
+													<input class="form-check-input checkexcluir" name="checagem[]" type="checkbox" value="<?php echo $row['id_pessoa'] ?>" id="defaultCheck4-<?php echo $row['id_pessoa'] ?>">
 													<label class="form-check-label" for="defaultCheck4"> </label>
 												</div>	
+												
 											</td>
 										    <td><?php echo $row['id_pessoa'] ?></td>
 										    <td><?php echo $row['nome'] ?></td>
 										    <td><?php echo $row['cpf'] ?></td>							    
 									 	</tr>		 	
 										<?php } ?>
+												
+										</form>
 									</table>
 							    	<!-- fim table-->
 							    			
@@ -168,8 +174,8 @@ $_SESSION['administrador']['id_adm']
 											<button onclick="ExcluirCadastros()" class="btn btn-lg" id="bt-excluir">Excluir</button>
 										</p>
 									</div>
+											<?php	}?>
 								</div>	
-							</form>			
 							
 
 						
@@ -668,10 +674,6 @@ $_SESSION['administrador']['id_adm']
 
 		<div class="item footer">Copyright @EmpregadíssimaOwners</div>
 
-		<div class="dialog-reprovar-adm" id="dialog-reprovar-adm" title="Alerta">
-		  <p> Deseja <b>Rejeitar</b> esta/estas Solicitação/Solicitações? </p>
-		</div>
-
 		<!--Verifica se o usuário checou algum checkbox -->
 		<div class="dialog-checkbox-nao-checado" id="dialog-checkbox-nao-checado" title=" Erro! ">
 		  <p> Para Reprovar Cadastros é necessário selecionar pelo menos 1 checkbox </p>
@@ -689,12 +691,6 @@ $_SESSION['administrador']['id_adm']
 		$("#aprovar-cadastros-checkAll").click(function(){
 		    $('.aprovar-cadastros-check').not(this).prop('checked', this.checked);
 		});
-	
-
-		$("#checkAll2").click(function () {
-		    $(".check").prop('checked', $(this).prop('checked'));
-		});
-
 
 
 		$( function() {
@@ -752,25 +748,29 @@ $_SESSION['administrador']['id_adm']
 	 	}
 	});
 
-	$( "#bt-excluir" ).on( "click", function() {
-		if ($('#form :checkbox.check:checked').length > 0){
-	    	$( "#dialog-excluir-adm" ).dialog( "open" );
-	  	}
-	  	else{
-	 	  	$( "#dialog-checkbox-nao-checado2" ).dialog( "open" );
-	 	}
-	});
 
 	function ExcluirCadastros(){
+		
+		if ($('input[name="checagem[]"]:checked').length == 0){
+	    	
+	    	alert("Selecione pelo menos 1 cadastro!");
+	    	//window.location.href = "adm-manter-cadastros.php?#tabs-2";
+	    	window.location.href = "adm-manter-cadastros.php#tabs-2";
+	    	return false;
+	  	}
+
 		if (!confirm("Deseja DESATIVAR este(s) cadastro(s)?")) {
-			return false; 
+			
+			//window.location.href = "adm-manter-cadastros.php?#tabs-2";
+	    	window.location.href = "adm-manter-cadastros.php#tabs-2";
+			return false;
+
 		}	
 		else{
 	 		document.getElementById("formExcluirIDs").action= "../controller/PessoaControlador.php?metodo=AdmDesativarCadastro"
 			document.getElementById("formExcluirIDs").method= "POST";
 			document.getElementById("formExcluirIDs").submit();
-
-			return true;
+			
 		}
     }
 

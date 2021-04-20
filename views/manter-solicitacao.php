@@ -50,10 +50,12 @@ include_once ("../controller/PessoaControlador.php");
 																			<b>1. Pendentes: </b>Solicitações que ainda não foram respondidas pelo prestador
 																			(é possivel alterar dados da solicitação em 'Alterar', cancelar a solicitação enviada em 'Cancelar' 
 																			ou visualizar os detalhes dela em 'Detalhes')<br>
-																			<b> 2. Em Andamento: </b>Solicitações ACEITAS pelo prestador, havendo um servico em andamento. 
-																			No dia da prestação do servico no momento que o prestador chegar à residencia é necessário clicar no botão Check-in e avisar que o serviço está ocorrendo,
-																			caso o prestador em questão não chegou é necessário cancelar esse serviço no mesmo botão Check-In, tendo assim a interrupção do pagamento.<br>
-																			<b> 3. Finalizadas: </b> Serviços finalizados, aonde já ocorreu o Check-In.
+																			<b> 2. Em Andamento: </b>Solicitações ACEITAS pelo prestador. 
+																			No dia e na hora da prestação do servico o botão <b>Check-in</b> será liberado, clicando nele é possível escolher entre duas opções, fazer seu Check-in para o início do serviço ou cancelar o mesmo. 
+																			É necessário esperar o Check-in do seu Contratante para que o serviço possa ser iniciado.
+																			No horário de término do serviço, se o Check-in de ambos ocorreu corretamente, o <b>Check-out</b> é liberado, você poderá fazer o Check-out/Finalizar serviço, ou se aconteceu algo de errado, poderá cancelar o serviço, se foi feito o Check-out por ambos o serviço é finalizado. Cancelamentos não geram pagamento.<br>
+																			<b> 3. Finalizadas: </b> Serviços finalizados, aonde já ocorreu o Check-in e o Check-out, você poderá fazer a sua avaliação do serviço e ver os detalhes do mesmo.<br>
+																			<b> 4. Cancelados: </b> Serviços nos quais um dos associados do serviço cancelou o mesmo no momento de fazer o Check-in ou Check-out. É possível ver os detalhes desse serviço cancelado.
 																			<i class="fa fa-question-circle></i> Ajuda </button>
 			</h2>
 		</div>
@@ -551,6 +553,10 @@ include_once ("../controller/PessoaControlador.php");
 				document.getElementById("checkinForm").action= "../controller/Servico_Controlador.php?metodo=fazerCheckin_out&id_servicoCheck="+globalIDservico+"&tipo_pessoaCheck="+globaltipo_pessoa;
 				document.getElementById("checkinForm").method= "POST";
 				document.getElementById("checkinForm").submit();
+
+				localStorage.removeItem("buttonIDP");
+				localStorage.removeItem("check-inPStorage"); 
+				localStorage.removeItem("check-outPStorage");
 			
 				return true;
 			}
@@ -568,7 +574,7 @@ include_once ("../controller/PessoaControlador.php");
 
 		localStorage.setItem("buttonIDP", globalIDservico);
 		localStorage.setItem("check-inPStorage", "true");
-		//localStorage.removeItem("check-outStorage");
+		localStorage.removeItem("check-outPStorage");
 	}
 
 	function fazCheckout(){//ERICK
@@ -584,6 +590,10 @@ include_once ("../controller/PessoaControlador.php");
 				document.getElementById("checkoutForm").action= "../controller/Servico_Controlador.php?metodo=fazerCheckin_out&id_servicoCheck="+globalIDservico+"&tipo_pessoaCheck="+globaltipo_pessoa;
 				document.getElementById("checkoutForm").method= "POST";
 				document.getElementById("checkoutForm").submit();
+
+				localStorage.removeItem("buttonIDP");
+				localStorage.removeItem("check-inPStorage"); 
+				localStorage.removeItem("check-outPStorage");
 			
 				return true;
 			}
