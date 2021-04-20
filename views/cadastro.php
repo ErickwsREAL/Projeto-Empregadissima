@@ -16,12 +16,7 @@
 	<body>
 		<div id="navCadastro">
 			<nav class="navbar w-100" id="navbarCadastro">
-  				<button type="button" class="btn btn-primary btn-sm voltar" id="buttonVoltar">
-  					<svg width="1em" height="1em" viewBox="0 0 16 16"class="bi bi-arrow-left-circle-fill voltar" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  						<path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5.5a.5.5 0 0 0 0-1H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5z"/>
-					</svg>
-					Voltar
-				</button>
+  				<button type="button" class="btn btn-primary btn-sm voltar" id="buttonVoltar">	Voltar </button>
 			</nav>
 		</div>
 
@@ -61,11 +56,11 @@
 	 			</div>
 	 			<div class="form-group">
 					<label for="telefoneUsuario">Telefone</label>
-					<input type="tel" class="form-control" id="telefoneUsuario" name="telefone" placeholder="Ex: (00) 98855-7711" minlength="11" required>
+					<input type="tel" class="form-control" id="telefoneUsuario" name="telefone" placeholder="Ex: (00) 98855-7711" minlength="15" required>
 	 			</div>
  				<div class="form-group">
-				    <label for="dataNascUsuario">Data de nascimento</label>
-				    <input type="date" class="form-control" id="dataNascUsuario" name="data_nascimento" min="1910-01-01" required>
+				    <label for="dataNascUsuario">Data de nascimento (Somente acima de 18 anos)</label>
+				    <input type="date" class="form-control" id="dataNascUsuario" name="data_nascimento" min="1920-01-01" max="2003-04-28" required>
  				</div>
 	  			<div class="form-group">
 					<br><label for="nomeUsuario">Cidade</label>
@@ -77,40 +72,23 @@
  				</div>
 				<div class="form-group" id="comprovantes">
 					<br><label for="comprovanteUsuario">Comprovante pessoal (Documento):</label>
-					<input type="file" id="comprovanteUsuario" name="comprovante" value="" required>
+					<input type="file" id="comprovanteUsuario" name="comprovante" required>
  				</div>	
-  					<br><button type="submit" class="btn btn-primary" id="submitCadastro" name="submitCadastro" value="Enviar">Enviar</button>
+  					<br><button type="submit" class="btn btn-primary" id="submitCadastro">Enviar</button>
 			</form>
 			<!--Fim formulario-->
 		</div>				
-
-		<div id="caixa" title="Alerta"> 	
-			<p>Você será redirecionado para a página principal, cadastros não finalizados serão apagados, deseja continuar?</p>
-		</div>
 		
 		<script>
 		$(document).ready(function(){
 			
 			$( "#buttonVoltar" ).on( "click", function() {
-		    	$( "#caixa" ).dialog( "open" );
+		    	if (!confirm("Deseja retornar a página inicial? Suas informações não serão salvas.")){
+	    			
+				}else {
+					window.location.href = "index.php";
+				}
 		    });
-
-			$("#caixa").dialog({
-				autoOpen: false,
-				modal: true,
-				resizable: false,
-				draggable: false,
-				height: "auto",
-				width: 350,
-				buttons: {
-	        		"Sim": function() {
-	          			window.history.go(-1);
-	        		},
-	        		Cancelar: function() {
-	          		$( this ).dialog( "close" );
-	        		}
-      			}
-			}); 
 	
 			var $seuCampoCpf = $("#cpfUsuario");
 			$seuCampoCpf.mask('000.000.000-00', {reverse: true});

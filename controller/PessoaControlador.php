@@ -62,6 +62,11 @@
 		$Prestadores = $PrestadorDAO->buscarPrestadoresAtivos();
 		$Contratantes = $ContratanteDAO->buscarContratantesAtivos();
 
+		if ($Prestadores == false and $Contratantes == false) {
+
+			return false;
+		}
+
 		$Usuarios = array_merge($Prestadores, $Contratantes);
 
 		return $Usuarios;
@@ -95,12 +100,29 @@
 					$Contratante->setCidade($_POST['cidade']);
 					$Contratante->setSenha($_POST['senha']);
 
-					$ContratanteDAO->inserirContratanteDAO($Contratante);
-			
+					$checkBD = $ContratanteDAO->inserirContratanteDAO($Contratante);
+					
+					if ($checkBD == "false") {
+						
+						echo '<script>alert("Ocorreu um erro ao inserir seu cadastro. Tente novamente.")</script>';
+						echo '<script>location.href="../views/cadastro.php"</script>';
+
+						break;
+					}
+
+					if ($checkBD == "a") {
+						
+						echo '<script>alert("Email, CPF ou Telefone já utilizados. Tente novamente.")</script>';
+						echo '<script>location.href="../views/cadastro.php"</script>';
+
+						break;
+					}
+
 					echo '<script>alert("Cadastro feito com sucesso! Aguarde a liberação feita pelo administrador.")</script>';
 					echo '<script>location.href="../views/index.php"</script>';
 				}
-				elseif ($_POST['tipo_pessoa'] == 1) {
+				
+				if ($_POST['tipo_pessoa'] == 1) {
 					
 					$Prestador->setNome($_POST['nome']);
 					$Prestador->setCPF($_POST['cpf']);
@@ -114,7 +136,24 @@
 					$Prestador->setCidade($_POST['cidade']);
 					$Prestador->setSenha($_POST['senha']);
 
-					$PrestadorDAO->inserirPrestadorDAO($Prestador);
+					$checkBD = $PrestadorDAO->inserirPrestadorDAO($Prestador);
+
+					if ($checkBD == "false") {
+						
+						echo '<script>alert("Ocorreu um erro ao inserir seu cadastro. Tente novamente.")</script>';
+						echo '<script>location.href="../views/cadastro.php"</script>';
+
+						break;
+					}
+
+					if ($checkBD == "a") {
+						
+						echo '<script>alert("Email, CPF ou Telefone já utilizados. Tente novamente.")</script>';
+						echo '<script>location.href="../views/cadastro.php"</script>';
+
+						break;
+					}
+
 					
 					echo '<script>alert("Cadastro feito com sucesso! Aguarde a liberação feita pelo administrador.")</script>';
 					echo '<script>location.href="../views/index.php"</script>';
@@ -127,7 +166,23 @@
 
 					$Contratante->setID($_GET['id_pessoa']);
 
-					$ContratanteDAO->desativarContratanteDAO($Contratante);
+					$checkBD = $ContratanteDAO->desativarContratanteDAO($Contratante);
+
+					if ($checkBD == "a") {
+						
+						echo '<script>alert("Ainda existem serviços em seu nome, verifique a aba de solicitações.")</script>';
+						echo '<script>location.href="../views/perfilcontratante.php"</script>';
+						
+						break;
+					}	
+
+					if ($checkBD == "false") {
+						
+						echo '<script>alert("Houve um erro ao desativar sua conta. Tente novamente.")</script>';
+						echo '<script>location.href="../views/perfilcontratante.php"</script>';
+						break;
+
+					}
 
 					echo '<script>alert("Cadastro desativado! Para reativar contate algum administrador.")</script>';
 					echo '<script>location.href="../views/index.php"</script>';
@@ -138,7 +193,22 @@
 
 					$Prestador->setID($_GET['id_pessoa']);
 
-					$PrestadorDAO->desativarPrestadorDAO($Prestador);
+					$checkBD = $PrestadorDAO->desativarPrestadorDAO($Prestador);
+
+					if ($checkBD == "false") {
+						
+						echo '<script>alert("Houve um erro ao desativar sua conta. Tente novamente.")</script>';
+						echo '<script>location.href="../views/perfil.php"</script>';
+						break;
+
+					}
+
+					if ($checkBD == "a") {
+						
+						echo '<script>alert("Ainda existem serviços em seu nome, verifique a aba de solicitações.")</script>';
+						echo '<script>location.href="../views/perfil.php"</script>';
+						break;
+					}
 						
 					echo '<script>alert("Cadastro desativado! Para reativar contate algum administrador.")</script>';
 					echo '<script>location.href="../views/index.php"</script>';
@@ -156,11 +226,19 @@
 					$Contratante->setTelefone($_POST['telefone']);
 					$Contratante->setFoto($_POST['foto']);
 
-					$ContratanteDAO->atualizarContratanteDAO($Contratante);
+					$checkBD = $ContratanteDAO->atualizarContratanteDAO($Contratante);
+
+
+					if ($checkBD == "false") {
+						
+						echo '<script>alert("Houve um erro ao atualizar suas informações. Tente novamente.")</script>';
+						echo '<script>location.href="../views/perfilcontratante.php"</script>';
+
+					}else {
 					
-					echo '<script>alert("Cadastro Atualizado!")</script>';
-					echo '<script>location.href="../views/perfilcontratante.php"</script>';
-								
+						echo '<script>alert("Cadastro Atualizado!")</script>';
+						echo '<script>location.href="../views/perfilcontratante.php"</script>';
+					}				
 				}
 
 				if ($_POST['tipo_pessoa'] == 1) {
@@ -171,11 +249,17 @@
 					$Prestador->setTelefone($_POST['telefone']);
 					$Prestador->setFoto($_POST['foto']);
 					
-					$PrestadorDAO->atualizarPrestadorDAO($Prestador);
+					$checkBD = $PrestadorDAO->atualizarPrestadorDAO($Prestador);
 					
-					echo '<script>alert("Cadastro Atualizado!")</script>';
-					echo '<script>location.href="../views/perfil.php"</script>';
-								
+					if ($checkBD == false) {
+						
+						echo '<script>alert("Houve um erro ao atualizar suas informações. Tente novamente.")</script>';
+						echo '<script>location.href="../views/perfil.php"</script>';
+
+					}else {
+						echo '<script>alert("Cadastro Atualizado!")</script>';
+						echo '<script>location.href="../views/perfil.php"</script>';
+					}	
 				}
 
 				break;
@@ -183,19 +267,31 @@
 			case 'AdmDesativarCadastro'://ERICK
 				
 				if(isset($_POST['checagem'])){
-                
+                	
                 	$ids = $_POST['checagem'];
-                	$ContratanteDAO->admDesativarContratantes($ids);
-                	$PrestadorDAO->admDesativarPrestadores($ids);
-                	echo '<script>alert("Cadastro(s) removido(s)!")</script>';
+                	
+                	$checkBDC = $ContratanteDAO->admDesativarContratantes($ids);
+                	$checkBDP = $PrestadorDAO->admDesativarPrestadores($ids);
+                	
+                	if ($checkBDP == false and $checkBDC == false){
+                            
+                            echo '<script>alert("Erro ao excluir o(s) cadastro(s)!")</script>';
+                			echo '<script>location.href="../views/adm-manter-cadastros.php#tabs-2"</script>';
 
-                	echo '<script>location.href="../views/adm-manter-cadastros.php"</script>';
-                
-                }else{
-					
-					echo '<script>alert("Nenhum Cadastro Selecionado!")</script>';
-					echo '<script>location.href="../views/adm-manter-cadastros.php"</script>';	                	
-                }
+                			break;
+                        }	
+
+                    if ($checkBDP == false and $checkBDC == true or $checkBDP == true and $checkBDC == false){
+                            
+                            echo '<script>alert("Erro ao excluir algum(us) cadastro(s)")</script>';
+                			echo '<script>location.href="../views/adm-manter-cadastros.php#tabs-2"</script>';
+                        	
+                        	break;
+                        }    
+
+                	echo '<script>alert("Cadastro(s) removido(s)!")</script>';
+                	echo '<script>location.href="../views/adm-manter-cadastros.php#tabs-2"</script>';
+             	}
 				
 				break;
 				

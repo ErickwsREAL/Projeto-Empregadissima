@@ -22,11 +22,16 @@ include_once ("../model/PessoaFabricador.php");
                   $sql = "SELECT id_pessoa, nome, cpf FROM pessoa WHERE tipo_pessoa = '1' AND status_cadastro = '2'";
 
                   $resultado = $conn->query($sql);
+                  $row_count = mysqli_num_rows($resultado);
+
+                  if ($row_count == 0) {
+                        $conn->close();
+                        return [];
+                  }
 
                   while($row = $resultado->fetch_assoc()){
                         
-                        $Prestadores[] = $row;
-                        
+                        $Prestadores[] = $row;                        
                   }
 
                   $conn->close();
@@ -38,7 +43,7 @@ include_once ("../model/PessoaFabricador.php");
             public function inserirPrestadorDAO(Prestador $prestador){//ERICK
 		    include ("../controller/login_control/logar_bd_empregadissimas.php");
 			
-      		$Nome = $prestador->getNome(); 
+      	      $Nome = $prestador->getNome(); 
                   $CPF = $prestador->getCPF();
                   $DataNascimento = $prestador->getDataNascimento();
                   $Comprovante = $prestador->getComprovante();
@@ -50,9 +55,25 @@ include_once ("../model/PessoaFabricador.php");
                   $Cidade = $prestador->getCidade();
                   $StatusCadastro = $prestador->getStatusCadastro();
 
+                  $sql1 = "SELECT id_pessoa FROM pessoa WHERE cpf = '$CPF' OR email = '$Email' OR telefone = '$Telefone'";
+                  
+                  $resultado = $conn->query($sql1);
+                  $row_count = mysqli_num_rows($resultado);
+                  
+                  if ($row_count > 0) {
+                        
+                        return "a";
+                  }
+
                   $sql = "INSERT INTO pessoa(nome, cpf,telefone, data_nascimento, comprovante, email, senha, sexo, cidade, tipo_pessoa, status_cadastro) VALUES ('$Nome','$CPF', '$Telefone', '$DataNascimento', '$Comprovante', '$Email', '$Senha', '$Sexo', '$Cidade', '$TipoPessoa',  $StatusCadastro)";
                  
-                  $conn->query($sql);
+                  $checkB = $conn->query($sql);
+
+                  if ($checkB == false) {
+                        $conn->close();
+                        
+                        return "false";
+                  }
                   
                   $conn->close();
 		}
@@ -62,11 +83,29 @@ include_once ("../model/PessoaFabricador.php");
 
                   $idPrestador = $prestador->getID();
 
-                  $sql = "UPDATE pessoa SET status_cadastro = 3 WHERE id_pessoa = '$idPrestador'";
+                  $sqlServico = "SELECT id_servico FROM servico WHERE id_prestador = '$idPrestador' and status_servico !=5"; 
 
-                  $conn->query($sql);
+                  $resultado = $conn->query($sqlServico);
+                  $row_count = mysqli_num_rows($resultado);
 
-                  $conn->close();
+                  if ($row_count == 0) {
+                        
+                        $sql = "UPDATE pessoa SET status_cadastro = 3 WHERE id_pessoa = '$idPrestador'";
+
+                        $checkB = $conn->query($sql);
+                        
+                        if ($checkB == false) {
+                             $conn->close();
+                        
+                             return "false";
+                        }
+                  
+                        $conn->close();
+
+                  } else {
+
+                     return "a";         
+                  }        
                   
             }
 
@@ -81,8 +120,14 @@ include_once ("../model/PessoaFabricador.php");
 
                   $sql = "UPDATE pessoa SET nome = '$nomePrestador', foto = '$fotoPrestador', descricao = '$descricaoPrestador', telefone = '$telefonePrestador' WHERE id_pessoa = '$idPrestador'";
 
-                  $conn->query($sql);
+                  $checkB = $conn->query($sql);
 
+                  if ($checkB == false) {
+                       $conn->close();
+                  
+                       return false;
+                  }
+            
                   $conn->close();
 
             }     
@@ -114,10 +159,14 @@ include_once ("../model/PessoaFabricador.php");
 
             public function admDesativarPrestadores($ids){//ERICK
                   include ("../controller/login_control/logar_bd_empregadissimas.php");
+
                   foreach ($ids as $id) {
                         
                         $sql = "UPDATE pessoa SET status_cadastro = '3' WHERE id_pessoa = '$id' AND tipo_pessoa = '1'";
-                        $conn->query($sql);
+                        if (!$conn->query($sql)){
+                              $conn->close();      
+                              return false;
+                        }
                   }
                   $conn->close();
             }

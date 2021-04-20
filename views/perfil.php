@@ -257,8 +257,8 @@ include_once ("../controller/PessoaControlador.php");
 				  	<form id="desativaForm">
 				  		<input name="id_pessoa" id="id_pessoaDesativa" value="<?php echo $var_id ?>" style="display: none;">
 				  		<input name="tipo_pessoa" id="tipo_pessoaDesativa" value="<?php echo $tipo_pessoa?>" style="display: none;">
-				  		<button type="submit" class="btn btn-lg btn-block btManter" id="desativarConta" onclick="DesativarPessoa()" style="margin:0px;margin-top: 50px;margin-right:0px;"><i class="fa fa-trash-o"></i>&nbsp; Desativar Conta &nbsp;</button>
 				  	</form>
+				  		<button type="button" class="btn btn-lg btn-block btManter" id="desativarConta" onclick="DesativarPessoa()" style="margin:0px;	margin-top: 50px;margin-right:0px;"><i class="fa fa-trash-o"></i>&nbsp; Desativar Conta &nbsp;</button>
 			  	</div>
 			</div>
 			<!--fim manutenções -->
@@ -285,7 +285,7 @@ include_once ("../controller/PessoaControlador.php");
 									<input class="form-control form-control-sm" type="text" name="nome" id="editarNome" placeholder="Novo nome.." maxlength="50" required value="<?php echo $Prestador->getNome(); ?>">
 								</div>
 				      			<div class="form-group labelPeq">
-									<label for="editarTelefone">Telefone:</label>		
+									<label for="editarTelefone">Telefone (Caso não seja alterado, o telefone já está sendo utilizado):</label>		
 									<input class="form-control form-control-sm" type="tel" name="telefone" id="editarTelefone"  placeholder="(00) 98855-7711" minlength="11" required value="<?php echo $Prestador->getTelefone(); ?>">
 								</div>
 				      			<div class="form-group labelPeq">
