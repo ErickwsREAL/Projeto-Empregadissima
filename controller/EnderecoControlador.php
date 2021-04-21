@@ -46,18 +46,46 @@
 				$endereco->setNumero($_POST['numero']);
 				$endereco->setComplemento($_POST['complemento']);
 
-				$enderecoDAO->inserirEndereco($endereco); 
+				$checkBD = $enderecoDAO->inserirEndereco($endereco); 
 				
+				if ($checkBD == "a") {
+					echo '<script>alert("Já existe um cadastro deste endereço em seu nome.")</script>';
+					echo '<script>location.href="../views/perfilcontratante.php"</script>';
+
+					break;
+				}
+				if ($checkBD == "b") {
+					echo '<script>alert("Cadastro não foi inserido com sucesso. Tente novamente.")</script>';
+					echo '<script>location.href="../views/perfilcontratante.php"</script>';
+
+					break;
+				}
+
 				echo '<script>alert("Cadastro do endereço feito com sucesso!")</script>';
 				echo '<script>location.href="../views/perfilcontratante.php"</script>';
-
+				
 				break;
 
 			case 'Excluir':
 				
-				$endereco->setID($_GET['id_end']);
+				$endereco->setID($_POST['enderecoSelecionado']);
+				$endereco->setIDContratante($_POST['id_contratante']);
 
-				$enderecoDAO->excluirEndereco($endereco);
+				$checkBD = $enderecoDAO->excluirEndereco($endereco);
+
+				if ($checkBD == "a") {
+					echo '<script>alert("Não foi possível excluir, pois existe um serviço não finalizado neste endereço.")</script>';
+					echo '<script>location.href="../views/perfilcontratante.php"</script>';
+
+					break;
+				}
+
+				if ($checkBD == "b") {
+					echo '<script>alert("Não foi possível excluir. Tente novamente.")</script>';
+					echo '<script>location.href="../views/perfilcontratante.php"</script>';
+
+					break;
+				}
 
 				echo '<script>alert("Endereço Excluido!")</script>';
 				echo '<script>location.href="../views/perfilcontratante.php"</script>';
@@ -72,9 +100,29 @@
 				$endereco->setCEP($_POST['cep']);
 				$endereco->setNumero($_POST['numero']);
 				$endereco->setComplemento($_POST['complemento']);
+				$endereco->setIDContratante($_POST['id_contratante']);
 
+				$checkBD = $enderecoDAO->atualizarEndereco($endereco);
 
-				$enderecoDAO->atualizarEndereco($endereco);
+				if ($checkBD == "a") {
+					echo '<script>alert("Já existe um cadastro deste endereço em seu nome.")</script>';
+					echo '<script>location.href="../views/perfilcontratante.php"</script>';
+
+					break;
+				}
+				if ($checkBD == "b") {
+					echo '<script>alert("Não foi possível atualizar o endereço. Tente novamente.")</script>';
+					echo '<script>location.href="../views/perfilcontratante.php"</script>';
+
+					break;
+				}
+				
+				if ($checkBD == "c") {
+					echo '<script>alert("Não foi possível atualizar o endereço. Existe um serviço pendente neste endereço.")</script>';
+					echo '<script>location.href="../views/perfilcontratante.php"</script>';
+
+					break;
+				}
 
 				echo '<script>alert("Endereço Atualizado!")</script>';
 				echo '<script>location.href="../views/perfilcontratante.php"</script>';
