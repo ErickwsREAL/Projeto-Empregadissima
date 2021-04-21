@@ -194,7 +194,7 @@ include_once ("../controller/EnderecoControlador.php");
 										<input class="form-control form-control-sm" type="text" name="nome" id="editarNome" placeholder="Novo nome.." maxlength="50" required value="<?php echo $Contratante->getNome() ?>">
 									</div>
 					      			<div class="form-group labelPeq">
-										<label for="editarTelefone">Telefone (Caso não seja alterado, o telefone já está sendo utilizado):</label>		
+										<label for="editarTelefone">Telefone:</label>		
 										<input class="form-control form-control-sm" type="tel" name="telefone" id="editarTelefone" placeholder="(00) 98855-7711" minlength="15" required value="<?php echo $Contratante->getTelefone() ?>">
 									</div>
 					      			<div class="form-group labelPeq">
@@ -226,20 +226,41 @@ include_once ("../controller/EnderecoControlador.php");
 			      	<div class="modal-body">
 			      		<?php
 							$rows = buscarTEnd($var_id);
+
+							if ($rows == "false") {
+							
+							echo '<div id="editarEndereço">
+				      		<div class="col-md-10">
+								<form id="formedit">		      
+								    <label for="endereçosUsuárioIN">Endereços: </label>
+								    <select id="endereçosUsuárioIN" class="form-control">
+								      	
+								      	<option selected > Não existe endereços em seu nome! Tente adicionar um. </option>
+								      
+								    </select>
+						    		<button type="button" class="btn btn-dprimary buttonEditar butf" disabled id="buttonEditarEndIN"> Editar Selecionado</button>
+						    		<button type="button" class="btn btn-danger butf" disabled> Excluir Selecionado </button>
+						    	</form>
+						    </div>				
+				      	</div>';		
+
+							}else{
 						?>
 
 			      		<div id="editarEndereço">
 				      		<div class="col-md-10">
 								<form id="formedit">		      
 								    <label for="endereçosUsuário">Endereços: </label>
+								    <input name="id_contratante"  value="<?php echo $var_id ?>" style="visibility: hidden;">
 								    <select id="endereçosUsuário" name="enderecoSelecionado" class="form-control">
 										<?php foreach ($rows as $row){ 
 									  	?>    	
 								      	
-								      	<option selected value="<?php echo $row['id_endereco']; ?>"> Bairro: <?php echo $row['bairro']; ?> Rua: <?php echo $row['rua']; ?>, Número: <?php echo $row['numero']; ?>, Complemento: <?php echo $row['complemento']; ?> CEP: <?php echo $row['cep']; ?> </option>
+								      	<option  selected value="<?php echo $row['id_endereco']; ?>"> Bairro: <?php echo $row['bairro']; ?> Rua: <?php echo $row['rua']; ?>, Número: <?php echo $row['numero']; ?>, Complemento: <?php echo $row['complemento']; ?> CEP: <?php echo $row['cep']; ?> </option>
 								      
 
 								      	<?php } ?>
+								      	 
 								    </select>
 						    		<button type="button" class="btn btn-dprimary buttonEditar butf" id="buttonEditarEnd"> Editar Selecionado</button>
 						    		<button type="button" class="btn btn-danger butf" onclick="excluir_end();"> Excluir Selecionado </button>
@@ -254,29 +275,30 @@ include_once ("../controller/EnderecoControlador.php");
 				      			<form id="formEndereco" method="POST" action="../controller/EnderecoControlador.php?metodo=Atualizar">
 									<div class="form-row">
 	    								<div class="col-md-4">
-	      									<input type="text" class="form-control" placeholder="Bairro" id="bairroUsuárioED" name="bairro" required value="">
+	      									<input type="text" class="form-control" placeholder="Bairro" id="bairroUsuárioED" name="bairro" required >
 	    								</div>
 	    								<div class="col-md-4">
-	      									<input type="text" class="form-control" placeholder="Rua" id="ruaUsuárioED" name="rua" required value="">
+	      									<input type="text" class="form-control" placeholder="Rua" id="ruaUsuárioED" name="rua" required >
 	    								</div>
 	  									<div class="col-md-2">
-	  										<input type="number" class="form-control" placeholder="Numero" id="numeroUsuárioED" name="numero" required value="">
+	  										<input type="number" class="form-control" placeholder="Numero" id="numeroUsuárioED" name="numero" required>
 	  									</div>
 	  								</div>
 	  								<div class="form-row">
 	  									<div class="col-md-4">
-	  										<input type="text" class="form-control" name="complemento" id="complementoUsuárioED" placeholder="Complemento" required value="">
+	  										<input type="text" class="form-control" name="complemento" id="complementoUsuárioED" placeholder="Complemento" required>
 	  									</div>
 	  									<div class="col-md-2">
-	  										<input type="text" class="form-control" name="cep" placeholder="CEP" id="cepUsuárioED" max="9" required="" value="">
+	  										<input type="text" class="form-control" name="cep" placeholder="CEP" id="cepUsuárioED" max="9" required >
 	  									</div>
-	  										<input name="id_end" id="id_c" value="" style="visibility: hidden;">
+	  										<input name="id_contratante" value="<?php echo $var_id ?>" style="visibility: hidden;">
+	  										<input name="id_end" id="id_c" style="visibility: hidden;">
 	  								</div>
 	  								<button type="submit" class="btn btn-primary buttonEditar butf2" id="buttonED">Salvar</button>
 	  								<button type="button" class="btn btn-primary buttonEditar butf2" id="buttonCan">Cancelar</button>
 								</form>
 							</div>
-						
+						<?php } ?>
 						
 						<div id="adicionarEndereço">	
 							<p>Adicionar um endereço:</p>
@@ -302,7 +324,7 @@ include_once ("../controller/EnderecoControlador.php");
   									</div>
   										<input name="id_c" id="id_c" value="<?php echo $var_id; ?>" style="visibility: hidden;">
   								</div>
-  								<button type="submit" class="btn btn-primary buttonEditar" id="buttonAdd" value="Enviar">Salvar</button>
+  								<button type="submit" class="btn btn-primary buttonEditar" id="buttonAdd" >Salvar</button>
 							</form>
 						</div>
 					
@@ -354,7 +376,7 @@ include_once ("../controller/EnderecoControlador.php");
 				event.preventDefault();
 				//var $form = $(this);
 				var id_end = $('#endereçosUsuário').val();
-				console.log(id_end);
+				//console.log(id_end);
 				//console.log($('#endereçosUsuário').val());
 
 				$.ajax({
@@ -482,20 +504,15 @@ include_once ("../controller/EnderecoControlador.php");
     		}
 
 			function excluir_end(){
-				var e = document.getElementById("endereçosUsuário");
-				var id_end = e.value;
-
 				if (!confirm("Deseja EXCLUIR este endereço?")) {
-					return false;
-					id_end = null; 
+					return false; 
 				}	
 				else{
 	 				  
-	 			 document.getElementById("formedit").action= "../controller/EnderecoControlador.php?metodo=Excluir&id_end="+id_end;
+	 			 document.getElementById("formedit").action= "../controller/EnderecoControlador.php?metodo=Excluir";
 			 	 document.getElementById("formedit").method= "POST";
 				 document.getElementById("formedit").submit();
 
-				 return true;
 				}
     		}
 

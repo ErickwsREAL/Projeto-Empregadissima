@@ -285,7 +285,7 @@ include_once ("../controller/PessoaControlador.php");
 									<input class="form-control form-control-sm" type="text" name="nome" id="editarNome" placeholder="Novo nome.." maxlength="50" required value="<?php echo $Prestador->getNome(); ?>">
 								</div>
 				      			<div class="form-group labelPeq">
-									<label for="editarTelefone">Telefone (Caso não seja alterado, o telefone já está sendo utilizado):</label>		
+									<label for="editarTelefone">Telefone:</label>		
 									<input class="form-control form-control-sm" type="tel" name="telefone" id="editarTelefone"  placeholder="(00) 98855-7711" minlength="11" required value="<?php echo $Prestador->getTelefone(); ?>">
 								</div>
 				      			<div class="form-group labelPeq">

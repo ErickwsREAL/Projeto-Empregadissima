@@ -144,7 +144,7 @@ $_SESSION['administrador']['id_adm']
 										<form id="formExcluirIDs">
 										<?php if ($Usuarios == false) {
 											
-											echo ' <p style="margin-left: 330px"> <b>Não existe cadastros ativos</b> </p> ';
+											echo ' <p> <b>Não existe cadastros ativos</b> </p> ';
 										}else{ 
 
 												foreach ($Usuarios as $row) { ?>

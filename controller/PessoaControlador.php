@@ -229,16 +229,25 @@
 					$checkBD = $ContratanteDAO->atualizarContratanteDAO($Contratante);
 
 
+					if ($checkBD == "a") {
+						
+						echo '<script>alert("Alterações feitas, mas o telefone já está sendo utilizado, ele não foi atualizado")</script>';
+						echo '<script>location.href="../views/perfilcontratante.php"</script>';
+						
+						break;
+					}	
+
 					if ($checkBD == "false") {
 						
-						echo '<script>alert("Houve um erro ao atualizar suas informações. Tente novamente.")</script>';
+						echo '<script>alert("Houve um erro ao desativar sua conta. Tente novamente.")</script>';
 						echo '<script>location.href="../views/perfilcontratante.php"</script>';
+						break;
 
-					}else {
+					}
 					
-						echo '<script>alert("Cadastro Atualizado!")</script>';
-						echo '<script>location.href="../views/perfilcontratante.php"</script>';
-					}				
+					echo '<script>alert("Cadastro Atualizado!")</script>';
+					echo '<script>location.href="../views/perfilcontratante.php"</script>';
+									
 				}
 
 				if ($_POST['tipo_pessoa'] == 1) {
@@ -251,15 +260,25 @@
 					
 					$checkBD = $PrestadorDAO->atualizarPrestadorDAO($Prestador);
 					
-					if ($checkBD == false) {
+					if ($checkBD == "a") {
 						
-						echo '<script>alert("Houve um erro ao atualizar suas informações. Tente novamente.")</script>';
+						echo '<script>alert("Alterações feitas, mas o telefone já está sendo utilizado, ele não foi atualizado")</script>';
 						echo '<script>location.href="../views/perfil.php"</script>';
-
-					}else {
-						echo '<script>alert("Cadastro Atualizado!")</script>';
-						echo '<script>location.href="../views/perfil.php"</script>';
+						
+						break;
 					}	
+
+					if ($checkBD == "false") {
+						
+						echo '<script>alert("Houve um erro ao desativar sua conta. Tente novamente.")</script>';
+						echo '<script>location.href="../views/perfil.php"</script>';
+						break;
+
+					}
+					
+					echo '<script>alert("Cadastro Atualizado!")</script>';
+					echo '<script>location.href="../views/perfil.php"</script>';
+					
 				}
 
 				break;
@@ -273,24 +292,27 @@
                 	$checkBDC = $ContratanteDAO->admDesativarContratantes($ids);
                 	$checkBDP = $PrestadorDAO->admDesativarPrestadores($ids);
                 	
-                	if ($checkBDP == false and $checkBDC == false){
+                	if ($checkBDC == "0" and $checkBDP == "2" or $checkBDC == "2" and $checkBDP == "0" or $checkBDC == "2" and $checkBDP == "2"){
                             
-                            echo '<script>alert("Erro ao excluir o(s) cadastro(s)!")</script>';
-                			echo '<script>location.href="../views/adm-manter-cadastros.php#tabs-2"</script>';
+                        echo '<script>alert("Cadastro(s) Desativado(s)! É possível que alguns não tenham sido desativados por apresentarem serviços pendentes.")</script>';
+                		echo '<script>location.href="../views/adm-manter-cadastros.php#tabs-2"</script>';
 
-                			break;
-                        }	
-
-                    if ($checkBDP == false and $checkBDC == true or $checkBDP == true and $checkBDC == false){
+                		break;
+                    }
+                    if ($checkBDC == "0" and $checkBDP == "1" or $checkBDC == "1" and $checkBDP == "0" or $checkBDC == "1" and $checkBDP == "1"){
                             
-                            echo '<script>alert("Erro ao excluir algum(us) cadastro(s)")</script>';
-                			echo '<script>location.href="../views/adm-manter-cadastros.php#tabs-2"</script>';
-                        	
-                        	break;
-                        }    
+                        echo '<script>alert("Cadastro(s) não foi(foram) desativad(s), pois existe serviços pendentes!")</script>';
+                		echo '<script>location.href="../views/adm-manter-cadastros.php#tabs-2"</script>';
 
-                	echo '<script>alert("Cadastro(s) removido(s)!")</script>';
-                	echo '<script>location.href="../views/adm-manter-cadastros.php#tabs-2"</script>';
+                		break;
+                    }
+                    if ($checkBDC == "1" and $checkBDP == "2" or $checkBDC == "2" and $checkBDP == "1" ){
+                            
+                        echo '<script>alert("Alguns dos cadastros foram desativados, outros apresentam serviços pendentes")</script>';
+                		echo '<script>location.href="../views/adm-manter-cadastros.php#tabs-2"</script>';
+
+                		break;
+                    }	
              	}
 				
 				break;

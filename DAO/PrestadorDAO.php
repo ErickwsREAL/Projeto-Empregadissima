@@ -118,6 +118,26 @@ include_once ("../model/PessoaFabricador.php");
                   $descricaoPrestador = $prestador->getDescricao();
                   $telefonePrestador = $prestador->getTelefone();
 
+                  $sql1 = "SELECT id_pessoa FROM pessoa WHERE telefone = '$telefonePrestador'";
+                  
+                  $resultado = $conn->query($sql1);
+                  $row_count = mysqli_num_rows($resultado);
+                  
+                  if ($row_count > 0) {
+                        
+                        $sql = "UPDATE pessoa SET nome = '$nomePrestador', foto = '$fotoPrestador', descricao = '$descricaoPrestador' WHERE id_pessoa = '$idPrestador'";
+
+                        $checkB = $conn->query($sql);
+
+                        if ($checkB == false) {
+                             $conn->close();
+                        
+                             return "false";
+                        }
+
+                        return "a";
+                  }
+
                   $sql = "UPDATE pessoa SET nome = '$nomePrestador', foto = '$fotoPrestador', descricao = '$descricaoPrestador', telefone = '$telefonePrestador' WHERE id_pessoa = '$idPrestador'";
 
                   $checkB = $conn->query($sql);
@@ -125,7 +145,7 @@ include_once ("../model/PessoaFabricador.php");
                   if ($checkB == false) {
                        $conn->close();
                   
-                       return false;
+                       return "false";
                   }
             
                   $conn->close();
@@ -160,15 +180,34 @@ include_once ("../model/PessoaFabricador.php");
             public function admDesativarPrestadores($ids){//ERICK
                   include ("../controller/login_control/logar_bd_empregadissimas.php");
 
+                  $count = "0";
                   foreach ($ids as $id) {
-                        
-                        $sql = "UPDATE pessoa SET status_cadastro = '3' WHERE id_pessoa = '$id' AND tipo_pessoa = '1'";
-                        if (!$conn->query($sql)){
-                              $conn->close();      
-                              return false;
+
+                        $sql1 = "SELECT tipo_pessoa FROM pessoa WHERE id_pessoa = '$id'";
+                        $resultados = $conn->query($sql1);
+                        $row = $resultados->fetch_assoc();
+
+                        if ($row['tipo_pessoa'] == 1) {
+                              $sqlServico = "SELECT id_servico FROM servico WHERE id_prestador = '$id' AND status_servico != 5"; 
+
+                              $resultado = $conn->query($sqlServico);
+                              $row_count = mysqli_num_rows($resultado);
+                              $count = "1";
+                              if ($row_count == 0) {
+                                    $sql = "UPDATE pessoa SET status_cadastro = '3' WHERE id_pessoa = '$id'";
+                                    $checkB = $conn->query($sql);
+                                    
+                                    if ($checkB == false){
+                                          $conn->close();      
+                                          return "false";
+                                    }     
+                                    $count = "2";   
+                              }
                         }
                   }
+                  
                   $conn->close();
+                  return $count;
             }
 
             public function buscarPrestadores($search) {
