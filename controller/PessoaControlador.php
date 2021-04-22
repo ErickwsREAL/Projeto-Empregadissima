@@ -169,7 +169,7 @@
 					$checkBD = $ContratanteDAO->desativarContratanteDAO($Contratante);
 
 					if ($checkBD == "a") {
-						
+							
 						echo '<script>alert("Ainda existem serviços em seu nome, verifique a aba de solicitações.")</script>';
 						echo '<script>location.href="../views/perfilcontratante.php"</script>';
 						
