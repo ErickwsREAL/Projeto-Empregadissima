@@ -180,7 +180,7 @@ include_once ("../model/PessoaFabricador.php");
             public function admDesativarPrestadores($ids){//ERICK
                   include ("../controller/login_control/logar_bd_empregadissimas.php");
 
-                  $count = "0";
+                  $count = [];
                   foreach ($ids as $id) {
 
                         $sql1 = "SELECT tipo_pessoa FROM pessoa WHERE id_pessoa = '$id'";
@@ -192,7 +192,7 @@ include_once ("../model/PessoaFabricador.php");
 
                               $resultado = $conn->query($sqlServico);
                               $row_count = mysqli_num_rows($resultado);
-                              $count = "1";
+                              
                               if ($row_count == 0) {
                                     $sql = "UPDATE pessoa SET status_cadastro = '3' WHERE id_pessoa = '$id'";
                                     $checkB = $conn->query($sql);
@@ -201,7 +201,12 @@ include_once ("../model/PessoaFabricador.php");
                                           $conn->close();      
                                           return "false";
                                     }     
-                                    $count = "2";   
+                                    $count[$id] = "2";   
+                              
+                              }else{
+
+                                    $count[$id] = "1";
+
                               }
                         }
                   }

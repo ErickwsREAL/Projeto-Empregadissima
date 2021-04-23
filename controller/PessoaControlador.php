@@ -169,7 +169,7 @@
 					$checkBD = $ContratanteDAO->desativarContratanteDAO($Contratante);
 
 					if ($checkBD == "a") {
-						
+							
 						echo '<script>alert("Ainda existem serviços em seu nome, verifique a aba de solicitações.")</script>';
 						echo '<script>location.href="../views/perfilcontratante.php"</script>';
 						
@@ -291,30 +291,107 @@
                 	
                 	$checkBDC = $ContratanteDAO->admDesativarContratantes($ids);
                 	$checkBDP = $PrestadorDAO->admDesativarPrestadores($ids);
+
+                	if ($checkBDC == "false" or $checkBDP == "false") {
+                		echo '<script>alert("Houve um erro ao atualizar as informaçoes de alguns dos usuários ou todos!")</script>';
+                		echo '<script>location.href="../views/adm-manter-cadastros.php#tabs-2"</script>';
+                		break;
+                	}
+
+                	if (empty($checkBDC)) {
+                		
+                		foreach($checkBDP as $x => $x_value) {
+						 	$user = $x;
+						 	$status = $x_value;
+							
+							if ($status == 2) {
+								
+								echo '<script> var name = "'.$user.'";
+								alert("O cadastro de ID = " +name+ " foi desativado!" );</script>';
+							
+							}
+							if ($status == 1) {
+								
+								echo '<script> var name = "'.$user.'";
+								alert("O cadastro de ID = " +name+ " está com um serviço pendente, não foi possível desativá-lo!" );</script>';
+							
+							}
+							
+
+						}
+
+                		echo '<script>location.href="../views/adm-manter-cadastros.php#tabs-2"</script>';
+						break;
+                	}
+
+                	if (empty($checkBDP)) {
+                		
+                		foreach($checkBDC as $x => $x_value) {
+						 	$user = $x;
+						 	$status = $x_value;
+							
+							if ($status == 2) {
+								
+								echo '<script> var name = "'.$user.'";
+								alert("O cadastro de ID = " +name+ " foi desativado!" );</script>';
+							
+							}
+							if ($status == 1) {
+								
+								echo '<script> var name = "'.$user.'";
+								alert("O cadastro de ID = " +name+ " está com um serviço pendente, não foi possível desativá-lo!" );</script>';
+							
+							}
+						}
+
+                		echo '<script>location.href="../views/adm-manter-cadastros.php#tabs-2"</script>';
+						break;
+                	}
+
+                	if (!empty($checkBDP) and !empty($checkBDC)) {
+                		
+						foreach($checkBDP as $x => $x_value) {
+						 	$user = $x;
+						 	$status = $x_value;
+							
+							if ($status == 2) {
+								
+								echo '<script> var name = "'.$user.'";
+								alert("O cadastro de ID = " +name+ " foi desativado!" );</script>';
+							
+							}
+							if ($status == 1) {
+								
+								echo '<script> var name = "'.$user.'";
+								alert("O cadastro de ID = " +name+ " está com um serviço pendente, não foi possível desativá-lo!" );</script>';
+							
+							}
+						}
+						foreach($checkBDC as $x => $x_value) {
+						 	$user = $x;
+						 	$status = $x_value;
+							
+							if ($status == 2) {
+								
+								echo '<script> var name = "'.$user.'";
+								alert("O cadastro de ID = " +name+ " foi desativado!" );</script>';
+							
+							}
+							if ($status == 1) {
+								
+								echo '<script> var name = "'.$user.'";
+								alert("O cadastro de ID = " +name+ " está com um serviço pendente, não foi possível desativá-lo!" );</script>';
+							
+							}
+						}
+
+                		echo '<script>location.href="../views/adm-manter-cadastros.php#tabs-2"</script>';
+						break;
+                	}
+                	//$checkT = array_merge($checkBDP, $checkBDC);
                 	
-                	if ($checkBDC == "0" and $checkBDP == "2" or $checkBDC == "2" and $checkBDP == "0" or $checkBDC == "2" and $checkBDP == "2"){
-                            
-                        echo '<script>alert("Cadastro(s) Desativado(s)! É possível que alguns não tenham sido desativados por apresentarem serviços pendentes.")</script>';
-                		echo '<script>location.href="../views/adm-manter-cadastros.php#tabs-2"</script>';
-
-                		break;
-                    }
-                    if ($checkBDC == "0" and $checkBDP == "1" or $checkBDC == "1" and $checkBDP == "0" or $checkBDC == "1" and $checkBDP == "1"){
-                            
-                        echo '<script>alert("Cadastro(s) não foi(foram) desativad(s), pois existe serviços pendentes!")</script>';
-                		echo '<script>location.href="../views/adm-manter-cadastros.php#tabs-2"</script>';
-
-                		break;
-                    }
-                    if ($checkBDC == "1" and $checkBDP == "2" or $checkBDC == "2" and $checkBDP == "1" ){
-                            
-                        echo '<script>alert("Alguns dos cadastros foram desativados, outros apresentam serviços pendentes")</script>';
-                		echo '<script>location.href="../views/adm-manter-cadastros.php#tabs-2"</script>';
-
-                		break;
-                    }	
-             	}
-				
+                	
+				}
 				break;
 				
 			case 'ListarPrestadores':
