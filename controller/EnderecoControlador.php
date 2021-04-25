@@ -48,6 +48,14 @@
 
 				$checkBD = $enderecoDAO->inserirEndereco($endereco); 
 				
+				if ($checkBD == "c" or $checkBD == "d") {
+					echo '<script>alert("Rua ou Bairro apresentam números! Por favor, use apenas letras.")</script>';
+					echo '<script>location.href="../views/perfilcontratante.php"</script>';
+
+					break;
+				}
+
+
 				if ($checkBD == "a") {
 					echo '<script>alert("Já existe um cadastro deste endereço em seu nome.")</script>';
 					echo '<script>location.href="../views/perfilcontratante.php"</script>';
@@ -100,9 +108,16 @@
 				$endereco->setCEP($_POST['cep']);
 				$endereco->setNumero($_POST['numero']);
 				$endereco->setComplemento($_POST['complemento']);
-				$endereco->setIDContratante($_POST['id_contratante']);
+					$endereco->setIDContratante($_POST['id_contratante']);
 
 				$checkBD = $enderecoDAO->atualizarEndereco($endereco);
+				
+				if ($checkBD == "e" or $checkBD == "d") {
+					echo '<script>alert("Rua ou Bairro apresentam números! Por favor, use apenas letras.")</script>';
+					echo '<script>location.href="../views/perfilcontratante.php"</script>';
+
+					break;
+				}
 
 				if ($checkBD == "a") {
 					echo '<script>alert("Já existe um cadastro deste endereço em seu nome.")</script>';

@@ -55,6 +55,14 @@ include_once ("../model/PessoaFabricador.php");
                   $Cidade = $prestador->getCidade();
                   $StatusCadastro = $prestador->getStatusCadastro();
 
+                  if (preg_match('~[0-9]+~', $Nome)) {
+                        return "b";
+                  }
+
+                  if (preg_match('~[0-9]+~', $Cidade)) {
+                        return "c";
+                  }
+
                   $sql1 = "SELECT id_pessoa FROM pessoa WHERE cpf = '$CPF' OR email = '$Email' OR telefone = '$Telefone'";
                   
                   $resultado = $conn->query($sql1);
@@ -117,6 +125,11 @@ include_once ("../model/PessoaFabricador.php");
                   $fotoPrestador = $prestador->getFoto();
                   $descricaoPrestador = $prestador->getDescricao();
                   $telefonePrestador = $prestador->getTelefone();
+
+                  if (preg_match('~[0-9]+~', $nomePrestador)) {
+                        return "b";
+                  }
+
 
                   $sql1 = "SELECT id_pessoa FROM pessoa WHERE telefone = '$telefonePrestador'";
                   

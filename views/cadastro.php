@@ -44,15 +44,15 @@
 
 	  			<div class="form-group">
 					<br><label for="nomeUsuario">Nome</label>
-					<input type="text" class="form-control" id="NomeUsuario" name="nome" maxlength="50" placeholder="Máximo 50 caractéres..." required>
+					<input type="text" class="form-control" id="NomeUsuario" name="nome" minlength="3" maxlength="50" placeholder="Máximo 50 caractéres e mínimo 3, apenas letras..." required>
 	  			</div>
 	  			<div class="form-group">
 					<label for="cpfUsuario">CPF</label>
-					<input type="text" class="form-control" id="cpfUsuario" name="cpf" min="0" max="11" placeholder="Ex: 111.222.333.44" required>
+					<input type="text" class="form-control" id="cpfUsuario" name="cpf" minlength="14"  placeholder="Ex: 111.222.333.44" required>
 	 			</div>
 		 		<div class="form-group">
 					<label for="emailUsuario">E-mail</label>
-					<input type="text" class="form-control" id="emailUsuario" name="email" placeholder="Ex: jose@email.com" minlength="10" required>
+					<input type="text" class="form-control" id="emailUsuario" name="email" placeholder="Ex: jose@email.com" minlength="10" maxlength="320"required>
 	 			</div>
 	 			<div class="form-group">
 					<label for="telefoneUsuario">Telefone</label>
@@ -64,11 +64,11 @@
  				</div>
 	  			<div class="form-group">
 					<br><label for="nomeUsuario">Cidade</label>
-					<input type="text" class="form-control" id="CidadeUsuario" name="cidade" maxlength="50" placeholder="Máximo 50 caractéres..." required>
+					<input type="text" class="form-control" id="CidadeUsuario" name="cidade" minlength="5" maxlength="50" placeholder="Máximo 50 caractéres e apenas letras..." required>
 	  			</div> 				
  				<div class="form-group">
 				    <label for="senhaUsuario">Senha</label>
-				    <input type="password" class="form-control" id="senhaUsuario" name="senha" minlength="8" required>
+				    <input placeholder="Mínimo de tamanho é 8 e máximo 128..." type="password" class="form-control" id="senhaUsuario" name="senha" minlength="8" maxlength="128" required>
  				</div>
 				<div class="form-group" id="comprovantes">
 					<br><label for="comprovanteUsuario">Comprovante pessoal (Documento):</label>
