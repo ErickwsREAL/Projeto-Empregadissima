@@ -52,7 +52,7 @@
 	 			</div>
 		 		<div class="form-group">
 					<label for="emailUsuario">E-mail</label>
-					<input type="text" class="form-control" id="emailUsuario" name="email" placeholder="Ex: jose@email.com" minlength="10" maxlength="320"required>
+					<input type="text" class="form-control" id="emailUsuario" name="email" placeholder="Ex: jose@email.com" minlength="10" maxlength="100"required>
 	 			</div>
 	 			<div class="form-group">
 					<label for="telefoneUsuario">Telefone</label>

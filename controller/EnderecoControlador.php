@@ -48,6 +48,20 @@
 
 				$checkBD = $enderecoDAO->inserirEndereco($endereco); 
 				
+				if ($checkBD == "e") {
+					echo '<script>alert("CEP tem uma tamnho menor que 9. Por favor, verifique a quantidade ao inserir.")</script>';
+					echo '<script>location.href="../views/perfilcontratante.php"</script>';
+
+					break;
+				}
+
+				if ($checkBD == "f") {
+					echo '<script>alert("Numero da casa é muito grande! Verifique se inseriu corretamente.")</script>';
+					echo '<script>location.href="../views/perfilcontratante.php"</script>';
+
+					break;
+				}
+
 				if ($checkBD == "c" or $checkBD == "d") {
 					echo '<script>alert("Rua ou Bairro apresentam números! Por favor, use apenas letras.")</script>';
 					echo '<script>location.href="../views/perfilcontratante.php"</script>';
@@ -112,6 +126,20 @@
 
 				$checkBD = $enderecoDAO->atualizarEndereco($endereco);
 				
+				if ($checkBD == "f") {
+					echo '<script>alert("CEP tem uma tamnho menor que 9. Por favor, verifique a quantidade ao inserir.")</script>';
+					echo '<script>location.href="../views/perfilcontratante.php"</script>';
+
+					break;
+				}
+
+				if ($checkBD == "g") {
+					echo '<script>alert("Numero da casa é muito grande! Verifique se inseriu corretamente.")</script>';
+					echo '<script>location.href="../views/perfilcontratante.php"</script>';
+
+					break;
+				}
+
 				if ($checkBD == "e" or $checkBD == "d") {
 					echo '<script>alert("Rua ou Bairro apresentam números! Por favor, use apenas letras.")</script>';
 					echo '<script>location.href="../views/perfilcontratante.php"</script>';

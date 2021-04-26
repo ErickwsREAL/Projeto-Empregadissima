@@ -63,13 +63,21 @@ include_once ("../model/PessoaFabricador.php");
                         return "c";
                   }
 
+                  if (strlen($Telefone) != 15) {
+                       return "d";
+                  }
+
+                  if (strlen($CPF) != 14) {
+                       return "e";
+                  }
+
                   $sql1 = "SELECT id_pessoa FROM pessoa WHERE cpf = '$CPF' OR email = '$Email' OR telefone = '$Telefone'";
                   
                   $resultado = $conn->query($sql1);
                   $row_count = mysqli_num_rows($resultado);
                   
                   if ($row_count > 0) {
-                        
+                        $conn->close();
                         return "a";
                   }
 
@@ -130,6 +138,9 @@ include_once ("../model/PessoaFabricador.php");
                         return "b";
                   }
 
+                  if (strlen($telefoneContratante) != 15) {
+                       return "c";
+                  }
 
                   $sql1 = "SELECT id_pessoa FROM pessoa WHERE telefone = '$telefonePrestador'";
                   

@@ -46,6 +46,14 @@
                 return "c";
             }
 
+            if (strlen($cep) != 9) {
+                return "e";
+            }
+
+            if ($numero > 99999) {
+                return "f";
+            }
+
 			$sql1 = "SELECT id_endereco FROM endereco WHERE id_pessoa = '$idContratante' AND bairro = '$bairro' AND rua = '$rua' AND numero = '$numero'AND complemento = '$complemento' AND cep = '$cep'";			
 
 			$resultado = $conn->query($sql1);
@@ -142,6 +150,14 @@
 
             if (preg_match('~[0-9]+~', $bairro)) {
                 return "e";
+            }
+
+			if (strlen($cep) != 9) {
+                return "f";
+            }
+
+            if ($numero > 99999) {
+                return "g";
             }
 
 			$sql2 = "SELECT id_servico FROM servico WHERE id_contratante = '$idContratante' AND id_endereco = '$idEndereco' AND status_servico != 5";
