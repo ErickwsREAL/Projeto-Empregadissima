@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 class AgendaTesteCaixaBranca3 extends TestCase {
 
     /** @test */
-    public function testeInsercao() {
+    public function testeInsercaoParcial() {
         $lista_agenda = ['2021-04-27', '2021-04-29'];
         $data_hoje = date("Y-m-d");
         $datas_inseridas = ['2021-04-25', '2021-04-26', '2021-04-27'];

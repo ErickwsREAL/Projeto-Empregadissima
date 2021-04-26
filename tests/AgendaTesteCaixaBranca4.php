@@ -5,13 +5,13 @@ use PHPUnit\Framework\TestCase;
 /**
  * Aluno: Leonardo Kenji Dias Itako - RA: 105411
  * Teste caixa branca da funcionalidade: "Manter Agenda"
- * Caminho: 1, 2, 3, 4, 5, 6, 14, 15, 16, 4, 17, 18, 19, 28, 29
+ * Caminho: 1, 2, 3, 4, 5, 6, 14, 15, 16, 4, 17, 18, 19, 23, 26, 29, 30, 31
  */
 
 class AgendaTesteCaixaBranca4 extends TestCase {
 
     /** @test */
-    public function testeInsercao() {
+    public function testeInsercaoInvalida() {
         $lista_agenda = ['', '2021-04-24'];
         $data_hoje = date("Y-m-d");
         $datas_inseridas = ['2021-04-25', '2021-04-26', '2021-04-27'];

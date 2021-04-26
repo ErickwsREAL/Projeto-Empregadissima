@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Aluno: Leonardo Kenji Dias Itako - RA: 105411
  * Teste caixa branca da funcionalidade: "Manter Agenda"
- * Caminho: 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 4, 17, 18, 19, 26, 27
+ * Caminho: 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 4, 17, 18, 19, 23, 26, 27, 28
  */
 
 class AgendaTesteCaixaBranca2 extends TestCase {
