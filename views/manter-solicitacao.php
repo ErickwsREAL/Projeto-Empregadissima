@@ -226,7 +226,14 @@ include_once ("../controller/PessoaControlador.php");
 							<div class="grid-container">
 								<div class="grid-item">
 		                        	<div class="img-container">
-		                        		<img src="./imagens/mulher.png" id="profile-img" title="Imagem de Perfil">
+										<?php
+											if ($Contratante->getFoto() != NULL) {
+												$foto = $Contratante->getFoto();
+											} else {
+											    $foto = 'profile.png';
+											}
+										?>
+		                        		<img src="./imagens/<?php echo $foto; ?>" id="profile-img" title="Imagem de Perfil">
 		                        	</div>
 								</div>
 
