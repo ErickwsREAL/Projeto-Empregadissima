@@ -1,12 +1,12 @@
 <?php
-    include_once ("../model/Agenda.php");
+    include_once ("C:/xampp/htdocs/Projeto-Empregadissima-main/model/Agenda.php");
 
     class AgendaDAO {
         public function __construct() {}
         public function __destruct() {}
 
         public static function selecionar_data($id) {
-            include ("../controller/login_control/logar_bd_empregadissimas.php");
+            include ("C:/xampp/htdocs/Projeto-Empregadissima-main/controller/login_control/logar_bd_empregadissimas.php");
 
             $consulta = "SELECT * FROM agenda WHERE id = $id";
             $response = $conn->query($consulta);
@@ -25,8 +25,8 @@
             }
         }
 
-        public static function selecionar_agenda($id_pessoa) {
-            include ("../controller/login_control/logar_bd_empregadissimas.php");
+        public static function selecionar_agenda($id_pessoa, $escolha) {
+            include ("C:/xampp/htdocs/Projeto-Empregadissima-main/controller/login_control/logar_bd_empregadissimas.php");
 
             $consulta = "SELECT * FROM agenda WHERE id_pessoa = '$id_pessoa' ORDER BY dia_disponivel ASC";
             $sql = $conn->query($consulta);
@@ -34,51 +34,62 @@
             if (isset($sql)) {
                 $conn->close();
                 $response = array();
-                while ($row = $sql->fetch_assoc()) {
-                    $response[] = $row;
+                if ($escolha == "total") {
+                    while ($row = $sql->fetch_assoc()) {
+                        $response[] = $row;
+                    }
+                } elseif ($escolha == "parcial") {
+                    while($row = $sql->fetch_assoc()) {
+                        $response[] = $row['dia_disponivel'];
+                    }
+                } else {
+                    return 0;
                 }
                 return $response;
             }
         }
 
         function inserir_agenda($id_pessoa, $lista_agenda) {
-            include ("../controller/login_control/logar_bd_empregadissimas.php");
+            include ("C:/xampp/htdocs/Projeto-Empregadissima-main/controller/login_control/logar_bd_empregadissimas.php");
 
-            $consulta = "SELECT * FROM agenda WHERE id_pessoa = $id_pessoa";
-            $sql = $conn->query($consulta);
+            $datas_inseridas = array();
+            $data_hoje = date("Y-m-d");
+            $datas_inseridas = $this->selecionar_agenda($id_pessoa, "parcial");
 
-            if (isset($sql)) {
-                $datas_inseridas = array();
-                while($row = $sql->fetch_assoc()) {
-                    $datas_inseridas[] = $row['dia_disponivel'];
-                }
-            } else {
-                $datas_inseridas = array();
-            }
-            
             foreach($lista_agenda as $agenda) {
                 $nova_data = $agenda->getDiaDisponivel();
 
-                if (in_array($nova_data, $datas_inseridas)) {
-                    $datas_conflitantes[] = $nova_data;
+                if ($nova_data >= $data_hoje) {
+                    if (in_array($nova_data, $datas_inseridas)) {
+                        $datas_conflitantes[] = $nova_data;
+                    } else {
+                        $datas_sem_conflito[] = $nova_data;
+                        $insercao = "INSERT INTO agenda (id_pessoa, dia_disponivel) VALUES ($id_pessoa, '$nova_data')";
+                        $conn->query($insercao);
+                    }
                 } else {
-                    $insercao = "INSERT INTO agenda (id_pessoa, dia_disponivel) VALUES ($id_pessoa, '$nova_data')";
-                    $conn->query($insercao);
+                    continue;
                 }
             }
 
             $conn->close();
 
-            if (!empty($datas_conflitantes)) {
-                $datas = implode(", ", $datas_conflitantes);
-                return "As datas informadas já haviam sido inseridas: $datas";
+            if (!empty($datas_conflitantes) and !empty($datas_sem_conflito)) {
+                $conflitos = implode(", ", $datas_conflitantes);
+                $inseridas = implode(", ", $datas_sem_conflito);
+                return [$conflitos, $inseridas];
+            } elseif (!empty($datas_conflitantes)) {
+                $conflitos = implode(", ", $datas_conflitantes);
+                return $conflitos;
+            } elseif (!empty($datas_sem_conflito)) {
+                return 1;
             } else {
-                return "Dias disponíveis inseridos com sucesso!";
+                return 0;
             }
         }
         
         function remover_data(Agenda $agenda) {
-            include ("../controller/login_control/logar_bd_empregadissimas.php");
+            include ("C:/xampp/htdocs/Projeto-Empregadissima-main/controller/login_control/logar_bd_empregadissimas.php");
 
             $agenda_id = $agenda->getId();
 

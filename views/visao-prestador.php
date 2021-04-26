@@ -201,7 +201,7 @@
         <form name="form-agenda", id="form-agenda">
             <div style="text-align: center; margin-top: 5%" class="card-container">
                 <h4><b>Agenda</b></h4>
-                <ul class="list-group">
+                <ul class="list-group"> 
 
                 <?php foreach($dias_disponiveis as $dados_agenda) {
                 ?>
