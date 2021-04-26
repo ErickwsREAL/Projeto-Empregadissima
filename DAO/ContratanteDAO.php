@@ -55,23 +55,38 @@ include_once ("../model/PessoaFabricador.php");
                   $Cidade = $contratante->getCidade();
                   $StatusCadastro = $contratante->getStatusCadastro();
 
+                  if (preg_match('~[0-9]+~', $Nome)) {
+                        return "b";
+                  }
+
+                  if (preg_match('~[0-9]+~', $Cidade)) {
+                        return "c";
+                  }
+
+                  if (strlen($Telefone) != 15) {
+                       return "d";
+                  }
+
+                  if (strlen($CPF) != 14) {
+                       return "e";
+                  }
+
                   $sql1 = "SELECT id_pessoa FROM pessoa WHERE cpf = '$CPF' OR email = '$Email' OR telefone = '$Telefone'";
                   
                   $resultado = $conn->query($sql1);
                   $row_count = mysqli_num_rows($resultado);
                   
                   if ($row_count > 0) {
-                        
+                        $conn->close();
                         return "a";
                   }
 
-                  $sql = "INSERT INTO pessoa(nome, cpf,telefone, data_nascimento, comprovante, email, senha, sexo, cidade, tipo_pessoa, status_cadastro) VALUES ('$Nome','$CPF', '$Telefone', '$DataNascimento', '$Comprovante', '$Email', '$Senha', '$Sexo', '$Cidade', '$TipoPessoa',  $StatusCadastro)";
+                  $sql = "INSERT INTO pessoa(nome, cpf, telefone, data_nascimento, comprovante, email, senha, sexo, cidade, tipo_pessoa, status_cadastro) VALUES ('$Nome','$CPF', '$Telefone', '$DataNascimento', '$Comprovante', '$Email', '$Senha', '$Sexo', '$Cidade', '$TipoPessoa',  $StatusCadastro)";
                  
                   $checkB = $conn->query($sql);
-
+                 // echo("Error description: " . $conn -> error);
               	if ($checkB == false) {
                         $conn->close();
-                  	
                   	return "false";
                   }
             
@@ -116,6 +131,14 @@ include_once ("../model/PessoaFabricador.php");
                   $fotoContratante = $contratante->getFoto();
                   $descricaoContratante = $contratante->getDescricao();
                   $telefoneContratante = $contratante->getTelefone();
+
+                  if (preg_match('~[0-9]+~', $nomeContratante)) {
+                        return "b";
+                  }
+
+                  if (strlen($telefoneContratante) != 15) {
+                       return "c";
+                  }
 
                   $sql1 = "SELECT id_pessoa FROM pessoa WHERE telefone = '$telefoneContratante'";
                   

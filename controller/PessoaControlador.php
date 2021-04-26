@@ -102,6 +102,27 @@
 
 					$checkBD = $ContratanteDAO->inserirContratanteDAO($Contratante);
 					
+					if ($checkBD == "e") {
+						echo '<script>alert("CPF apresenta um tamanho diferente de 14. Por favor, verifique o tamanho ao inserir.")</script>';
+						echo '<script>location.href="../views/cadastro.php"</script>';
+
+						break;
+					}
+
+					if ($checkBD == "d") {
+						echo '<script>alert("Telefone apresenta um tamanho diferente de 15. Por favor, verifique o tamanho ao inserir.")</script>';
+						echo '<script>location.href="../views/cadastro.php"</script>';
+
+						break;
+					}
+
+					if ($checkBD == "c" or $checkBD == "b") {
+						echo '<script>alert("Nome ou Cidade apresentam números! Por favor, use apenas letras.")</script>';
+						echo '<script>location.href="../views/cadastro.php"</script>';
+
+						break;
+					}
+
 					if ($checkBD == "false") {
 						
 						echo '<script>alert("Ocorreu um erro ao inserir seu cadastro. Tente novamente.")</script>';
@@ -137,6 +158,27 @@
 					$Prestador->setSenha($_POST['senha']);
 
 					$checkBD = $PrestadorDAO->inserirPrestadorDAO($Prestador);
+
+					if ($checkBD == "e") {
+						echo '<script>alert("CPF apresenta um tamanho diferente de 14. Por favor, verifique o tamanho ao inserir.")</script>';
+						echo '<script>location.href="../views/cadastro.php"</script>';
+
+						break;
+					}
+
+					if ($checkBD == "d") {
+						echo '<script>alert("Telefone apresenta um tamanho diferente de 15. Por favor, verifique o tamanho ao inserir.")</script>';
+						echo '<script>location.href="../views/cadastro.php"</script>';
+
+						break;
+					}
+
+					if ($checkBD == "c" or $checkBD == "b") {
+						echo '<script>alert("Nome ou Cidade apresentam números! Por favor, use apenas letras.")</script>';
+						echo '<script>location.href="../views/cadastro.php"</script>';
+
+						break;
+					}
 
 					if ($checkBD == "false") {
 						
@@ -228,6 +270,19 @@
 
 					$checkBD = $ContratanteDAO->atualizarContratanteDAO($Contratante);
 
+					if ($checkBD == "c") {
+						echo '<script>alert("Telefone apresenta um tamanho diferente de 14. Por favor, verifique o tamanho ao inserir.")</script>';
+						echo '<script>location.href="../views/perfilcontratante.php"</script>';
+
+						break;
+					}
+
+					if ($checkBD == "b") {
+						echo '<script>alert("Nome contém números! Por favor, use apenas letras.")</script>';
+						echo '<script>location.href="../views/perfilcontratante.php"</script>';
+
+						break;
+					}
 
 					if ($checkBD == "a") {
 						
@@ -260,6 +315,20 @@
 					
 					$checkBD = $PrestadorDAO->atualizarPrestadorDAO($Prestador);
 					
+					if ($checkBD == "c") {
+						echo '<script>alert("Telefone apresenta um tamanho diferente de 14. Por favor, verifique o tamanho ao inserir.")</script>';
+						echo '<script>location.href="../views/perfil.php"</script>';
+
+						break;
+					}
+
+					if ($checkBD == "b") {
+						echo '<script>alert("Nome contém números! Por favor, use apenas letras.")</script>';
+						echo '<script>location.href="../views/perfil.php"</script>';
+
+						break;
+					}
+
 					if ($checkBD == "a") {
 						
 						echo '<script>alert("Alterações feitas, mas o telefone já está sendo utilizado, ele não foi atualizado")</script>';
