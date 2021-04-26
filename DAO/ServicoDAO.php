@@ -233,25 +233,44 @@
           return $rows;
         }
 
-        public static function insert(Servico $dadosServico){
-           include ("../controller/login_control/logar_bd_empregadissimas.php");
+        public static function insertServico(Servico $dadosServico){
+           include ("C:/xampp/htdocs/projetos/empregadissima/Projeto-Empregadissima/controller/login_control/logar_bd_empregadissimas.php");
 
            $data_servico = date($dadosServico->getDataServico());
+           $hoje = date('Y/m/d');
 
-           $sql = "INSERT  servico (data_servico, id_endereco, forma_pagamento, status_servico, id_prestador, id_contratante, id_diaria, hora_entrada, hora_saida) 
-                   SELECT  STR_TO_DATE('$data_servico', '%Y/%m/%d'),'{$dadosServico->getIdEndereco()}', '{$dadosServico->getFormaPagamento()}', '1', '{$dadosServico->getIdPrestador()}', '{$dadosServico->getIdContratante()}', '{$dadosServico->getIdDiaria()}', '{$dadosServico->getHoraEntrada()}', '{$dadosServico->getHoraSaida()}'
-                   WHERE NOT EXISTS 
-                          ( SELECT  1
-                            FROM  servico 
-                            WHERE id_prestador = '{$dadosServico->getIdPrestador()}'      AND 
-                                  id_contratante = '{$dadosServico->getIdContratante()}'  AND 
-                                  hora_entrada = '{$dadosServico->getHoraEntrada()}'      AND 
-                                  hora_saida = '{$dadosServico->getHoraSaida()}'          AND 
-                                  data_servico = STR_TO_DATE('$data_servico', '%Y/%m/%d') 
-                          )";
+            //validação variaveis nulas 
+          if ($dadosServico->getHoraEntrada() == null || $data_servico == null || $dadosServico->getHoraSaida() == null || 
+               $dadosServico->getIdEndereco() == null || $dadosServico->getIdDiaria() == null){
+            return $check = 2;
 
-           $conn->query($sql);
+            //validação hora entrada
+          } else if(($dadosServico->getHoraEntrada() >= $dadosServico->getHoraSaida()) || ($dadosServico->getHoraEntrada() < date("05:00:00"))){
+              return $check = 2;
+
+            //validação hora saida
+          } else if ($dadosServico->getHoraSaida() > date("00:00:00") && $dadosServico->getHoraSaida() < date("05:00:00")){
+            return $check = 2;
             
+            //validação data serviço
+          }else if($data_servico < $hoje){
+            return $check = 2;
+          }
+          else{
+            $sql = "INSERT  servico (data_servico, id_endereco, forma_pagamento, status_servico, id_prestador, id_contratante, id_diaria, hora_entrada, hora_saida) 
+            SELECT  STR_TO_DATE('$data_servico', '%Y/%m/%d'),'{$dadosServico->getIdEndereco()}', '{$dadosServico->getFormaPagamento()}', '1', '{$dadosServico->getIdPrestador()}', '{$dadosServico->getIdContratante()}', '{$dadosServico->getIdDiaria()}', '{$dadosServico->getHoraEntrada()}', '{$dadosServico->getHoraSaida()}'
+            WHERE NOT EXISTS 
+                  ( SELECT  1
+                    FROM  servico 
+                    WHERE id_prestador = '{$dadosServico->getIdPrestador()}'      AND 
+                          id_contratante = '{$dadosServico->getIdContratante()}'  AND 
+                          hora_entrada = '{$dadosServico->getHoraEntrada()}'      AND 
+                          hora_saida = '{$dadosServico->getHoraSaida()}'          AND 
+                          data_servico = STR_TO_DATE('$data_servico', '%Y/%m/%d') 
+                  )";
+
+            $conn->query($sql);
+
             if ($conn->query($sql) === TRUE) {
               //echo "New record created successfully";
               $conn->close();
@@ -259,9 +278,9 @@
             } else {
               //echo "Error: " . $sql . "<br>" . $conn->error;
               $conn->close();
-              return $check = 2;
+              return $check = 3;
             }
-
+          }
         }
 
         public static function update(Servico $dadosServico, $id_servico){
@@ -297,11 +316,27 @@
             $conn->close();
         }
 
-        public static function reprovaServico($id_servico){
+        public static function deletaServico($id_servico){
           include("../controller/login_control/logar_bd_empregadissimas.php");
 
           $sql = "DELETE FROM servico WHERE (id_servico = '$id_servico')";
+          
+          $conn->query($sql);
+            
+            if ($conn->query($sql) === TRUE) {
+              echo "New record updated successfully";
+            } else {
+              echo "Error: " . $sql . "<br>" . $conn->error;
+            }
 
+            $conn->close();
+        }
+
+        public static function reprovaServico($id_servico){
+          include("../controller/login_control/logar_bd_empregadissimas.php");
+
+          $sql = "UPDATE servico SET status_servico = 5 WHERE id_servico = '$id_servico'";
+          
           $conn->query($sql);
             
             if ($conn->query($sql) === TRUE) {

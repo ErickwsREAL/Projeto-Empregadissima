@@ -37,14 +37,14 @@
                 $servico->setHoraSaida($_POST['hora_saida']);
 
                 $servicoDAO = new ServicoDAO();
-                $check = $servicoDAO->insert($servico);
+                $check = $servicoDAO->insertServico($servico);
 
-                if ($check == 2) {
-                    echo '<script>alert("Seu cadastro não foi efetuado! Tente novamente.")</script>';
-                    echo '<script>location.href="../views/manter-solicitacao-contratante.php"</script>';
+                if ($check == 2 || $check == 3) {
+                    echo '<script>alert("Seu cadastro não foi efetuado! Verifique se todos campos estão preenchidos e tente novamente.")</script>';
+                    echo '<script>location.href="../views/enviar-solicitacao.php?id_prestador='.$servico->getIdPrestador().'"</script>';
                 }else{
-                echo '<script>alert("Solicitação de Serviço enviada com sucesso!")</script>';
-                echo '<script>location.href="../views/manter-solicitacao-contratante.php"</script>';
+                    echo '<script>alert("Solicitação de Serviço enviada com sucesso!")</script>';
+                    echo '<script>location.href="../views/manter-solicitacao-contratante.php"</script>';
                 }
                 break;
             case 'deletar':
@@ -102,12 +102,15 @@
                 break;
 
             case 'alt_status_rep':
-                ServicoDAO::reprovaServico($_GET['id_servico']);
                 
                 if ($_GET['tipo_pessoa'] == 1){
+                    ServicoDAO::deletaServico($_GET['id_servico']);
+
                     echo '<script>location.href="../views/manter-solicitacao-contratante.php"</script>';
                 }
                 else{
+                    ServicoDAO::reprovaServico($_GET['id_servico']);
+                    
                     echo '<script>location.href="../views/manter-solicitacao.php"</script>';
                 }
                 case 'buscar_id_prestador_servico':
