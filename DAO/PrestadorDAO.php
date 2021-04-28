@@ -138,7 +138,7 @@ include_once ("../model/PessoaFabricador.php");
                         return "b";
                   }
 
-                  if (strlen($telefoneContratante) != 15) {
+                  if (strlen($telefonePrestador) != 15) {
                        return "c";
                   }
 
