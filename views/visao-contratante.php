@@ -150,22 +150,22 @@
         <div class="contractor-grid">
             <?php 
                 if(isset($result)) {
-                    while ($dados_pessoa = $result->fetch_array(MYSQLI_ASSOC) ){
+                    foreach($result as $prestador){
             ?>   
                 <div class="contractor-item">
                     <div class="thumbnail">
                         <?php
-                            if ($dados_pessoa["foto"] != NULL) {
-                                $foto = $dados_pessoa["foto"]; 
+                            if ($prestador->getFoto() != NULL) {
+                                $foto = $prestador->getFoto(); 
                             } else {
                                 $foto = 'profile.png';
                             }
                         ?>
-                        <input type="hidden" name="id_prestador" id="id_prestador" value="<?php echo $dados_pessoa["id_pessoa"]; ?>">                                                 
+                        <input type="hidden" name="id_prestador" id="id_prestador" value="<?php echo $prestador->getID(); ?>">                                                 
                         <img src="./imagens/<?php echo $foto; ?>">
                         <div class="caption">
-                            <h3 style="font-size:20px; color:white"><?php echo $dados_pessoa["nome"]; ?></h3>
-                            <p><a href="./perfil-prestador-visao-contratante.php?id_prestador=<?php echo $dados_pessoa["id_pessoa"]; ?>" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
+                            <h3 style="font-size:20px; color:white"><?php echo $prestador->getNome(); ?></h3>
+                            <p><a href="./perfil-prestador-visao-contratante.php?id_prestador=<?php echo $prestador->getID(); ?>" class="profile-btn btn btn-primary" role="button">Visitar perfil</a></p>
                         </div>
                     </div>
                 </div>   

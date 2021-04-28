@@ -59,7 +59,17 @@
 
 		$resultados = $PrestadorDAO->buscarPrestadores($busca);
 
-		return $resultados;
+		while($dados_prestador = $resultados->fetch_array(MYSQLI_ASSOC)) {
+			$Prestador = criarObjetoPC(1, $PrestadorDAO);
+
+			$Prestador->setID($dados_prestador["id_pessoa"]);
+			$Prestador->setNome($dados_prestador["nome"]);
+			$Prestador->setFoto($dados_prestador["foto"]);
+
+			$results[] = $Prestador;
+		}
+
+		return $results;
 	}
 
 //------------------------------------------------------------------------------------------------------------------------------------------
