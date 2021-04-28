@@ -486,7 +486,7 @@ include_once ("../controller/EnderecoControlador.php");
 			});*/
 			
 			function DesativarPessoa(){
-				if (!confirm("Deseja EXCLUIR este cadastro?")) {
+				if (!confirm("Deseja DESATIVAR este cadastro?")) {
 					return false; 
 				}	
 				else{

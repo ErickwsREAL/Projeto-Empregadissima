@@ -234,7 +234,7 @@
         }
 
         public static function insertServico(Servico $dadosServico){
-           include ("C:/xampp/htdocs/projetos/empregadissima/Projeto-Empregadissima/controller/login_control/logar_bd_empregadissimas.php");
+           include ("../controller/login_control/logar_bd_empregadissimas.php");
 
            $data_servico = date($dadosServico->getDataServico());
            $hoje = date('Y/m/d');

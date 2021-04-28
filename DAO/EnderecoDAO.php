@@ -85,7 +85,7 @@
 			$idEndereco = $endereco->getID();
 			$idContratante = $endereco->getIDContratante();
 
-			$sql1 = "SELECT id_servico FROM servico WHERE id_contratante = '$idContratante' AND id_endereco = '$idEndereco' AND status_servico != 5";
+			$sql1 = "SELECT id_servico FROM servico WHERE id_contratante = '$idContratante' AND id_endereco = '$idEndereco' AND status_servico != 5 AND status_servico != 4";
 
 			$resultado = $conn->query($sql1);
 			

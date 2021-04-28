@@ -454,7 +454,7 @@ include_once ("../controller/PessoaControlador.php");
 
 
 		function DesativarPessoa(){
-			if (!confirm("Deseja EXCLUIR este endereço?")) {
+			if (!confirm("Deseja DESATIVAR este cadastro?")) {
 					return false; 
 			}	
 			else{

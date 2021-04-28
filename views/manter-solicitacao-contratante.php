@@ -606,9 +606,9 @@ include_once ("../controller/Servico_Prestador_Controller.php");
 <script >
 
 	$(document).ready(function(){ 
-		localStorage.removeItem("buttonIDC");
-		localStorage.removeItem("check-inCStorage"); //----Não retirar essas 3 funções
-		localStorage.removeItem("check-outCStorage");
+		//localStorage.removeItem("buttonIDC");
+		//localStorage.removeItem("check-inCStorage"); //----Não retirar essas 3 funções
+		//localStorage.removeItem("check-outCStorage");
 		
 		var statusServico;
 
